@@ -1,0 +1,15 @@
+{
+  "HOME": {
+    "TITLE": "Welcome"
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "LANGUAGE": "Language",
+    "FORMAT_EXAMPLES": "Format Examples",
+    "CURRENCY_FORMAT": "Currency",
+    "DATE_FORMAT": "Date",
+    "TIME_FORMAT": "Time",
+    "CURRENT_LOCALE": "Current Locale",
+    "CURREN_LANGUAJE": "Current Language"
+  }
+}
