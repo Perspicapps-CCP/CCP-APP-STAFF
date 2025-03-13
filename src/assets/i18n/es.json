@@ -11,5 +11,17 @@
     "TIME_FORMAT": "Hora",
     "CURRENT_LOCALE": "Localización actual",
     "CURREN_LANGUAJE": "Idioma actual"
+  },
+  "MENU": {
+    "RUTAS": "Rutas",
+    "BODEGAS": "Bodegas",
+    "FABRICANTES": "Fabricantes",
+    "VENDEDORES": "Vendedores",
+    "PLANES": "Planes",
+    "PRODUCTOS": "Productos",
+    "VENTAS": "Ventas",
+    "LENGUAJE": "Lenguaje",
+    "SALIR": "Salir",
+    "ARIA-ICON": "Menú icono"
   }
 }

@@ -8,9 +8,7 @@ import { LocalizationService } from '../servicios/localization.service';
   pure: false
 })
 export class LocalDatePipe implements PipeTransform {
-  private lastValue: any;
   private lastLocale: string = '';
-  private result: string | null = null;
 
   constructor(private localizationService: LocalizationService) {
     // Nos suscribimos a cambios en el locale

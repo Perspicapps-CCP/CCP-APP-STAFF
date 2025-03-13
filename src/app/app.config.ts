@@ -12,6 +12,10 @@ import localeEnUS from '@angular/common/locales/en';
 import localeEsES from '@angular/common/locales/es';
 import localeEsCO from '@angular/common/locales/es-CO';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
+import { MAT_CARD_CONFIG } from '@angular/material/card';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { MAT_MENU_DEFAULT_OPTIONS } from '@angular/material/menu';
 
 // Registrar los locales
 registerLocaleData(localeEsCO);
@@ -39,5 +43,29 @@ export const appConfig: ApplicationConfig = {
         },
         defaultLanguage: 'en'
       }),
-    )]
+    ),
+    {
+      provide: MAT_ICON_DEFAULT_OPTIONS,
+      useValue: {
+        fontSet: 'material-symbols-outlined'
+      }
+    },
+    {
+      provide: MAT_CARD_CONFIG,
+      useValue: { appearance: 'outlined' }
+    },
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        hasBackdrop: true,
+        panelClass: 'white-dialog-container'
+      }
+    },
+    {
+      provide: MAT_MENU_DEFAULT_OPTIONS,
+      useValue: {
+        overlayPanelClass: 'white-menu-panel',
+      }
+    }
+  ]
 };

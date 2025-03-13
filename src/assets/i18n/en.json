@@ -11,5 +11,17 @@
     "TIME_FORMAT": "Time",
     "CURRENT_LOCALE": "Current Locale",
     "CURREN_LANGUAJE": "Current Language"
+  },
+  "MENU":{
+    "RUTAS": "Routes",
+    "BODEGAS": "Warehouses",
+    "FABRICANTES": "Manufacturers",
+    "VENDEDORES": "Sellers",
+    "PLANES": "Plans",
+    "PRODUCTOS": "Products",
+    "VENTAS": "Sales",
+    "LENGUAJE": "Language",
+    "SALIR": "Exit",
+    "ARIA-ICON": "Menu icon"
   }
 }

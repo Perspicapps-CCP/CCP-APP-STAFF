@@ -1,1 +1,33 @@
-<p>menu works!</p>
+<div class="menu">
+  <ul>
+    @for (item of menuItems; track item.nombre) {
+    <li class="nav-item" [routerLink]="item.url" routerLinkActive="active" [ngbTooltip]="item.nombre | translate"
+      placement="end">
+      <mat-icon aria-hidden="false"
+        attr.aria-label="{{('MENU.ARIA-ICON'| translate)+ ' ' + (item.nombre | translate)}}">{{item.icono}}</mat-icon>
+      <span class="menu-item-text">{{item.nombre | translate}}</span>
+    </li>
+    }
+  </ul>
+  <div class="flex flex-col items-center justify-center gap-2">
+    <li class="nav-item" [matMenuTriggerFor]="menuLanguaje" [ngbTooltip]="'MENU.LENGUAJE' | translate" placement="end">
+      <mat-icon aria-hidden="false"
+        attr.aria-label="{{('MENU.ARIA-ICON'| translate)+ ' ' + 'MENU.LENGUAJE' | translate}}">translate</mat-icon>
+      <span class="menu-item-text">{{ 'MENU.LENGUAJE' | translate }}</span>
+    </li>
+    <li class="nav-item" [ngbTooltip]="'MENU.SALIR' | translate" placement="end" (click)="cerrarSesion()">
+      <mat-icon aria-hidden="false"
+        attr.aria-label="{{('MENU.ARIA-ICON'| translate)+ ' ' + 'MENU.SALIR' | translate}}">logout</mat-icon>
+      <span class="menu-item-text">{{ 'MENU.SALIR' | translate }}</span>
+    </li>
+  </div>
+</div>
+
+<mat-menu #menuLanguaje="matMenu" #beforeMenu="matMenu">
+  @for (lenguaje of lenguajesDisponibles; track lenguaje.name) {
+  <button mat-menu-item (click)="cambiarIdioma(lenguaje)">
+    <span>{{lenguaje.name}}</span>
+  </button>
+  }
+
+</mat-menu>

@@ -16,8 +16,8 @@ import { LanguageConfig } from '../modelos/LanguajeConfig.interface';
 export class LocalizationService {
   // Configuraciones disponibles
   public availableLanguages: LanguageConfig[] = [
-    { langCode: 'es', localeCode: 'es-CO', name: 'Español (Colombia)', currencyCode: 'COP', region: 'Colombia' },
-    { langCode: 'es', localeCode: 'es-ES', name: 'Español (España)', currencyCode: 'EUR', region: 'España' },
+    { langCode: 'es', localeCode: 'es-CO', name: 'Español (CO)', currencyCode: 'COP', region: 'Colombia' },
+    { langCode: 'es', localeCode: 'es-ES', name: 'Español (ES)', currencyCode: 'EUR', region: 'España' },
     { langCode: 'en', localeCode: 'en-US', name: 'English (US)', currencyCode: 'USD', region: 'United States' }
   ];
 
@@ -155,33 +155,6 @@ export class LocalizationService {
 
   public getCurrencyCode(): string {
     return this.getCurrentLocalization()?.currencyCode || 'USD';
-  }
-
-  // Métodos de conveniencia
-  public switchToSpanishColombia(): void {
-    this.setLocale('es-CO');
-  }
-
-  public switchToSpanishSpain(): void {
-    this.setLocale('es-ES');
-  }
-
-  public switchToEnglishUS(): void {
-    this.setLocale('en-US');
-  }
-
-  // Helper para verificar el formato actual
-  public isColombianFormat(): boolean {
-    return this.getLocale() === 'es-CO';
-  }
-
-  public isSpanishFormat(): boolean {
-    return this.getLocale() === 'es-ES';
-  }
-
-  // Obtenemos todas las regiones disponibles para un idioma específico
-  public getAvailableRegionsForLanguage(langCode: string): LanguageConfig[] {
-    return this.availableLanguages.filter(l => l.langCode === langCode);
   }
 
   public getAllAvailableLanguages(): LanguageConfig[] {
