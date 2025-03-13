@@ -1,7 +1,4 @@
 {
-  "sass": {
-    "quietDeps": true
-  },
   "plugins": {
     "@tailwindcss/postcss": {}
   }

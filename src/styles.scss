@@ -5,12 +5,11 @@
 
 @use "scss/custom-bootstrap";
 
-// Importar Tailwind
-@use "tailwindcss" as *;
-
 @use "scss/font-conf";
 
 @use "bootstrap-icons/font/bootstrap-icons.css";
+
+@use "tailwindcss" as *;
 
 html {
   @include mat.theme((
