@@ -26,7 +26,6 @@ jobs:
 
     - name: Run tests
       run: npm run headless-test
-      continue-on-error: true
 
     - name: Build Angular app
       run: npm run build --omit=dev
