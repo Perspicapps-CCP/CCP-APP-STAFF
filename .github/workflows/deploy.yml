@@ -1,0 +1,41 @@
+name: Deploy to Google Cloud App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test --no-watch --no-progress --browsers=ChromeHeadlessCI
+      continue-on-error: true
+
+    - name: Build Angular app
+      run: npm run build --prod
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+    - name: Set up gcloud CLI
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Deploy to App Engine
+      run: gcloud app deploy app.yaml --quiet

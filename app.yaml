@@ -1,0 +1,17 @@
+runtime: python39
+service: appstaff
+
+env_variables:
+  NODE_ENV: 'production'
+
+handlers:
+  - url: /assets
+    static_dir: dist/ccp-web/browser/assets
+
+  - url: /(.*\.(css|js|ico|png|jpg|svg|woff|woff2|ttf|eot|json))$
+    static_files: dist/ccp-web/browser/\1
+    upload: dist/ccp-web/browser/.*\.(css|js|ico|png|jpg|svg|woff|woff2|ttf|eot|json)
+
+  - url: /.*
+    static_files: dist/ccp-web/browser/index.html
+    upload: dist/ccp-web/browser/index.html
