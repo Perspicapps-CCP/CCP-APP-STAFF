@@ -27,6 +27,7 @@
   "LOGIN":{
     "IMAGE_ALT": "Company logo login",
     "TITLE": "Login",
-    "BUTTON": "Login"
+    "BUTTON": "Login",
+    "ERROR_MESSAGE": "Error when try to login, please try again"
   }
 }

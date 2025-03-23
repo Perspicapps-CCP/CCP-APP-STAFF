@@ -24,9 +24,10 @@
     "SALIR": "Salir",
     "ARIA-ICON": "Menú icono"
   },
-  "LOGIN":{
-    "IMAGE_ALT":"Logo de la empresa inicio de sesión",
-    "TITLE":"Iniciar sesión",
-    "BUTTON":"Iniciar sesión"
+  "LOGIN": {
+    "IMAGE_ALT": "Logo de la empresa inicio de sesión",
+    "TITLE": "Iniciar sesión",
+    "BUTTON": "Iniciar sesión",
+    "ERROR_MESSAGE": "Error al intentar iniciar sesión, por favor intente de nuevo"
   }
 }
