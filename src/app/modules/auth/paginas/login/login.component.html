@@ -1,1 +1,21 @@
-<p>login works!</p>
+<div class="container">
+  <mat-card appearance="outlined" class="p-[2rem]">
+    <img src="assets/logos/logo-ccp-container.svg" alt="{{ 'LOGIN.IMAGE_ALT' | translate }}" class="logo" />
+  </mat-card>
+
+  <mat-card appearance="outlined" class="card-form">
+    <span class="title">{{'LOGIN.TITLE' | translate}}</span>
+    <div class="container-form">
+      <form (ngSubmit)="iniciarSesion()" class="w-full gap-[2rem]">
+        <div class="w-full">
+          <input type="email" class="form-control" id="ususario" placeholder="usuario">
+        </div>
+        <div class="w-full">
+          <input type="password" class="form-control" id="password" placeholder="contraseña">
+        </div>
+        <button  class="btn btn-primary w-full button-login" type="submit">{{'LOGIN.BUTTON' | translate}}</button>
+
+      </form>
+    </div>
+  </mat-card>
+</div>

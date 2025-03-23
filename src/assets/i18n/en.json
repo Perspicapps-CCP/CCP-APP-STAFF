@@ -23,5 +23,10 @@
     "LENGUAJE": "Language",
     "SALIR": "Exit",
     "ARIA-ICON": "Menu icon"
+  },
+  "LOGIN":{
+    "IMAGE_ALT": "Company logo login",
+    "TITLE": "Login",
+    "BUTTON": "Login"
   }
 }

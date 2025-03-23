@@ -1,11 +1,49 @@
-.password-container {
-  position: relative;
-}
-.password-toggle {
-  position: absolute;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #6c757d;
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 11.25rem;
+  padding: 64px 0px;
+
+  .logo {
+    width: 17.75rem;
+    height: 17.75rem;
+  }
+
+  .card-form {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 29.0625rem;
+    height: 100%;
+  }
+
+  .container-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+
+    form{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+    }
+  }
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+
+  .button-login {
+    border-radius: calc(infinity * 1px);
+  }
 }

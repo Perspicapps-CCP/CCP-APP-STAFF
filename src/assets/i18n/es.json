@@ -23,5 +23,10 @@
     "LENGUAJE": "Lenguaje",
     "SALIR": "Salir",
     "ARIA-ICON": "Menú icono"
+  },
+  "LOGIN":{
+    "IMAGE_ALT":"Logo de la empresa inicio de sesión",
+    "TITLE":"Iniciar sesión",
+    "BUTTON":"Iniciar sesión"
   }
 }
