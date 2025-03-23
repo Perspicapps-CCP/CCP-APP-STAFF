@@ -6,15 +6,17 @@
   <mat-card appearance="outlined" class="card-form">
     <span class="title">{{'LOGIN.TITLE' | translate}}</span>
     <div class="container-form">
-      <form (ngSubmit)="iniciarSesion()" class="w-full gap-[2rem]">
+      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" class="w-full gap-[2rem]">
         <div class="w-full">
-          <input type="email" class="form-control" id="ususario" placeholder="usuario">
+          <input type="text" class="form-control" id="ususario" placeholder="usuario" autocomplete="username"
+            formControlName="username">
         </div>
         <div class="w-full">
-          <input type="password" class="form-control" id="password" placeholder="contraseña">
+          <input type="password" class="form-control" id="password" placeholder="contraseña"
+            autocomplete="current-password" formControlName="password">
         </div>
-        <button  class="btn btn-primary w-full button-login" type="submit">{{'LOGIN.BUTTON' | translate}}</button>
-
+        <button class="btn btn-primary w-full button-login" type="submit" [disabled]="loginForm.invalid">{{'LOGIN.BUTTON'
+          | translate}}</button>
       </form>
     </div>
   </mat-card>
