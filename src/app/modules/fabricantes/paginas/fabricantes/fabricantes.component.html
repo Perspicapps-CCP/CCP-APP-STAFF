@@ -1,1 +1,74 @@
-<p>fabricantes works!</p>
+<div class="contenedor">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!" id="basic-addon1">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+      </span>
+      <input class="form-control border-l-0!" id="exampleFormControlInput1"
+        placeholder="{{'FABRICANTES.SEARCH_PLACEHOLDER' | translate}}" [formControl]="formBusquedaFabricantes">
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary btn-actions btn-md"
+        ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_MANUFACTURER' | translate}}">
+        <i class="bi bi-plus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{'FABRICANTES.TABLE_HEADERS.NAME' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.IDENTIFICATION' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.PHONE' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.ADDRESS' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.EMAIL' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.ACTIONS' | translate}}</th>
+            <th>{{'FABRICANTES.TABLE_HEADERS.PRODUCTS' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (fabricante of filterFabricantes$ | async; track fabricante.id; let i = $index) {
+          <tr>
+            <td [innerHTML]="fabricante.nombre | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.identificacion | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.telefono | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.direccion | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.correo | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td>
+              <div class="flex gap-2">
+                <button type="button" class="btn btn-primary btn-actions-table btn-sm"
+                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_PRODUCT' | translate}}">
+                  <mat-icon>add_shopping_cart</mat-icon>
+                </button>
+                <button type="button" class="btn btn-primary btn-actions-table btn-sm"
+                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.UPLOAD_PRODUCTS_MASSIVE' | translate}}">
+                  <mat-icon>upload</mat-icon>
+                </button>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-actions-table btn-sm"
+                ngbTooltip="{{'FABRICANTES.TOOLTIPS.VIEW_PRODUCTS' | translate}}" (click)="toggleExpansion(fabricante)">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+            </td>
+          </tr>
+          <!-- Fila expandible -->
+          @if (fabricanteSelected && fabricanteSelected.id === fabricante.id) {
+          <tr>
+            <td colspan="7">
+              <!-- Aquí va el componente que quieres mostrar. Por ahora es un "Hello World" -->
+              <div class="expanded-row">
+                <app-productos-fabricante class="expanded-content" [fabricante]="fabricante"></app-productos-fabricante>
+              </div>
+            </td>
+          </tr>
+          }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

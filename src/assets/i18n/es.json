@@ -38,5 +38,23 @@
       "USERNAME_MIN_LENGTH": "El usuario debe tener al menos 3 caracteres",
       "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres"
     }
+  },
+  "FABRICANTES":{
+    "SEARCH_PLACEHOLDER": "Filtrar fabricantes",
+    "TABLE_HEADERS": {
+      "NAME": "Nombre",
+      "IDENTIFICATION": "Identificación",
+      "PHONE": "Teléfono",
+      "ADDRESS": "Dirección",
+      "EMAIL": "Correo electrónico",
+      "ACTIONS": "Acciones",
+      "PRODUCTS": "Productos"
+    },
+    "TOOLTIPS": {
+      "ADD_MANUFACTURER": "Agregar fabricante",
+      "ADD_PRODUCT": "Agregar producto",
+      "VIEW_PRODUCTS": "Ver productos",
+      "UPLOAD_PRODUCTS_MASSIVE": "Cargar archivo de productos"
+    }
   }
 }

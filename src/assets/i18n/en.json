@@ -12,7 +12,7 @@
     "CURRENT_LOCALE": "Current Locale",
     "CURREN_LANGUAJE": "Current Language"
   },
-  "MENU":{
+  "MENU": {
     "RUTAS": "Routes",
     "BODEGAS": "Warehouses",
     "FABRICANTES": "Manufacturers",
@@ -24,7 +24,7 @@
     "SALIR": "Exit",
     "ARIA-ICON": "Menu icon"
   },
-  "LOGIN":{
+  "LOGIN": {
     "IMAGE_ALT": "Company logo login",
     "TITLE": "Login",
     "ERROR_MESSAGE": "Error when try to login, please try again",
@@ -33,10 +33,32 @@
       "PASSWORD": "Password",
       "BUTTON": "Login"
     },
-    "FORM_ERRORS":{
+    "FORM_ERRORS": {
       "FIELD_REQUIRED": "this field is required",
       "USERNAME_MIN_LENGTH": "User must be at least 3 characters long",
       "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long"
+    }
+  },
+  "FABRICANTES": {
+    "SEARCH_PLACEHOLDER": "Filter manufacturers",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "IDENTIFICATION": "Identification",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "EMAIL": "Email",
+      "ACTIONS": "Actions",
+      "PRODUCTS": "Products"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No manufacturers found",
+      "DESCRIPTION": "You can add a new manufacturer by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_MANUFACTURER": "Add manufacturer",
+      "ADD_PRODUCT": "Add product",
+      "VIEW_PRODUCTS": "View products",
+      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file"
     }
   }
 }
