@@ -27,7 +27,16 @@
   "LOGIN": {
     "IMAGE_ALT": "Logo de la empresa inicio de sesión",
     "TITLE": "Iniciar sesión",
-    "BUTTON": "Iniciar sesión",
-    "ERROR_MESSAGE": "Error al intentar iniciar sesión, por favor intente de nuevo"
+    "ERROR_MESSAGE": "Error al intentar iniciar sesión, por favor intente de nuevo",
+    "FORM": {
+      "USERNAME": "Usuario",
+      "PASSWORD": "Contraseña",
+      "BUTTON": "Iniciar sesión"
+    },
+    "FORM_ERRORS": {
+      "FIELD_REQUIRED": "este campo es obligatorio",
+      "USERNAME_MIN_LENGTH": "El usuario debe tener al menos 3 caracteres",
+      "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres"
+    }
   }
 }

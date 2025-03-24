@@ -109,4 +109,28 @@ describe('LoginComponent', () => {
       expect(snackBarArgs.verticalPosition).toBe('top');
     }
   });
+
+  it('should call togglePasswordVisibility and validate password visibility', () => {
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    component.togglePasswordVisibility(passwordInput);
+    expect(component.showPassword).toBe(true);
+    expect(passwordInput.type).toBe('text');
+
+    component.togglePasswordVisibility(passwordInput);
+    expect(component.showPassword).toBe(false);
+    expect(passwordInput.type).toBe('password');
+  });
+
+  it('should return error message for minlength field', () => {
+    component.loginForm.controls['username'].setValue('ab');
+    expect(component.getErrorMessage('username')).toBeTruthy();
+
+    component.loginForm.controls['password'].setValue('ab');
+    expect(component.getErrorMessage('password')).toBeTruthy();
+  });
+
+  it('should return empty when form no exist in loginForm', () => {
+    expect(component.getErrorMessage('noExist')).toBeTruthy();
+  });
 });

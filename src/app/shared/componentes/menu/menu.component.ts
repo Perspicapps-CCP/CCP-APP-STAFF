@@ -68,6 +68,7 @@ export class MenuComponent {
   cambiarIdioma(lenguaje: LanguageConfig) {
     if (lenguaje && lenguaje.localeCode) {
       this.localizationService.setLocale(lenguaje.localeCode);
+      // window.location.reload();
     }
   }
 

@@ -27,7 +27,16 @@
   "LOGIN":{
     "IMAGE_ALT": "Company logo login",
     "TITLE": "Login",
-    "BUTTON": "Login",
-    "ERROR_MESSAGE": "Error when try to login, please try again"
+    "ERROR_MESSAGE": "Error when try to login, please try again",
+    "FORM": {
+      "USERNAME": "User",
+      "PASSWORD": "Password",
+      "BUTTON": "Login"
+    },
+    "FORM_ERRORS":{
+      "FIELD_REQUIRED": "this field is required",
+      "USERNAME_MIN_LENGTH": "User must be at least 3 characters long",
+      "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long"
+    }
   }
 }

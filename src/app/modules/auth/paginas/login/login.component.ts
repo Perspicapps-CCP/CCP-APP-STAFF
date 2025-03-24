@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { LoginService } from '../../servicios/login.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-login',
   imports: [
@@ -18,15 +19,47 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(3)])
+    username: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
+    password: new FormControl<string>('', [Validators.required, Validators.minLength(6)])
   });
+
+  showPassword = false;
 
   constructor(
     private loginService: LoginService,
     private _snackBar: MatSnackBar,
     private translate: TranslateService
   ) { }
+
+
+  togglePasswordVisibility(passwordInput: HTMLInputElement): void {
+    this.showPassword = !this.showPassword;
+    passwordInput.type = this.showPassword ? 'text' : 'password';
+  }
+
+  isInvalid(controlName: string) {
+    return this.loginForm.get(controlName)!.invalid &&
+      (this.loginForm.get(controlName)!.dirty || this.loginForm.get(controlName)!.touched)
+  }
+
+  getErrorMessage(controlName: string): Observable<string> {
+
+    if (this.loginForm.get(controlName)?.hasError('required')) {
+      return this.translate.get('LOGIN.FORM_ERRORS.FIELD_REQUIRED');
+    }
+
+    if (this.loginForm.get(controlName)?.hasError('minlength') && controlName === 'username') {
+      return this.translate.get('LOGIN.FORM_ERRORS.USERNAME_MIN_LENGTH');
+    }
+
+    if (this.loginForm.get(controlName)?.hasError('minlength') && controlName === 'password') {
+      return this.translate.get('LOGIN.FORM_ERRORS.PASSWORD_MIN_LENGTH');
+    }
+
+    return of('');
+  }
+
+
 
   iniciarSesion() {
     let loginForm = this.loginForm.value;
@@ -37,6 +70,7 @@ export class LoginComponent {
             this._snackBar.open(mensaje, '', {
               horizontalPosition: 'end',
               verticalPosition: 'top',
+              duration: 3000
             });
           });
         }
@@ -44,4 +78,5 @@ export class LoginComponent {
       console.log('Iniciar sesión');
     }
   }
+
 }
