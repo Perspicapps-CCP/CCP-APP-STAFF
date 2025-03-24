@@ -11,18 +11,38 @@ describe('LoginService', () => {
   let service: LoginService;
   let httpMock: HttpTestingController;
   let router: Router;
-  let localStorageSpy: any;
+  let originalLocalStorage: any;
+
+  // Guarda las referencias originales antes de modificarlas
+  beforeAll(() => {
+    originalLocalStorage = {};
+    originalLocalStorage.getItem = localStorage.getItem;
+    originalLocalStorage.setItem = localStorage.setItem;
+    originalLocalStorage.removeItem = localStorage.removeItem;
+  });
+
+  // Restaura las funciones originales después de todas las pruebas
+  afterAll(() => {
+    localStorage.getItem = originalLocalStorage.getItem;
+    localStorage.setItem = originalLocalStorage.setItem;
+    localStorage.removeItem = originalLocalStorage.removeItem;
+  });
 
   beforeEach(() => {
-    // Configurar los mocks para localStorage
-    localStorageSpy = {
-      getItem: jasmine.createSpy('getItem'),
-      setItem: jasmine.createSpy('setItem'),
-      removeItem: jasmine.createSpy('removeItem')
-    };
-    spyOn(localStorage, 'getItem').and.callFake(localStorageSpy.getItem);
-    spyOn(localStorage, 'setItem').and.callFake(localStorageSpy.setItem);
-    spyOn(localStorage, 'removeItem').and.callFake(localStorageSpy.removeItem);
+    // Crear mocks nuevos para cada prueba
+    const getItemSpy = jasmine.createSpy('getItem');
+    const setItemSpy = jasmine.createSpy('setItem');
+    const removeItemSpy = jasmine.createSpy('removeItem');
+
+    // Asignar los spies directamente sin usar spyOn()
+    Object.defineProperty(window, 'localStorage', {
+      value: {
+        getItem: getItemSpy,
+        setItem: setItemSpy,
+        removeItem: removeItemSpy
+      },
+      writable: true
+    });
 
     TestBed.configureTestingModule({
       providers: [

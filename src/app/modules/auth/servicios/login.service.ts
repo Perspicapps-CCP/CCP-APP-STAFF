@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { map, Observable, tap } from 'rxjs';
 import { Usuario } from '../interfaces/usuario.interface';
+import { UsuarioService } from './usuario.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class LoginService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private usuarioService: UsuarioService
   ) { }
 
   iniciarSesion(user: string, password: string) {
@@ -24,6 +26,7 @@ export class LoginService {
       tap((res) => {
         localStorage.setItem('token', res.token);
         localStorage.setItem('usuario', JSON.stringify(res));
+        this.usuarioService.usuario = res;
         this.router.navigate(['/home']);
       })
     );

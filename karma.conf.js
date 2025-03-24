@@ -12,8 +12,13 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageReporter: {
-      type: 'html',
+      reporters: [
+        { type: 'html' },
+        { type: 'lcov' }, // para herramientas de CI/CD
+        { type: 'text-summary' } // útil para ver resultados en la consola
+      ],
       dir: require('path').join(__dirname, './coverage/ccp-web'),
+      subdir: '.',
       check: {
         global: {
           statements: 70,
@@ -24,7 +29,7 @@ module.exports = function (config) {
       }
     },
     reporters: ['progress', 'kjhtml', 'coverage'],
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome', 'ChromeHeadless'], // añadido ChromeHeadless para CI
     singleRun: true,
     restartOnFileChange: true
   });

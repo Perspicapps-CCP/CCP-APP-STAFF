@@ -8,29 +8,18 @@ describe('httpHeadersInterceptor', () => {
     TestBed.runInInjectionContext(() => httpHeadersInterceptor(req, next));
 
   let nextHandlerSpy: jasmine.Spy;
-  let localStorageSpy: jasmine.Spy;
   let next: HttpHandlerFn;
+  let localStorageGetItemSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
 
-    // En lugar de espiar directamente localStorage.getItem, creamos un mock de localStorage
-    // y restablecemos el spy en cada prueba
-    if (localStorageSpy) {
-      localStorageSpy.and.callThrough();
-    }
-    localStorageSpy = spyOn(localStorage, 'getItem').and.returnValue('fake-token');
+    // Instead of replacing localStorage, just spy on its getItem method
+    localStorageGetItemSpy = spyOn(localStorage, 'getItem').and.returnValue('fake-token');
 
-    // Espía para el handler next
+    // Spy for the next handler
     nextHandlerSpy = jasmine.createSpy('next').and.returnValue(of({}));
     next = nextHandlerSpy;
-  });
-
-  afterEach(() => {
-    // Limpiar el spy después de cada prueba
-    if (localStorageSpy) {
-      localStorageSpy.and.callThrough();
-    }
   });
 
   it('should be created', () => {
@@ -38,48 +27,54 @@ describe('httpHeadersInterceptor', () => {
   });
 
   it('should add Authorization header for non-login urls', () => {
-    // Crear una solicitud para una URL que no incluye login
+    // Create a request for a non-login URL
     const request = new HttpRequest<unknown>('GET', 'https://api.example.com/users');
 
-    // Ejecutar el interceptor
+    // Execute the interceptor
     interceptor(request, next);
 
-    // Verificar que se llamó a localStorage.getItem con 'token'
+    // Verify localStorage.getItem was called with 'token'
     expect(localStorage.getItem).toHaveBeenCalledWith('token');
 
-    // Verificar que se llamó a next con una solicitud que contiene el header de autorización
+    // Verify next was called with a request containing the authorization header
     const modifiedRequest = nextHandlerSpy.calls.first().args[0] as HttpRequest<unknown>;
     expect(modifiedRequest.headers.has('Authorization')).toBeTrue();
     expect(modifiedRequest.headers.get('Authorization')).toBe('Bearer fake-token');
   });
 
   it('should not add Authorization header for login urls', () => {
-    // Crear una solicitud para una URL que incluye login
-    const request = new HttpRequest<unknown>('POST' as any, 'https://api.example.com/login');
+    // Reset the spy call count
+    localStorageGetItemSpy.calls.reset();
 
-    // Ejecutar el interceptor
+    // Create a request for a login URL
+    const request = new HttpRequest<unknown>('POST', 'https://api.example.com/login', null);
+
+    // Execute the interceptor
     interceptor(request, next);
 
-    // Verificar que no se llamó a localStorage.getItem
+    // Verify localStorage.getItem was not called
     expect(localStorage.getItem).not.toHaveBeenCalled();
 
-    // Verificar que se llamó a next con la solicitud original sin modificar
-    const passedRequest = nextHandlerSpy.calls.first().args[0] as HttpRequest<unknown>;
+    // Verify next was called with the original request unmodified
+    const passedRequest = nextHandlerSpy.calls.mostRecent().args[0] as HttpRequest<unknown>;
     expect(passedRequest.headers.has('Authorization')).toBeFalse();
   });
 
   it('should not add Authorization header for signin urls', () => {
-    // Crear una solicitud para una URL que incluye signin
-    const request = new HttpRequest<unknown>('POST' as any, 'https://api.example.com/signin');
+    // Reset the spy call count
+    localStorageGetItemSpy.calls.reset();
 
-    // Ejecutar el interceptor
+    // Create a request for a signin URL
+    const request = new HttpRequest<unknown>('POST', 'https://api.example.com/signin', null);
+
+    // Execute the interceptor
     interceptor(request, next);
 
-    // Verificar que no se llamó a localStorage.getItem
+    // Verify localStorage.getItem was not called
     expect(localStorage.getItem).not.toHaveBeenCalled();
 
-    // Verificar que se llamó a next con la solicitud original sin modificar
-    const passedRequest = nextHandlerSpy.calls.first().args[0] as HttpRequest<unknown>;
+    // Verify next was called with the original request unmodified
+    const passedRequest = nextHandlerSpy.calls.mostRecent().args[0] as HttpRequest<unknown>;
     expect(passedRequest.headers.has('Authorization')).toBeFalse();
   });
 });
