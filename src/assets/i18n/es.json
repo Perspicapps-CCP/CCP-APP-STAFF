@@ -39,7 +39,7 @@
       "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres"
     }
   },
-  "FABRICANTES":{
+  "FABRICANTES": {
     "SEARCH_PLACEHOLDER": "Filtrar fabricantes",
     "TABLE_HEADERS": {
       "NAME": "Nombre",
@@ -50,11 +50,28 @@
       "ACTIONS": "Acciones",
       "PRODUCTS": "Productos"
     },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron fabricantes",
+      "DESCRIPTION": "Puede añadir un nuevo fabricante haciendo clic en el botón de abajo"
+    },
     "TOOLTIPS": {
       "ADD_MANUFACTURER": "Agregar fabricante",
       "ADD_PRODUCT": "Agregar producto",
       "VIEW_PRODUCTS": "Ver productos",
       "UPLOAD_PRODUCTS_MASSIVE": "Cargar archivo de productos"
+    },
+    "PRODUCTOS_FABRICANTE": {
+      "SEARCH_PLACEHOLDER": "Filtrar productos",
+      "TABLE_HEADERS": {
+        "NAME": "Nombre",
+        "COD_PRODUCT": "Código producto",
+        "PRICE": "Costo unidad",
+        "IMAGES": "imagenes",
+        "ACTIONS": "Acciones"
+      },
+      "TOOLTIPS": {
+        "ADD_IMAGES": "Agregar imagenes"
+      }
     }
   }
 }

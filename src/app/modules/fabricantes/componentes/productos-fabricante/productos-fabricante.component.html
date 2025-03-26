@@ -1,1 +1,48 @@
-<p>productos-fabricante works!</p>
+<div class="contenedor-detalle">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!" id="basic-addon1">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+      </span>
+      <input class="form-control border-l-0!" id="exampleFormControlInput1"
+        placeholder="{{'FABRICANTES.PRODUCTOS_FABRICANTE.SEARCH_PLACEHOLDER' | translate}}"
+        [formControl]="formBusquedaProductos">
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.NAME' | translate}}</th>
+            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.COD_PRODUCT' | translate}}</th>
+            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.PRICE' | translate}}</th>
+            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate}}</th>
+            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.ACTIONS' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of filterProductos$ | async; track producto.id; let i = $index) {
+          <tr>
+            <td [innerHTML]="producto.nombre| highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.codigoProducto | highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.costoUnidad | localCurrency | highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td>
+                <a class="link-offset-1" (click)="abrirImagenes(producto); $event.preventDefault()"
+                href="#">{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate}}</a>
+              </td>
+            <td>
+              <div class="flex gap-2">
+                <button type="button" class="btn btn-primary btn-actions-table btn-sm"
+                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_PRODUCT' | translate}}">
+                  <mat-icon>add_photo_alternate</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

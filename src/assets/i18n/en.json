@@ -59,6 +59,19 @@
       "ADD_PRODUCT": "Add product",
       "VIEW_PRODUCTS": "View products",
       "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file"
+    },
+    "PRODUCTOS_FABRICANTE": {
+      "SEARCH_PLACEHOLDER": "Filter products",
+      "TABLE_HEADERS": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "PRICE": "Unit cost",
+        "IMAGES": "Images",
+        "ACTIONS": "Actions"
+      },
+      "TOOLTIPS": {
+        "ADD_IMAGES": "Add images"
+      }
     }
   }
 }

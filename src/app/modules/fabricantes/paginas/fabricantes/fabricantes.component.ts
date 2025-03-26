@@ -7,6 +7,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith, tap } from 'rxjs';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
+import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
 
 @Component({
   selector: 'app-fabricantes',
@@ -17,9 +18,9 @@ import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe'
     HighlightTextPipe
   ],
   templateUrl: './fabricantes.component.html',
-  styleUrl: './fabricantes.component.scss'
+  styleUrl: './fabricantes.component.scss',
 })
-export class FabricantesComponent implements OnInit, OnDestroy {
+export class FabricantesComponent implements OnInit {
   fabricanteSelected: Fabricante | null = null;
   fabricantes: Fabricante[] = [];
   //variable para el buscador de fabricantes
@@ -32,10 +33,6 @@ export class FabricantesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.obtenerFabricantes();
-
-  }
-
-  ngOnDestroy(): void {
 
   }
 
