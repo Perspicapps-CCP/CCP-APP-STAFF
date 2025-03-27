@@ -8,6 +8,9 @@ import { map, Observable, startWith, tap } from 'rxjs';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
+import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
 
 @Component({
   selector: 'app-fabricantes',
@@ -29,7 +32,9 @@ export class FabricantesComponent implements OnInit {
 
   constructor(
     private fabricantesService: FabricantesService,
-    private dinamicSearchService: DinamicSearchService) { }
+    private dinamicSearchService: DinamicSearchService,
+    private dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
     this.obtenerFabricantes();
@@ -46,7 +51,7 @@ export class FabricantesComponent implements OnInit {
   filterFabricantes() {
     this.filterFabricantes$ = this.formBusquedaFabricantes.valueChanges.pipe(
       startWith(''),
-      tap((value) => {console.log("value",value);}),
+      tap((value) => { console.log("value", value); }),
       map((name) => this.buscar(name || '')));
   }
 
@@ -63,5 +68,18 @@ export class FabricantesComponent implements OnInit {
     } else {
       this.fabricanteSelected = fabricante; // Expand the clicked item
     }
+  }
+
+  abrirModalCrearFabricante() {
+    this.dialog.open(CrearFabricanteComponent, {
+      width: '29.125rem',
+    });
+  }
+
+  abrirModalAgregarProductosFabricante(fabricante: Fabricante) {
+    this.dialog.open(AgregarProductoFabricanteComponent, {
+      width: '29.125rem',
+      data: { ...fabricante }
+    });
   }
 }

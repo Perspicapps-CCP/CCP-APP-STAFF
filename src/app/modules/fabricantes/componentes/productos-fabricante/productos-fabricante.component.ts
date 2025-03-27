@@ -8,6 +8,8 @@ import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe'
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { map, Observable, startWith, tap } from 'rxjs';
 import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
 
 @Component({
   selector: 'app-productos-fabricante',
@@ -28,7 +30,8 @@ export class ProductosFabricanteComponent {
 
   constructor(
     private fabricantesService: FabricantesService,
-    private dinamicSearchService: DinamicSearchService
+    private dinamicSearchService: DinamicSearchService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -55,7 +58,11 @@ export class ProductosFabricanteComponent {
     return this.productos.slice();
   }
 
-  abrirImagenes(producto: ProductoFabricante) {
-    console.log(producto);
+  abrirVisorImagenes(producto: ProductoFabricante) {
+    this.dialog.open(VisorImagenesDialogComponent, {
+      data: producto,
+      width: '39.4375rem',
+      height: '24.3125rem',
+    });
   }
 }

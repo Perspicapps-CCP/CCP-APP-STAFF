@@ -1,15 +1,15 @@
 <div class="contenedor">
   <div class="flex w-full gap-2">
     <div class="flex input-group w-full">
-      <span class="input-group-text pr-2!" id="basic-addon1">
+      <span class="input-group-text pr-2!">
         <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
       </span>
-      <input class="form-control border-l-0!" id="exampleFormControlInput1"
-        placeholder="{{'FABRICANTES.SEARCH_PLACEHOLDER' | translate}}" [formControl]="formBusquedaFabricantes">
+      <input class="form-control border-l-0!" placeholder="{{'FABRICANTES.SEARCH_PLACEHOLDER' | translate}}"
+        [formControl]="formBusquedaFabricantes">
     </div>
     <div>
       <button type="button" class="btn btn-primary btn-actions btn-md"
-        ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_MANUFACTURER' | translate}}">
+        ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_MANUFACTURER' | translate}}" (click)="abrirModalCrearFabricante()">
         <i class="bi bi-plus"></i>
       </button>
     </div>
@@ -39,7 +39,8 @@
             <td>
               <div class="flex gap-2">
                 <button type="button" class="btn btn-primary btn-actions-table btn-sm"
-                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_PRODUCT' | translate}}">
+                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_PRODUCT' | translate}}"
+                  (click)="abrirModalAgregarProductosFabricante(fabricante)">
                   <mat-icon>add_shopping_cart</mat-icon>
                 </button>
                 <button type="button" class="btn btn-primary btn-actions-table btn-sm"

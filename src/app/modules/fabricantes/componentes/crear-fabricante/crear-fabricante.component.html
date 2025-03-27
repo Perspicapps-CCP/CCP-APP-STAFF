@@ -1,0 +1,79 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span>{{'FABRICANTES.CREAR_FABRICANTE.TITLE' | translate}}</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+  </div>
+  <div>
+    <form [formGroup]="fabricanteForm" (ngSubmit)="crearFabricante()" class="flex flex-col w-full gap-[0.25rem]">
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="nombre-fabricante" name="nombre-fabricante"
+          placeholder="{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.NAME' | translate }}" autocomplete="name"
+          formControlName="manufacturer_name" [ngClass]="{'is-invalid':isInvalid('manufacturer_name')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('manufacturer_name').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <select class="form-control" id="identification-type" name="identification-type"
+          formControlName="identification_type" [ngClass]="{'is-invalid':isInvalid('identification_type')}">
+          <option value="" disabled selected>{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.IDENTIFICATION_TYPE' | translate }}
+          </option>
+          <option value="NIT">NIT</option>
+          <option value="CC">CC</option>
+          <option value="CE">CE</option>
+          <option value="TI">TI</option>
+        </select>
+        <div class="invalid-feedback">
+          {{getErrorMessage('identification_type').key| translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="identification-number" name="identification-number"
+          placeholder="{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.IDENTIFICATION' | translate }}"
+          formControlName="identification_number" [ngClass]="{'is-invalid':isInvalid('identification_number')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('identification_number').key| translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="address" name="address"
+          placeholder="{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.ADDRESS' | translate }}" autocomplete="address"
+          formControlName="address" [ngClass]="{'is-invalid':isInvalid('address')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('address').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="phone" name="phone"
+          placeholder="{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.PHONE' | translate }}" autocomplete="phone"
+          formControlName="contact_phone" [ngClass]="{'is-invalid':isInvalid('contact_phone')}" numbersOnly>
+        <div class="invalid-feedback">
+          {{getErrorMessage('contact_phone').key | translate:getErrorMessage('contact_phone').params }}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="email" name="email"
+          placeholder="{{ 'FABRICANTES.CREAR_FABRICANTE.FORM.EMAIL' | translate }}" autocomplete="email"
+          formControlName="email" [ngClass]="{'is-invalid':isInvalid('email')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('email').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full flex gap-[0.50rem] justify-end">
+        <button type="button" class="btn btn btn-outline-secondary" (click)="dialogRef.close()">
+          {{'FABRICANTES.CREAR_FABRICANTE.BUTTON.CANCEL' | translate}}
+        </button>
+
+        <button type="submit" class="btn btn btn-outline-primary" [disabled]="!fabricanteForm.valid">
+          {{'FABRICANTES.CREAR_FABRICANTE.BUTTON.SAVE' | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

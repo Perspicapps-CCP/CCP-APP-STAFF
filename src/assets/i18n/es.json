@@ -2,6 +2,9 @@
   "HOME": {
     "TITLE": "Bienvenido"
   },
+  "VISOR_IMAGES": {
+    "TITLE": "Producto"
+  },
   "SETTINGS": {
     "TITLE": "Configuración",
     "LANGUAGE": "Idioma",
@@ -34,7 +37,7 @@
       "BUTTON": "Iniciar sesión"
     },
     "FORM_ERRORS": {
-      "FIELD_REQUIRED": "este campo es obligatorio",
+      "FIELD_REQUIRED": "Este campo es obligatorio",
       "USERNAME_MIN_LENGTH": "El usuario debe tener al menos 3 caracteres",
       "PASSWORD_MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres"
     }
@@ -71,6 +74,53 @@
       },
       "TOOLTIPS": {
         "ADD_IMAGES": "Agregar imagenes"
+      }
+    },
+    "CREAR_FABRICANTE": {
+      "TITLE": "Agregar fabricante",
+      "FORM": {
+        "NAME": "Nombre",
+        "IDENTIFICATION_TYPE": "Tipo de identificación",
+        "IDENTIFICATION": "Identificación",
+        "PHONE": "Teléfono",
+        "ADDRESS": "Dirección",
+        "EMAIL": "Correo electrónico"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "FIELD_LENGTH": "Este campo debe tener {{min}} caracteres de longitud",
+        "FIELD_EMAIL": "Este campo debe ser un correo electrónico válido"
+      },
+      "TOAST": {
+        "SUCCESS": "Fabricante creado exitosamente",
+        "ERROR": "Error al crear el fabricante"
+      }
+    },
+    "CREAR_PRODUCTO": {
+      "TITLE": "Agregar producto",
+      "FORM": {
+        "NAME": "Nombre",
+        "COD_PRODUCT": "Código producto",
+        "PRICE": "Costo unidad",
+        "IMAGES_UPLOAD": "Cargar",
+        "NOT_IMAGES": "Sin imágenes para cargar",
+        "IMAGES_CHARGED": "imágenes cargadas"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "FIELD_LENGTH": "Este campo debe tener {{min}} caracteres de longitud"
+      },
+      "TOAST": {
+        "SUCCESS": "Producto creado exitosamente",
+        "ERROR": "Error al crear el producto"
       }
     }
   }

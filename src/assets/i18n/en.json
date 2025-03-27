@@ -2,6 +2,9 @@
   "HOME": {
     "TITLE": "Welcome"
   },
+  "VISOR_IMAGES": {
+    "TITLE": "Product"
+  },
   "SETTINGS": {
     "TITLE": "Settings",
     "LANGUAGE": "Language",
@@ -34,7 +37,7 @@
       "BUTTON": "Login"
     },
     "FORM_ERRORS": {
-      "FIELD_REQUIRED": "this field is required",
+      "FIELD_REQUIRED": "This field is required",
       "USERNAME_MIN_LENGTH": "User must be at least 3 characters long",
       "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long"
     }
@@ -71,6 +74,53 @@
       },
       "TOOLTIPS": {
         "ADD_IMAGES": "Add images"
+      }
+    },
+    "CREAR_FABRICANTE": {
+      "TITLE": "Add manufacturer",
+      "FORM": {
+        "NAME": "Name",
+        "IDENTIFICATION_TYPE": "Identification type",
+        "IDENTIFICATION": "Identification",
+        "PHONE": "Phone",
+        "ADDRESS": "Address",
+        "EMAIL": "Email"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "FIELD_EMAIL": "This field must be a valid email"
+      },
+      "TOAST": {
+        "SUCCESS": "Manufacturer created successfully",
+        "ERROR": "Error creating manufacturer"
+      }
+    },
+    "CREAR_PRODUCTO": {
+      "TITLE": "Add product",
+      "FORM": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "PRICE": "Unit cost",
+        "IMAGES_UPLOAD": "Upload",
+        "NOT_IMAGES": "No images to upload",
+        "IMAGES_CHARGED": "images charged"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long"
+      },
+      "TOAST": {
+        "SUCCESS": "Product created successfully",
+        "ERROR": "Error creating product"
       }
     }
   }
