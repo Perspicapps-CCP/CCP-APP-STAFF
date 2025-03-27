@@ -24,9 +24,9 @@
         <tbody>
           @for (producto of filterProductos$ | async; track producto.id; let i = $index) {
           <tr>
-            <td [innerHTML]="producto.nombre| highlightText: formBusquedaProductos.value ?? ''"></td>
-            <td [innerHTML]="producto.codigoProducto | highlightText: formBusquedaProductos.value ?? ''"></td>
-            <td [innerHTML]="producto.costoUnidad | localCurrency | highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.name| highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.product_code| highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.unit_cost| localCurrency | highlightText: formBusquedaProductos.value ?? ''"></td>
             <td>
                 <a class="link-offset-1" (click)="abrirVisorImagenes(producto); $event.preventDefault()"
                 href="#">{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate}}</a>
@@ -34,7 +34,7 @@
             <td>
               <div class="flex gap-2">
                 <button type="button" class="btn btn-primary btn-actions-table btn-sm"
-                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_PRODUCT' | translate}}">
+                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_IMAGES_FILES' | translate}}">
                   <mat-icon>add_photo_alternate</mat-icon>
                 </button>
               </div>

@@ -23,12 +23,12 @@ export class CrearFabricanteComponent {
   readonly dialogRef = inject(MatDialogRef<CrearFabricanteComponent>);
 
   fabricanteForm = new FormGroup({
-    manufacturer_name: new FormControl<string>('', [Validators.required]),
-    identification_type: new FormControl<string>('', [Validators.required]),
-    identification_number: new FormControl<string>('', [Validators.required]),
-    address: new FormControl<string>('', [Validators.required]),
-    contact_phone: new FormControl<string>('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
-    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    manufacturer_name: new FormControl<string>('', { validators: [Validators.required], nonNullable: true },),
+    identification_type: new FormControl<string>('', { validators: [Validators.required], nonNullable: true }),
+    identification_number: new FormControl<string>('', { validators: [Validators.required], nonNullable: true }),
+    address: new FormControl<string>('', { validators: [Validators.required], nonNullable: true }),
+    contact_phone: new FormControl<string>('', { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(10)], nonNullable: true }),
+    email: new FormControl<string>('', { validators: [Validators.required, Validators.email], nonNullable: true }),
   });
 
   constructor(
@@ -75,15 +75,16 @@ export class CrearFabricanteComponent {
 
   crearFabricante() {
     const valuesForm = this.fabricanteForm.value;
-    const fabricanteCrear: Fabricante = {
-      nombre: valuesForm.manufacturer_name!,
-      identificacion: valuesForm.identification_number!,
-      telefono: valuesForm.contact_phone!,
-      direccion: valuesForm.address!,
-      correo: valuesForm.email!,
+    const fabricante: Fabricante = {
+      manufacturer_name: valuesForm.manufacturer_name!,
+      identification_type: valuesForm.identification_type!,
+      identification_number: valuesForm.identification_number!,
+      address: valuesForm.address!,
+      contact_phone: valuesForm.contact_phone!,
+      email: valuesForm.email!,
     }
 
-    this.fabricantesService.crearFabricante(fabricanteCrear).subscribe({
+    this.fabricantesService.crearFabricante(fabricante).subscribe({
       next: (res) => {
         this.fabricanteForm.reset();
         this.translate.get('FABRICANTES.CREAR_FABRICANTE.TOAST.SUCCESS').subscribe((mensaje: string) => {

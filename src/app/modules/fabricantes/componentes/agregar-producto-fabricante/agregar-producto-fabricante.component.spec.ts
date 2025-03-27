@@ -20,11 +20,11 @@ describe('AgregarProductoFabricanteComponent', () => {
 
   // Mock para los datos del diálogo (MAT_DIALOG_DATA)
   const dialogDataMock: Fabricante = {
-    nombre: 'Fabricante Test',
-    identificacion: '123456789',
-    telefono: '+57 3001234567',
-    direccion: 'Calle 123 #45-67, Bogotá',
-    correo: 'contacto@fabricantetest.com',
+    manufacturer_name: 'Fabricante Test',
+    identification_number: '123456789',
+    contact_phone: '+57 3001234567',
+    address: 'Calle 123 #45-67, Bogotá',
+    email: 'contacto@fabricantetest.com',
     id: '1'
   };
 

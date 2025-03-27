@@ -1,10 +1,10 @@
 export interface Fabricante {
   id?: string;
-  nombre: string;
-  identificacion: string;
-  telefono: string;
-  direccion: string;
-  correo: string;
-  productos?: any[];
+  manufacturer_name: string;
+  identification_number: string;
+  identification_type?: string;
+  address: string;
+  contact_phone: string;
+  email: string;
   expandido?: boolean;
 }

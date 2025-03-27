@@ -40,8 +40,8 @@ describe('FabricantesService', () => {
     const mockResponse = {
       data: {
         fabricantes: [
-          { id: '1', nombre: 'Fabricante 1' },
-          { id: '2', nombre: 'Fabricante 2' }
+          { id: '1', manufacturer_name: 'Fabricante 1' },
+          { id: '2', manufacturer_name: 'Fabricante 2' }
         ]
       }
     };
@@ -53,37 +53,35 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/fabricantes`);
+    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
     console.log('Mock Response:', resultado);
     expect(resultado.length).toBe(2);
     expect(resultado[0].id).toBe('1');
-    expect(resultado[0].nombre).toBe('Fabricante 1');
+    expect(resultado[0].manufacturer_name).toBe('Fabricante 1');
     expect(resultado[1].id).toBe('2');
-    expect(resultado[1].nombre).toBe('Fabricante 2');
+    expect(resultado[1].manufacturer_name).toBe('Fabricante 2');
   });
 
   it('debería obtener los productos de un fabricante y formatear el costo', () => {
     // Crear un fabricante de prueba
     const fabricante: Fabricante = {
       id: '1',
-      nombre: 'Test Fabricante',
-      identificacion: '123456',
-      telefono: '555-1234',
-      direccion: 'Calle Test 123',
-      correo: 'test@fabricante.com',
-      productos: [],
+      manufacturer_name: 'Test Fabricante',
+      identification_number: '123456',
+      contact_phone: '555-1234',
+      address: 'Calle Test 123',
+      email: 'test@fabricante.com',
       expandido: false
     };
-
     // Mock de la respuesta del servidor
     const mockResponse = {
       data: {
         productos: [
-          { id: '101', nombre: 'Producto 1', costoUnidad: 10.5 },
-          { id: '102', nombre: 'Producto 2', costoUnidad: 20.75 }
+          { id: '101', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5 ,images: [] },
+          { id: '102', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75 ,images: [] },
         ]
       }
     };
@@ -95,45 +93,42 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/productos-fabricante/${fabricante.id}`);
+    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers/products/${fabricante.id}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
     // Verificar resultados
     expect(resultado.length).toBe(2);
     expect(resultado[0].id).toBe('101');
-    expect(resultado[0].nombre).toBe('Producto 1');
-    expect(resultado[0].costoUnidad).toBe(10.5);
+    expect(resultado[0].name).toBe('Producto 1');
+    expect(resultado[0].unit_cost).toBe(10.5);
     expect(resultado[1].id).toBe('102');
-    expect(resultado[1].nombre).toBe('Producto 2');
-    expect(resultado[1].costoUnidad).toBe(20.75);
+    expect(resultado[1].name).toBe('Producto 2');
+    expect(resultado[1].unit_cost).toBe(20.75);
   });
 
   it('debería crear un fabricante correctamente', (done) => {
     // Crear fabricante de prueba para enviar
     const nuevoFabricante: Fabricante = {
-      id: '3',
-      nombre: 'Nuevo Fabricante',
-      identificacion: '123456',
-      telefono: '555-1234',
-      direccion: 'Calle Test 123',
-      correo: 'test@fabricante.com',
-      productos: [],
-      expandido: false
+      manufacturer_name: "Percy Aufderhar",
+      identification_type: "CE",
+      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+      address: "7631 Lucio Lakes",
+      contact_phone: "289.999.4000",
+      email: "Faye20@hotmail.com",
     };
 
     // Mock de la respuesta del servidor (fabricante creado con ID asignado)
     const mockResponse = {
       data: {
         fabricante: {
-          id: '3',
-          nombre: 'Nuevo Fabricante',
-          identificacion: '123456',
-          telefono: '555-1234',
-          direccion: 'Calle Test 123',
-          correo: 'test@fabricante.com',
-          productos: [],
-          expandido: false
+          manufacturer_name: "Percy Aufderhar",
+          identification_type: "CE",
+          identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+          address: "7631 Lucio Lakes",
+          contact_phone: "289.999.4000",
+          email: "Faye20@hotmail.com",
+          id: "423b3d2c-bc23-4892-8022-0ee081803d19",
         }
       }
     };
@@ -143,12 +138,12 @@ describe('FabricantesService', () => {
       next: (fabricanteCreado) => {
         // Verificaciones dentro del subscribe para asegurar que se ejecuten después de recibir la respuesta
         expect(fabricanteCreado).toBeTruthy();
-        expect(fabricanteCreado.id).toBe('3');
-        expect(fabricanteCreado.nombre).toBe('Nuevo Fabricante');
-        expect(fabricanteCreado.identificacion).toBe('123456');
-        expect(fabricanteCreado.telefono).toBe('555-1234');
-        expect(fabricanteCreado.direccion).toBe('Calle Test 123');
-        expect(fabricanteCreado.correo).toBe('test@fabricante.com');
+        expect(fabricanteCreado.id).toBe('423b3d2c-bc23-4892-8022-0ee081803d19');
+        expect(fabricanteCreado.manufacturer_name).toBe('Percy Aufderhar');
+        expect(fabricanteCreado.identification_number).toBe('27d90e27-970a-41e7-83c1-7e6402296a51');
+        expect(fabricanteCreado.contact_phone).toBe('289.999.4000');
+        expect(fabricanteCreado.address).toBe('7631 Lucio Lakes');
+        expect(fabricanteCreado.email).toBe('Faye20@hotmail.com');
         done(); // Indicar que la prueba asíncrona está completa
       },
       error: (error) => {

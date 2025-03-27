@@ -16,7 +16,7 @@ export class FabricantesService {
   ) { }
 
   obtenerFabricantes() {
-    return this.http.get<Fabricante[]>(`${this.apiUrl}/fabricantes`).pipe(
+    return this.http.get<Fabricante[]>(`${this.apiUrl}/manufacturers`).pipe(
       map<any, Fabricante[]>((res: any) => {
         return res.data.fabricantes;
       })
@@ -24,7 +24,7 @@ export class FabricantesService {
   }
 
   obtenerProductosFabricante(fabricante: Fabricante) {
-    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/productos-fabricante/${fabricante.id}`).pipe(
+    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/manufacturers/products/${fabricante.id}`).pipe(
       map<any, ProductoFabricante[]>((res: any) => {
         return res.data.productos;
       }),
@@ -32,7 +32,7 @@ export class FabricantesService {
         return productos.map((producto: ProductoFabricante) => {
           return {
             ...producto,
-            costoUnidadLocale: producto.costoUnidad.toString()
+            costoUnidadLocale: producto.unit_cost.toString()
           };
         });
       })

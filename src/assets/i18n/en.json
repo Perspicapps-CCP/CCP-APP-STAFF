@@ -61,7 +61,8 @@
       "ADD_MANUFACTURER": "Add manufacturer",
       "ADD_PRODUCT": "Add product",
       "VIEW_PRODUCTS": "View products",
-      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file"
+      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
+      "ADD_IMAGES_FILES":"Add images files"
     },
     "PRODUCTOS_FABRICANTE": {
       "SEARCH_PLACEHOLDER": "Filter products",

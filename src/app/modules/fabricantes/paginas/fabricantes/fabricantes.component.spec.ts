@@ -10,6 +10,7 @@ import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } fr
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
 import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
+import { Fabricante } from '../../interfaces/fabricantes.interface';
 
 // Mock del servicio de localización
 class MockLocalizationService {
@@ -27,24 +28,24 @@ class MockLocalizationService {
 // Mock del servicio de fabricantes
 class MockFabricantesService {
   obtenerFabricantes() {
-    return of([
+    return of<Fabricante[]>([
       {
-        id: "1",
-        nombre: "Fabricante 1",
-        identificacion: "123456789",
-        telefono: "123456789",
-        direccion: "Calle 1",
-        correo: "fabricante1@fabricante.com",
-        productos: [],
+        id: "423b3d2c-bc23-4892-8022-0ee081803d19",
+        manufacturer_name: "Percy Aufderhar",
+        identification_type: "CE",
+        identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+        address: "7631 Lucio Lakes",
+        contact_phone: "2899994000",
+        email: "Faye20@hotmail.com"
       },
       {
-        id: "2",
-        nombre: "Fabricante 2",
-        identificacion: "987654321",
-        telefono: "987654321",
-        direccion: "Calle 2",
-        correo: "fabricante2@fabricante.com",
-        productos: [],
+        id: "0df4f543-81af-46d7-8ba4-5a229dbcce7e",
+        manufacturer_name: "Cassandra Mertz",
+        identification_type: "CC",
+        identification_number: "4236a0c5-0964-43da-8ec8-003f3eaac1f3",
+        address: "215 McKenzie Causeway",
+        contact_phone: "6299090284",
+        email: "Dessie_Bednar@yahoo.com"
       },
     ]);
   }
@@ -52,9 +53,9 @@ class MockFabricantesService {
 
 // Mock del servicio de búsqueda dinámica
 class MockDinamicSearchService {
-  dynamicSearch(items: any[], searchTerm: string) {
+  dynamicSearch(items: Fabricante[], searchTerm: string) {
     return items.filter(item =>
-      item.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      item.manufacturer_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 }
@@ -70,7 +71,7 @@ class MockTranslateService {
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) {}
+  setDefaultLang(lang: string) { }
   use(lang: string) { return of({}); }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
@@ -89,7 +90,7 @@ class MockMatDialog {
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
-      close: (result?: any) => {}
+      close: (result?: any) => { }
     } as MatDialogRef<any>;
   }
 }
@@ -147,7 +148,7 @@ describe('FabricantesComponent', () => {
 
     // Verificar que se establecieron los fabricantes
     expect(component.fabricantes.length).toBe(2);
-    expect(component.fabricantes[0].nombre).toBe('Fabricante 1');
+    expect(component.fabricantes[0].manufacturer_name).toBe('Percy Aufderhar');
   });
 
   it('debería inicializar filterFabricantes$ correctamente', () => {
@@ -163,14 +164,14 @@ describe('FabricantesComponent', () => {
     expect(component.fabricanteSelected).toBeNull();
 
     // Seleccionar un fabricante
-    const fabricante = {
-      id: "1",
-      nombre: "Fabricante 1",
-      identificacion: "123456789",
-      telefono: "123456789",
-      direccion: "Calle 1",
-      correo: "fabricante1@fabricante.com",
-      productos: [],
+    const fabricante:Fabricante = {
+      id: "0df4f543-81af-46d7-8ba4-5a229dbcce7e",
+      manufacturer_name: "Cassandra Mertz",
+      identification_type: "CC",
+      identification_number: "4236a0c5-0964-43da-8ec8-003f3eaac1f3",
+      address: "215 McKenzie Causeway",
+      contact_phone: "(629) 909-0284",
+      email: "Dessie_Bednar@yahoo.com"
     };
     component.toggleExpansion(fabricante);
     expect(component.fabricanteSelected).toBe(fabricante);
@@ -180,14 +181,14 @@ describe('FabricantesComponent', () => {
     expect(component.fabricanteSelected).toBeNull();
 
     // Seleccionar otro fabricante después de tener uno seleccionado
-    const otroFabricante = {
-      id: "2",
-      nombre: "Fabricante 2",
-      identificacion: "987654321",
-      telefono: "987654321",
-      direccion: "Calle 2",
-      correo: "fabricante2@fabricante.com",
-      productos: [],
+    const otroFabricante:Fabricante = {
+      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
+      manufacturer_name: "Percy Aufderhar",
+      identification_type: "CE",
+      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+      address: "7631 Lucio Lakes",
+      contact_phone: "289.999.4000",
+      email: "Faye20@hotmail.com"
     };
     component.toggleExpansion(fabricante);
     component.toggleExpansion(otroFabricante);
@@ -224,13 +225,13 @@ describe('FabricantesComponent', () => {
   it('debería abrir el modal para agregar productos a un fabricante', () => {
     // Crear un fabricante de prueba
     const fabricante = {
-      id: "1",
-      nombre: "Fabricante 1",
-      identificacion: "123456789",
-      telefono: "123456789",
-      direccion: "Calle 1",
-      correo: "fabricante1@fabricante.com",
-      productos: [],
+      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
+      manufacturer_name: "Percy Aufderhar",
+      identification_type: "CE",
+      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+      address: "7631 Lucio Lakes",
+      contact_phone: "289.999.4000",
+      email: "Faye20@hotmail.com"
     };
 
     // Llamar al método

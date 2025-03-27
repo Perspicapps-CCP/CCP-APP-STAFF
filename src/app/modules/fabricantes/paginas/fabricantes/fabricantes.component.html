@@ -31,11 +31,11 @@
         <tbody>
           @for (fabricante of filterFabricantes$ | async; track fabricante.id; let i = $index) {
           <tr>
-            <td [innerHTML]="fabricante.nombre | highlightText: formBusquedaFabricantes.value ?? ''"></td>
-            <td [innerHTML]="fabricante.identificacion | highlightText: formBusquedaFabricantes.value ?? ''"></td>
-            <td [innerHTML]="fabricante.telefono | highlightText: formBusquedaFabricantes.value ?? ''"></td>
-            <td [innerHTML]="fabricante.direccion | highlightText: formBusquedaFabricantes.value ?? ''"></td>
-            <td [innerHTML]="fabricante.correo | highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.manufacturer_name| highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.identification_number| highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.contact_phone| highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.address| highlightText: formBusquedaFabricantes.value ?? ''"></td>
+            <td [innerHTML]="fabricante.email| highlightText: formBusquedaFabricantes.value ?? ''"></td>
             <td>
               <div class="flex gap-2">
                 <button type="button" class="btn btn-primary btn-actions-table btn-sm"
@@ -60,13 +60,20 @@
           @if (fabricanteSelected && fabricanteSelected.id === fabricante.id) {
           <tr>
             <td colspan="7">
-              <!-- Aquí va el componente que quieres mostrar. Por ahora es un "Hello World" -->
               <div class="expanded-row">
                 <app-productos-fabricante class="expanded-content" [fabricante]="fabricante"></app-productos-fabricante>
               </div>
             </td>
           </tr>
           }
+          } @empty {
+          <tr>
+            <td colspan="7">
+              <div class="text-center">
+                <p>{{'FABRICANTES.TABLE_EMPTY.TITLE' | translate}}</p>
+              </div>
+            </td>
+          </tr>
           }
         </tbody>
       </table>

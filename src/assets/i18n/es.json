@@ -61,7 +61,8 @@
       "ADD_MANUFACTURER": "Agregar fabricante",
       "ADD_PRODUCT": "Agregar producto",
       "VIEW_PRODUCTS": "Ver productos",
-      "UPLOAD_PRODUCTS_MASSIVE": "Cargar archivo de productos"
+      "UPLOAD_PRODUCTS_MASSIVE": "Cargar archivo de productos",
+      "ADD_IMAGES_FILES": "Agregar archivos de imágenes"
     },
     "PRODUCTOS_FABRICANTE": {
       "SEARCH_PLACEHOLDER": "Filtrar productos",

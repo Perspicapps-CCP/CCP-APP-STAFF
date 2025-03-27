@@ -15,6 +15,7 @@ import { VisorImagenesDialogComponent } from '../../../../shared/componentes/vis
 import { LocalizationService } from '../../../../shared/servicios/localization.service';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { ProductoFabricante } from '../../interfaces/producto-fabricante.interface';
 
 // Mock mejorado para LocalizationService
 class MockLocalizationService {
@@ -35,15 +36,15 @@ describe('ProductosFabricanteComponent', () => {
 
   // Mocks para los servicios
   const fabricantesServiceMock = {
-    obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(of([
-      { id: '1', nombre: 'Producto 1', codigoProducto: 'abc123', costoUnidad: 10.5, imagenes: ['10.5'] },
-      { id: '2', nombre: 'Producto 2', codigoProducto: 'abc123', costoUnidad: 20.75, imagenes: ['20.75'] }
+    obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(of<ProductoFabricante[]>([
+      { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
+      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] }
     ]))
   };
 
   const dinamicSearchServiceMock = {
-    dynamicSearch: jasmine.createSpy('dynamicSearch').and.callFake((items, searchTerm) => {
-      return items.filter((item: { nombre: string }) => item.nombre.includes(searchTerm as string));
+    dynamicSearch: jasmine.createSpy('dynamicSearch').and.callFake((items: ProductoFabricante[], searchTerm) => {
+      return items.filter((item: { name: string }) => item.name.includes(searchTerm as string));
     })
   };
 
@@ -81,13 +82,13 @@ describe('ProductosFabricanteComponent', () => {
 
     // Establecer el Input requerido
     component.fabricante = {
-      id: '1',
-      nombre: 'Test Fabricante',
-      identificacion: '123456',
-      telefono: '555-1234',
-      direccion: 'Calle Test 123',
-      correo: 'test@fabricante.com',
-      productos: [],
+      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
+      manufacturer_name: "Percy Aufderhar",
+      identification_type: "CE",
+      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
+      address: "7631 Lucio Lakes",
+      contact_phone: "289.999.4000",
+      email: "Faye20@hotmail.com",
       expandido: false
     }
 
@@ -104,8 +105,8 @@ describe('ProductosFabricanteComponent', () => {
   it('debería filtrar productos utilizando el servicio de búsqueda dinámica', () => {
     // Configurar el componente con productos
     component.productos = [
-      { id: '1', nombre: 'Producto 1', codigoProducto: 'abc123', costoUnidad: 10.5, imagenes: ['10.5'] },
-      { id: '2', nombre: 'Producto 2', codigoProducto: 'abc123', costoUnidad: 20.75, imagenes: ['20.75'] }
+      { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
+      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] }
     ];
 
     // Probar el método buscar con un término de búsqueda
@@ -120,11 +121,11 @@ describe('ProductosFabricanteComponent', () => {
   it('debería abrir el visor de imágenes con el producto seleccionado', () => {
     // Crear un producto de prueba
     const productoSeleccionado = {
-      id: '1',
-      nombre: 'Producto 1',
-      codigoProducto: 'abc123',
-      costoUnidad: 10.5,
-      imagenes: ['10.5']
+      id: "b9830b3f-e507-44e3-bec0-8416c68c2047",
+      name: "Shirt",
+      product_code: "978-1-0365-2066-3",
+      unit_cost: 3360.1,
+      images: ['original_image.jpg', 'thumbnail_image.jpg']
     };
 
     // Llamar al método abrirVisorImagenes
