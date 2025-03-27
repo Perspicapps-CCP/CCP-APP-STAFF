@@ -1,5 +1,5 @@
 export interface Fabricante {
-  id: string;
+  id?: string;
   nombre: string;
   identificacion: string;
   telefono: string;
