@@ -6,13 +6,13 @@ describe('UsuarioService', () => {
   let service: UsuarioService;
 
   const mockUser = {
-    token: "14f8159c-3ca0-4842-8afe-862fa36f4e17",
-    usuario: "Lazaro_Lebsack",
-    nombres: "Ottis",
-    apellidos: "Olson",
-    fullName: "Ada Bailey",
-    email: "a.clavijo@prueba.com",
-    phone: "3153115153"
+    access_token: "e77c0b8a-a7b9-4c31-a524-a7c32e87b248",
+    user: {
+      id: "253e3e87-1981-4197-a140-eddb470b00af",
+      username: "Esteban.Bins",
+      email: "Nola_Wiza72@gmail.com",
+      role: "STAFF"
+    }
   };
 
 
@@ -30,13 +30,10 @@ describe('UsuarioService', () => {
     service.usuario = mockUser;
     const user = service.usuario;
     expect(user).toEqual(mockUser);
-    expect(user?.token).toEqual("14f8159c-3ca0-4842-8afe-862fa36f4e17");
-    expect(user?.usuario).toEqual("Lazaro_Lebsack");
-    expect(user?.nombres).toEqual("Ottis");
-    expect(user?.apellidos).toEqual("Olson");
-    expect(user?.fullName).toEqual("Ada Bailey");
-    expect(user?.email).toEqual("a.clavijo@prueba.com");
-    expect(user?.phone).toEqual("3153115153");
+    expect(user.access_token).toEqual("e77c0b8a-a7b9-4c31-a524-a7c32e87b248");
+    expect(user.user.username).toEqual("Esteban.Bins");
+    expect(user.user.email).toEqual("Nola_Wiza72@gmail.com");
+    expect(user.user.role).toEqual("STAFF");
   });
 
 
@@ -49,7 +46,7 @@ describe('UsuarioService', () => {
   it('should call get token and get token correctly', () => {
     service.usuario = mockUser;
     const token = service.token;
-    expect(token).toEqual("14f8159c-3ca0-4842-8afe-862fa36f4e17");
+    expect(token).toEqual("e77c0b8a-a7b9-4c31-a524-a7c32e87b248");
   });
 
   it('should call token and get "" when user dont exist', () => {

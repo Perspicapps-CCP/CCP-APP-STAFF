@@ -34,13 +34,13 @@ describe('LoginComponent', () => {
   beforeEach(async () => {
     loginServiceMock = jasmine.createSpyObj('LoginService', ['iniciarSesion']);
     loginServiceMock.iniciarSesion.and.returnValue(of({
-      "token": "14f8159c-3ca0-4842-8afe-862fa36f4e17",
-      "usuario": "Lazaro_Lebsack",
-      "nombres": "Ottis",
-      "apellidos": "Olson",
-      "fullName": "Ada Bailey",
-      "email": "Mckayla13@hotmail.com",
-      "phone": "Samson23@gmail.com"
+      "access_token": "e77c0b8a-a7b9-4c31-a524-a7c32e87b248",
+      "user": {
+        "id": "253e3e87-1981-4197-a140-eddb470b00af",
+        "username": "Esteban.Bins",
+        "email": "Nola_Wiza72@gmail.com",
+        "role": "STAFF"
+      }
     }));
 
     await TestBed.configureTestingModule({

@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from '../interfaces/usuario.interface';
+import { Login } from '../interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private _usuario: Usuario | undefined;
+  private _usuario: Login | undefined;
   constructor() { }
 
-  get usuario(): Usuario | undefined {
+  get usuario(): Login | undefined {
     return this._usuario;
   }
 
-  set usuario(usuario: Usuario) {
+  set usuario(usuario: Login) {
     this._usuario = usuario;
   }
 
   get token(): string {
-    return this._usuario?.token || '';
+    return this._usuario?.access_token || '';
   }
 }
