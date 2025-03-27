@@ -104,11 +104,9 @@ describe('FabricantesService', () => {
     expect(resultado[0].id).toBe('101');
     expect(resultado[0].nombre).toBe('Producto 1');
     expect(resultado[0].costoUnidad).toBe(10.5);
-    expect(resultado[0].costoUnidadLocale).toBe('10.5');
     expect(resultado[1].id).toBe('102');
     expect(resultado[1].nombre).toBe('Producto 2');
     expect(resultado[1].costoUnidad).toBe(20.75);
-    expect(resultado[1].costoUnidadLocale).toBe('20.75');
   });
 
   it('debería crear un fabricante correctamente', (done) => {

@@ -7,6 +7,9 @@ import { DinamicSearchService } from '../../../../shared/servicios/dinamic-searc
 import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
+import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
 
 // Mock del servicio de localización
 class MockLocalizationService {
@@ -81,12 +84,22 @@ export class MockTranslateLoader implements TranslateLoader {
   }
 }
 
+// Mock para MatDialog
+class MockMatDialog {
+  open(component: any, config?: any): MatDialogRef<any> {
+    return {
+      afterClosed: () => of({}),
+      close: (result?: any) => {}
+    } as MatDialogRef<any>;
+  }
+}
 
 describe('FabricantesComponent', () => {
   let component: FabricantesComponent;
   let fixture: ComponentFixture<FabricantesComponent>;
   let fabricantesService: FabricantesService;
   let dinamicSearchService: DinamicSearchService;
+  let dialog: MatDialog;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -102,6 +115,7 @@ describe('FabricantesComponent', () => {
         { provide: FabricantesService, useClass: MockFabricantesService },
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
+        { provide: MatDialog, useClass: MockMatDialog },
         TranslateStore
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
@@ -113,10 +127,12 @@ describe('FabricantesComponent', () => {
     component = fixture.componentInstance;
     fabricantesService = TestBed.inject(FabricantesService);
     dinamicSearchService = TestBed.inject(DinamicSearchService);
+    dialog = TestBed.inject(MatDialog);
 
     // Espiar métodos para verificar llamadas
     spyOn(fabricantesService, 'obtenerFabricantes').and.callThrough();
     spyOn(component, 'filterFabricantes').and.callThrough();
+    spyOn(dialog, 'open').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -191,5 +207,39 @@ describe('FabricantesComponent', () => {
 
     // Comprobar que se llama al servicio de búsqueda dinámica
     expect(dinamicSearchService.dynamicSearch).toHaveBeenCalled();
+  });
+
+  // Pruebas para los métodos de diálogo
+
+  it('debería abrir el modal de crear fabricante', () => {
+    // Llamar al método
+    component.abrirModalCrearFabricante();
+
+    // Verificar que se abrió el diálogo con los parámetros correctos
+    expect(dialog.open).toHaveBeenCalledWith(CrearFabricanteComponent, {
+      width: '29.125rem',
+    });
+  });
+
+  it('debería abrir el modal para agregar productos a un fabricante', () => {
+    // Crear un fabricante de prueba
+    const fabricante = {
+      id: "1",
+      nombre: "Fabricante 1",
+      identificacion: "123456789",
+      telefono: "123456789",
+      direccion: "Calle 1",
+      correo: "fabricante1@fabricante.com",
+      productos: [],
+    };
+
+    // Llamar al método
+    component.abrirModalAgregarProductosFabricante(fabricante);
+
+    // Verificar que se abrió el diálogo con los parámetros correctos
+    expect(dialog.open).toHaveBeenCalledWith(AgregarProductoFabricanteComponent, {
+      width: '29.125rem',
+      data: { ...fabricante }
+    });
   });
 });

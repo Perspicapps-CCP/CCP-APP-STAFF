@@ -3,6 +3,5 @@ export interface ProductoFabricante {
   nombre: string;
   codigoProducto: string;
   costoUnidad: number;
-  costoUnidadLocale: string | null;
   imagenes: string[];
 }
