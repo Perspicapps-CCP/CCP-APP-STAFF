@@ -40,7 +40,7 @@ export class FabricantesService {
   }
 
   crearFabricante(fabricante: Fabricante) {
-    return this.http.post<Fabricante>(`${this.apiUrl}/fabricantes`, fabricante).pipe(
+    return this.http.post<Fabricante>(`${this.apiUrl}/manufacturers`, fabricante).pipe(
       map<any, Fabricante>((res: any) => {
         return res.data.fabricante;
       })

@@ -152,7 +152,7 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/fabricantes`);
+    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(nuevoFabricante);
     req.flush(mockResponse);
