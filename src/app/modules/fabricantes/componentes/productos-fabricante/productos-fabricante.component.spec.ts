@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ProductosFabricanteComponent } from './productos-fabricante.component';
@@ -11,22 +12,58 @@ import { DinamicSearchService } from '../../../../shared/servicios/dinamic-searc
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
 import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
+import { LocalizationService } from '../../../../shared/servicios/localization.service';
+
+// Mock mejorado para LocalizationService
+export class MockLocalizationService {
+  currentLocalizationSubject = new BehaviorSubject<any>({
+    decimal: ',',
+    thousands: '.',
+    grouping: [3],
+    currency: ['€', ''],
+    dateTime: '%a %d %b %Y %X',
+    date: '%d/%m/%Y',
+    time: '%H:%M:%S',
+    periods: ['AM', 'PM'],
+    days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    shortDays: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+  });
+  currentLocalization$ = this.currentLocalizationSubject.asObservable();
+  currentLang$ = new BehaviorSubject<string>('es').asObservable();
+  localeId = 'es-ES';
+  currentLocale$ = new BehaviorSubject<string>('es-ES').asObservable();
+
+  formatNumberFactory = jasmine.createSpy('formatNumberFactory').and.returnValue(
+    (value: number) => value.toLocaleString('es-ES')
+  );
+
+  initializeLanguage = jasmine.createSpy('initializeLanguage');
+
+  getLocale() { return 'es-ES'; }
+  getLang() { return 'es'; }
+  getCurrencyCode() { return 'EUR'; }
+  formatCurrency(value: any) { return `€${value}`; }
+  formatNumber(value: any) { return value.toLocaleString('es-ES'); }
+  formatDate(value: any) { return new Date(value).toLocaleDateString('es-ES'); }
+}
 
 describe('ProductosFabricanteComponent', () => {
   let component: ProductosFabricanteComponent;
   let fixture: ComponentFixture<ProductosFabricanteComponent>;
 
-  // Mocks básicos
+  // Mocks para los servicios
   const fabricantesServiceMock = {
     obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(of([
-      { id: '1', nombre: 'Producto 1', costoUnidad: 10.5, images: [] },
-      { id: '2', nombre: 'Producto 2', costoUnidad: 20.75, images: [] }
+      { id: '1', nombre: 'Producto 1', codigoProducto: 'abc123', costoUnidad: 10.5, imagenes: ['10.5'] },
+      { id: '2', nombre: 'Producto 2', codigoProducto: 'abc123', costoUnidad: 20.75, imagenes: ['20.75'] }
     ]))
   };
 
   const dinamicSearchServiceMock = {
     dynamicSearch: jasmine.createSpy('dynamicSearch').and.callFake((items, searchTerm) => {
-      return items.filter((item: { nombre: string }) => item.nombre.toLowerCase().includes(searchTerm.toLowerCase()));
+      return items.filter((item: { nombre: string }) => item.nombre.includes(searchTerm as string));
     })
   };
 
@@ -48,7 +85,9 @@ describe('ProductosFabricanteComponent', () => {
       providers: [
         { provide: FabricantesService, useValue: fabricantesServiceMock },
         { provide: DinamicSearchService, useValue: dinamicSearchServiceMock },
-        { provide: MatDialog, useValue: dialogMock }
+        { provide: MatDialog, useValue: dialogMock },
+        { provide: LocalizationService, useClass: MockLocalizationService },
+        TranslateService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -69,6 +108,8 @@ describe('ProductosFabricanteComponent', () => {
       expandido: false
     }
 
+    // Llamar a ngOnInit explícitamente (ya que el ciclo de vida podría no ejecutarse automáticamente en pruebas)
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -76,13 +117,12 @@ describe('ProductosFabricanteComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Nuevas pruebas para cubrir abrirVisorImagenes y el método buscar
-
+  // Prueba para el método buscar que usa el servicio de búsqueda dinámica
   it('debería filtrar productos utilizando el servicio de búsqueda dinámica', () => {
     // Configurar el componente con productos
     component.productos = [
-      { id: '1', nombre: 'Producto 1', codigoProducto: 'abc12', costoUnidad: 10.5, imagenes: ['imagen1.jpg'] },
-      { id: '2', nombre: 'Producto 2', codigoProducto: 'abc12', costoUnidad: 20.75, imagenes: ['imagen2.jpg'] },
+      { id: '1', nombre: 'Producto 1', codigoProducto: 'abc123', costoUnidad: 10.5, imagenes: ['10.5'] },
+      { id: '2', nombre: 'Producto 2', codigoProducto: 'abc123', costoUnidad: 20.75, imagenes: ['20.75'] }
     ];
 
     // Probar el método buscar con un término de búsqueda
@@ -93,14 +133,15 @@ describe('ProductosFabricanteComponent', () => {
     expect(dinamicSearchServiceMock.dynamicSearch).toHaveBeenCalledWith(component.productos, terminoBusqueda);
   });
 
+  // Prueba para el método abrirVisorImagenes
   it('debería abrir el visor de imágenes con el producto seleccionado', () => {
     // Crear un producto de prueba
     const productoSeleccionado = {
       id: '1',
       nombre: 'Producto 1',
+      codigoProducto: 'abc123',
       costoUnidad: 10.5,
-      codigoProducto: 'P001',
-      imagenes: ['imagen1.jpg', 'imagen2.jpg']
+      imagenes: ['10.5']
     };
 
     // Llamar al método abrirVisorImagenes
