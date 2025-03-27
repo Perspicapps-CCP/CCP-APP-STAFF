@@ -74,7 +74,16 @@ export class CrearFabricanteComponent {
   }
 
   crearFabricante() {
-    this.fabricantesService.crearFabricante(this.fabricanteForm.value as Fabricante).subscribe({
+    const valuesForm = this.fabricanteForm.value;
+    const fabricanteCrear: Fabricante = {
+      nombre: valuesForm.manufacturer_name!,
+      identificacion: valuesForm.identification_number!,
+      telefono: valuesForm.contact_phone!,
+      direccion: valuesForm.address!,
+      correo: valuesForm.email!,
+    }
+
+    this.fabricantesService.crearFabricante(fabricanteCrear).subscribe({
       next: (res) => {
         this.fabricanteForm.reset();
         this.translate.get('FABRICANTES.CREAR_FABRICANTE.TOAST.SUCCESS').subscribe((mensaje: string) => {

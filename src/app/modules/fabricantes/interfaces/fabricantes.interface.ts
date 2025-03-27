@@ -5,6 +5,6 @@ export interface Fabricante {
   telefono: string;
   direccion: string;
   correo: string;
-  productos: any[];
+  productos?: any[];
   expandido?: boolean;
 }
