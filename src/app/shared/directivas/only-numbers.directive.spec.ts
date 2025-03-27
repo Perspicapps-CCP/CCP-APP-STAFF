@@ -1,12 +1,13 @@
-
-
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OnlyNumbersDirective } from './only-numbers.directive';
 
+// Componente de prueba con configuración standalone
 @Component({
-  template: '<input type="text" numbersOnly>'
+  template: '<input type="text" numbersOnly>',
+  standalone: true,
+  imports: [OnlyNumbersDirective]  // Importar la directiva
 })
 class TestComponent { }
 
@@ -17,7 +18,7 @@ describe('OnlyNumbersDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, OnlyNumbersDirective]
+      imports: [TestComponent]  // Importar el componente, no declararlo
     });
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
