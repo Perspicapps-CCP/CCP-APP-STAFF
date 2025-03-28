@@ -124,5 +124,26 @@
         "ERROR": "Error creating product"
       }
     }
+  },
+  "BODEGAS":{
+    "SEARCH_PLACEHOLDER": "Filter wharehouses",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "ADDRESS": "Address",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "PHONE": "Phone",
+      "PRODUCTS": "Products"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No warehouses found",
+      "DESCRIPTION": "You can add a new warehouse by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_WAREHOUSE": "Add warehouse",
+      "ADD_PRODUCT": "Add product inventory",
+      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
+      "VIEW_PRODUCTS": "View products"
+    }
   }
 }
