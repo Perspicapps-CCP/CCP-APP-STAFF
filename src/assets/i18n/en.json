@@ -196,5 +196,31 @@
         "ERROR": "Error creating seller"
       }
     }
+  },
+  "PLAN_VENTA": {
+    "SEARCH_PLACEHOLDER": "Filter sales plan",
+    "TABLE_HEADERS": {
+      "COD_PRODUCT": "Product code",
+      "START_DATE": "Start date",
+      "END_DATA": "End date",
+      "META": "Meta",
+      "SELLERS": "Sellers"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No sales plan found",
+      "DESCRIPTION": "You can add a new sales plan by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_PLAN": "Add sales plan",
+      "VIEW_SELLERS": "View sellers"
+    },
+    "VENDEDORES_PLAN": {
+      "SEARCH_PLACEHOLDER": "Filter sellers",
+      "TABLE_HEADERS": {
+        "NAME": "Names",
+        "PHONE": "Phone",
+        "USER": "User"
+      }
+    }
   }
 }

@@ -196,5 +196,31 @@
         "ERROR": "Error al crear el vendedor"
       }
     }
+  },
+  "PLAN_VENTA": {
+    "SEARCH_PLACEHOLDER": "Filtrar plan de ventas",
+    "TABLE_HEADERS": {
+      "COD_PRODUCT": "Código de producto",
+      "START_DATE": "Fecha de inicio",
+      "END_DATA": "Fecha de fin",
+      "META": "Meta",
+      "SELLERS": "Vendedores"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontró ningún plan de ventas",
+      "DESCRIPTION": "Puede añadir un nuevo plan de ventas haciendo clic en el botón de abajo"
+    },
+    "TOOLTIPS": {
+      "ADD_PLAN": "Agregar plan de ventas",
+      "VIEW_SELLERS": "Ver vendedores"
+    },
+    "VENDEDORES_PLAN": {
+      "SEARCH_PLACEHOLDER": "Filtrar vendedores",
+      "TABLE_HEADERS": {
+        "NAME": "Nombres",
+        "PHONE": "Teléfono",
+        "USER": "Usuario"
+      }
+    }
   }
 }

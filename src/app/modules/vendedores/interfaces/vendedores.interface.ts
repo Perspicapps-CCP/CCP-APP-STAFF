@@ -6,4 +6,5 @@ export interface Vendedor {
   identification: string;
   phone: string;
   username: string;
+  role?: string;
 }

@@ -1,0 +1,34 @@
+<div class="contenedor-detalle">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+      </span>
+      <input class="form-control border-l-0!"
+        placeholder="{{'PLAN_VENTA.VENDEDORES_PLAN.SEARCH_PLACEHOLDER' | translate}}"
+        [formControl]="formBusquedaVendedores">
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{'PLAN_VENTA.VENDEDORES_PLAN.TABLE_HEADERS.NAME' | translate}}</th>
+            <th>{{'PLAN_VENTA.VENDEDORES_PLAN.TABLE_HEADERS.PHONE' | translate}}</th>
+            <th>{{'PLAN_VENTA.VENDEDORES_PLAN.TABLE_HEADERS.USER' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (vendedor of filterVendedores$ | async; track vendedor.id; let i = $index) {
+          <tr>
+            <td [innerHTML]="vendedor.full_name | highlightText: formBusquedaVendedores.value ?? ''"></td>
+            <td [innerHTML]="vendedor.phone | highlightText: formBusquedaVendedores.value ?? ''"></td>
+            <td [innerHTML]="vendedor.username | highlightText: formBusquedaVendedores.value ?? ''"></td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
