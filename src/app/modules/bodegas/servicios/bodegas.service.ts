@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Bodega } from '../interfaces/bodega.interface';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map, Observable, switchMap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ProductoBodega, ProductoBodegaInventario } from '../interfaces/producto-bodega';
 import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabricante.interface';
+import { Bodega } from '../interfaces/bodega.interface';
+import { ProductoBodega, ProductoBodegaInventario } from '../interfaces/producto-bodega';
 
 @Injectable({
   providedIn: 'root'
