@@ -155,5 +155,46 @@
         "IMAGES": "Images"
       }
     }
+  },
+  "VENDEDORES": {
+    "SEARCH_PLACEHOLDER": "Filter sellers",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "IDENTIFICATION": "Identification",
+      "PHONE": "Phone",
+      "USER": "User"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No sellers found",
+      "DESCRIPTION": "You can add a new seller by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_SELLER": "Add seller"
+    },
+    "CREAR_VENDEDOR": {
+      "TITLE": "Add seller",
+      "FORM": {
+        "NAME": "First and last names",
+        "EMAIL": "Email",
+        "IDENTIFICATION_TYPE": "Identification type",
+        "IDENTIFICATION": "Identification",
+        "PHONE": "Phone",
+        "USER": "User"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "FIELD_EMAIL": "This field must be a valid email"
+      },
+      "TOAST": {
+        "SUCCESS": "Seller created successfully",
+        "ERROR": "Error creating seller"
+      }
+    }
   }
 }

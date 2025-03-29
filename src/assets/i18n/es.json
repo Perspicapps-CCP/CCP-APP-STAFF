@@ -155,5 +155,46 @@
         "IMAGES": "Imágenes"
       }
     }
+  },
+  "VENDEDORES": {
+    "SEARCH_PLACEHOLDER": "Filtrar vendedores",
+    "TABLE_HEADERS": {
+      "NAME": "Nombre",
+      "EMAIL": "Correo electrónico",
+      "IDENTIFICATION": "Identificación",
+      "PHONE": "Teléfono",
+      "USER": "Usuario"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron vendedores",
+      "DESCRIPTION": "Puede añadir un nuevo vendedor haciendo clic en el botón de abajo"
+    },
+    "TOOLTIPS": {
+      "ADD_SELLER": "Agregar vendedor"
+    },
+    "CREAR_VENDEDOR": {
+      "TITLE": "Agregar vendedor",
+      "FORM": {
+        "NAME": "Nombres y apellidos",
+        "EMAIL": "Correo electrónico",
+        "IDENTIFICATION_TYPE": "Tipo de identificación",
+        "IDENTIFICATION": "Identificación",
+        "PHONE": "Teléfono",
+        "USER": "Usuario"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "FIELD_LENGTH": "Este campo debe tener {min} caracteres de longitud",
+        "FIELD_EMAIL": "Este campo debe ser un correo electrónico válido"
+      },
+      "TOAST": {
+        "SUCCESS": "Vendedor creado exitosamente",
+        "ERROR": "Error al crear el vendedor"
+      }
+    }
   }
 }
