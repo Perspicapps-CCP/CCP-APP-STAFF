@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-agregar-bodega',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './agregar-bodega.component.scss'
 })
 export class AgregarBodegaComponent {
-
+  readonly dialogRef = inject(MatDialogRef<AgregarBodegaComponent>);
 }

@@ -13,7 +13,8 @@
     "DATE_FORMAT": "Fecha",
     "TIME_FORMAT": "Hora",
     "CURRENT_LOCALE": "Localización actual",
-    "CURREN_LANGUAJE": "Idioma actual"
+    "CURREN_LANGUAJE": "Idioma actual",
+    "NOT_IMPLEMENTED_YET": " No implementado aún"
   },
   "MENU": {
     "RUTAS": "Rutas",
@@ -122,6 +123,36 @@
       "TOAST": {
         "SUCCESS": "Producto creado exitosamente",
         "ERROR": "Error al crear el producto"
+      }
+    }
+  },
+  "BODEGAS": {
+    "SEARCH_PLACEHOLDER": "Filtrar bodegas",
+    "TABLE_HEADERS": {
+      "NAME": "Nombre",
+      "ADDRESS": "Dirección",
+      "COUNTRY": "País",
+      "CITY": "Ciudad",
+      "PHONE": "Teléfono",
+      "PRODUCTS": "Productos"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron bodegas",
+      "DESCRIPTION": "Puede añadir una nueva bodega haciendo clic en el botón de abajo"
+    },
+    "TOOLTIPS": {
+      "ADD_WAREHOUSE": "Agregar bodega",
+      "ADD_PRODUCT": "Agregar inventario de producto",
+      "UPLOAD_PRODUCTS_MASSIVE": "Cargar archivo masivo de productos",
+      "VIEW_PRODUCTS": "Ver productos"
+    },
+    "PRODUCTOS_BODEGA": {
+      "SEARCH_PLACEHOLDER": "Filtrar productos",
+      "TABLE_HEADERS": {
+        "NAME": "Nombre",
+        "COD_PRODUCT": "Código producto",
+        "QUANTITY": "Cantidad",
+        "IMAGES": "Imágenes"
       }
     }
   }

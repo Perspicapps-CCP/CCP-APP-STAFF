@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Bodega } from '../../interfaces/bodega.interface';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { map, Observable, startWith } from 'rxjs';
+import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
 import { sharedImports } from '../../../../shared/otros/shared-imports';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
-import { BodegasService } from '../../servicios/bodegas.service';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ProductoBodega } from '../../interfaces/producto-bodega';
-import { map, Observable, startWith } from 'rxjs';
 import { ProductoFabricante } from '../../../fabricantes/interfaces/producto-fabricante.interface';
-import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
+import { Bodega } from '../../interfaces/bodega.interface';
+import { ProductoBodega } from '../../interfaces/producto-bodega';
+import { BodegasService } from '../../servicios/bodegas.service';
 
 @Component({
   selector: 'app-productos-bodega',
@@ -32,6 +33,8 @@ export class ProductosBodegaComponent implements OnInit {
     private bodegasService: BodegasService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -63,6 +66,16 @@ export class ProductosBodegaComponent implements OnInit {
       data: producto,
       width: '39.4375rem',
       height: '24.3125rem',
+    });
+  }
+
+  abrirModalAgregarProductoBodega() {
+    this.translate.get('SETTINGS.NOT_IMPLEMENTED_YET').subscribe((mensaje: string) => {
+      this._snackBar.open(mensaje, '', {
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        duration: 3000
+      });
     });
   }
 }

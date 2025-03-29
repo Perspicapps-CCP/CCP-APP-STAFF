@@ -13,7 +13,8 @@
     "DATE_FORMAT": "Date",
     "TIME_FORMAT": "Time",
     "CURRENT_LOCALE": "Current Locale",
-    "CURREN_LANGUAJE": "Current Language"
+    "CURREN_LANGUAJE": "Current Language",
+    "NOT_IMPLEMENTED_YET": "Not implemented yet"
   },
   "MENU": {
     "RUTAS": "Routes",

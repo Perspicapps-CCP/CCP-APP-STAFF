@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounce, debounceTime, map, Observable, startWith, tap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { map, Observable, startWith } from 'rxjs';
 import { sharedImports } from '../../../../shared/otros/shared-imports';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
-import { Bodega } from '../../interfaces/bodega.interface';
-import { ProductosBodegaComponent } from '../../componentes/productos-bodega/productos-bodega.component';
-import { BodegasService } from '../../servicios/bodegas.service';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
-import { MatDialog } from '@angular/material/dialog';
+import { AgregarBodegaComponent } from '../../componentes/agregar-bodega/agregar-bodega.component';
+import { ProductosBodegaComponent } from '../../componentes/productos-bodega/productos-bodega.component';
+import { Bodega } from '../../interfaces/bodega.interface';
+import { BodegasService } from '../../servicios/bodegas.service';
 
 @Component({
   selector: 'app-bodegas',
@@ -30,7 +31,7 @@ export class BodegasComponent {
   constructor(
     private bodegasService: BodegasService,
     private dinamicSearchService: DinamicSearchService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -58,11 +59,15 @@ export class BodegasComponent {
   }
 
   abrirModalCrearBodega() {
+    const dialogRef = this.dialog.open(AgregarBodegaComponent, {
+      width: '600px',
+    });
 
-  }
-
-  abrirModalAgregarProductoBodega(bodega: Bodega) {
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.obtenerBodegas();
+      }
+    });
   }
 
   toggleExpansion(bodega: Bodega): void {
