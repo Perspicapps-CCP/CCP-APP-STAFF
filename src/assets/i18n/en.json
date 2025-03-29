@@ -62,7 +62,7 @@
       "ADD_PRODUCT": "Add product",
       "VIEW_PRODUCTS": "View products",
       "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
-      "ADD_IMAGES_FILES":"Add images files"
+      "ADD_IMAGES_FILES": "Add images files"
     },
     "PRODUCTOS_FABRICANTE": {
       "SEARCH_PLACEHOLDER": "Filter products",
@@ -125,7 +125,7 @@
       }
     }
   },
-  "BODEGAS":{
+  "BODEGAS": {
     "SEARCH_PLACEHOLDER": "Filter wharehouses",
     "TABLE_HEADERS": {
       "NAME": "Name",
@@ -144,6 +144,15 @@
       "ADD_PRODUCT": "Add product inventory",
       "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
       "VIEW_PRODUCTS": "View products"
+    },
+    "PRODUCTOS_BODEGA": {
+      "SEARCH_PLACEHOLDER": "Filter products",
+      "TABLE_HEADERS": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "QUANTITY": "Quantity",
+        "IMAGES": "Images"
+      }
     }
   }
 }

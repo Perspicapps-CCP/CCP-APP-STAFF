@@ -56,7 +56,7 @@ export class BodegasService {
       if (productoFabricante) {
         productosBodega.push({
           ...productoFabricante,
-          quantity: productoInventario.quantity,
+          quantity: productoInventario.quantity +'',
         });
       }
     });

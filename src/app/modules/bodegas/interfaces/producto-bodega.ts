@@ -8,5 +8,5 @@ export interface ProductoBodegaInventario {
 }
 
 export interface ProductoBodega extends ProductoFabricante {
-  quantity: number;
+  quantity: string;
 }
