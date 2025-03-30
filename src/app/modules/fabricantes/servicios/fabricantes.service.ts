@@ -23,8 +23,8 @@ export class FabricantesService {
     );
   }
 
-  obtenerProductosFabricante(fabricante: Fabricante) {
-    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/manufacturers/products/${fabricante.id}`).pipe(
+  obtenerProductosFabricante(fabricante?: Fabricante) {
+    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/manufacturers/products/${fabricante?.id ?? ''}`).pipe(
       map<any, ProductoFabricante[]>((res: any) => {
         return res.data.productos;
       }),

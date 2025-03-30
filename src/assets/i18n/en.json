@@ -221,6 +221,34 @@
         "PHONE": "Phone",
         "USER": "User"
       }
+    },
+    "CREAR_PLAN": {
+      "TITLE": "Add sales plan",
+      "FORM": {
+        "PRODUCT": "Select product",
+        "GOAL": "Goal",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "SELLERS": "Sellers"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "DATE_PAST": "The date must be in the future",
+        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date"
+      },
+      "TOAST": {
+        "SUCCESS": "Sales plan created successfully",
+        "ERROR": "Error creating sales plan",
+        "ERROR_SELLERS": "You must select at least one seller"
+      },
+      "TABLA_HEADER_SELLERS": {
+        "NAME": "Name Seller"
+      }
     }
   }
 }

@@ -70,7 +70,7 @@ export class PlanesComponent {
 
   abrirModalCrearPlan() {
     this.dialog.open(CrearPlanVentaComponent, {
-      width: '29.125rem',
+      width: '37.0625rem',
     });
   }
 }
