@@ -87,6 +87,9 @@ export class MockTranslateLoader implements TranslateLoader {
 
 // Mock para MatDialog
 class MockMatDialog {
+  // Agregar afterAllClosed como BehaviorSubject
+  afterAllClosed = new BehaviorSubject<any>({});
+
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
@@ -134,6 +137,8 @@ describe('FabricantesComponent', () => {
     spyOn(fabricantesService, 'obtenerFabricantes').and.callThrough();
     spyOn(component, 'filterFabricantes').and.callThrough();
     spyOn(dialog, 'open').and.callThrough();
+    // Espiar el método obtenerFabricantes del componente
+    spyOn(component, 'obtenerFabricantes').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -170,7 +175,7 @@ describe('FabricantesComponent', () => {
       identification_type: "CC",
       identification_number: "4236a0c5-0964-43da-8ec8-003f3eaac1f3",
       address: "215 McKenzie Causeway",
-      contact_phone: "(629) 909-0284",
+      contact_phone: "6299090284",
       email: "Dessie_Bednar@yahoo.com"
     };
     component.toggleExpansion(fabricante);
@@ -187,7 +192,7 @@ describe('FabricantesComponent', () => {
       identification_type: "CE",
       identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
       address: "7631 Lucio Lakes",
-      contact_phone: "289.999.4000",
+      contact_phone: "2899994000",
       email: "Faye20@hotmail.com"
     };
     component.toggleExpansion(fabricante);
@@ -212,7 +217,10 @@ describe('FabricantesComponent', () => {
 
   // Pruebas para los métodos de diálogo
 
-  it('debería abrir el modal de crear fabricante', () => {
+  it('debería abrir el modal de crear fabricante y refrescar fabricantes al cerrar', () => {
+    // Resetear el contador de llamadas a obtenerFabricantes para la prueba
+    (component.obtenerFabricantes as jasmine.Spy).calls.reset();
+
     // Llamar al método
     component.abrirModalCrearFabricante();
 
@@ -220,6 +228,12 @@ describe('FabricantesComponent', () => {
     expect(dialog.open).toHaveBeenCalledWith(CrearFabricanteComponent, {
       width: '29.125rem',
     });
+
+    // Simular que todos los diálogos se han cerrado
+    (dialog as any).afterAllClosed.next({});
+
+    // Verificar que se llamó a obtenerFabricantes después de cerrar el diálogo
+    expect(component.obtenerFabricantes).toHaveBeenCalled();
   });
 
   it('debería abrir el modal para agregar productos a un fabricante', () => {
@@ -230,7 +244,7 @@ describe('FabricantesComponent', () => {
       identification_type: "CE",
       identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
       address: "7631 Lucio Lakes",
-      contact_phone: "289.999.4000",
+      contact_phone: "2899994000",
       email: "Faye20@hotmail.com"
     };
 
