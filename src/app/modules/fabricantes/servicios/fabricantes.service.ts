@@ -16,12 +16,7 @@ export class FabricantesService {
   ) { }
 
   obtenerFabricantes() {
-    return this.http.get<Fabricante[]>(`${this.apiUrl}/suppliers/manufacturers/`)
-    // .pipe(
-    //   // map<any, Fabricante[]>((res: any) => {
-    //   //   return res.data.fabricantes;
-    //   // })
-    // );
+    return this.http.get<Fabricante[]>(`${this.apiUrl}/suppliers/manufacturers/`);
   }
 
   obtenerProductosFabricante(fabricante?: Fabricante) {
@@ -41,11 +36,6 @@ export class FabricantesService {
   }
 
   crearFabricante(fabricante: Fabricante) {
-    return this.http.post<Fabricante>(`${this.apiUrl}/suppliers/manufacturers/`, fabricante)
-    // .pipe(
-    //   map<any, Fabricante>((res: any) => {
-    //     return res.data.fabricante;
-    //   })
-    // );
+    return this.http.post<Fabricante>(`${this.apiUrl}/suppliers/manufacturers/`, fabricante);
   }
 }
