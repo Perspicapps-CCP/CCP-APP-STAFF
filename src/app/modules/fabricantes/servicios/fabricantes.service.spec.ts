@@ -37,14 +37,10 @@ describe('FabricantesService', () => {
 
   it('debería obtener la lista de fabricantes', () => {
     // Mock de la respuesta del servidor
-    const mockResponse = {
-      data: {
-        fabricantes: [
-          { id: '1', manufacturer_name: 'Fabricante 1' },
-          { id: '2', manufacturer_name: 'Fabricante 2' }
-        ]
-      }
-    };
+    const mockResponse = [
+      { id: '1', manufacturer_name: 'Fabricante 1' },
+      { id: '2', manufacturer_name: 'Fabricante 2' }
+    ];
 
     // Llamar al método del servicio
     let resultado: Fabricante[] = [];
@@ -53,7 +49,7 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers`);
+    const req = httpMock.expectOne(`${environment.apiUrlCCP}/suppliers/manufacturers/`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
@@ -77,14 +73,10 @@ describe('FabricantesService', () => {
       expandido: false
     };
     // Mock de la respuesta del servidor
-    const mockResponse = {
-      data: {
-        productos: [
-          { id: '101', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5 ,images: [] },
-          { id: '102', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75 ,images: [] },
-        ]
-      }
-    };
+    const mockResponse = [
+      { id: '101', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: [] },
+      { id: '102', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: [] },
+    ];
 
     // Llamar al método del servicio
     let resultado: ProductoFabricante[] = [];
@@ -93,7 +85,7 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers/products/${fabricante.id}`);
+    const req = httpMock.expectOne(`${environment.apiUrlCCP}/suppliers/manufacturers/products/${fabricante.id}/`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
@@ -120,8 +112,6 @@ describe('FabricantesService', () => {
 
     // Mock de la respuesta del servidor (fabricante creado con ID asignado)
     const mockResponse = {
-      data: {
-        fabricante: {
           manufacturer_name: "Percy Aufderhar",
           identification_type: "CE",
           identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
@@ -129,9 +119,7 @@ describe('FabricantesService', () => {
           contact_phone: "289.999.4000",
           email: "Faye20@hotmail.com",
           id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-        }
-      }
-    };
+        };
 
     // Llamar al método del servicio
     service.crearFabricante(nuevoFabricante).subscribe({
@@ -152,7 +140,7 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrl}/manufacturers`);
+    const req = httpMock.expectOne(`${environment.apiUrlCCP}/suppliers/manufacturers/`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(nuevoFabricante);
     req.flush(mockResponse);

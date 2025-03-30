@@ -9,25 +9,26 @@ import { ProductoFabricante } from '../interfaces/producto-fabricante.interface'
   providedIn: 'root'
 })
 export class FabricantesService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
 
   constructor(
     private http: HttpClient,
   ) { }
 
   obtenerFabricantes() {
-    return this.http.get<Fabricante[]>(`${this.apiUrl}/manufacturers`).pipe(
-      map<any, Fabricante[]>((res: any) => {
-        return res.data.fabricantes;
-      })
-    );
+    return this.http.get<Fabricante[]>(`${this.apiUrl}/suppliers/manufacturers/`)
+    // .pipe(
+    //   // map<any, Fabricante[]>((res: any) => {
+    //   //   return res.data.fabricantes;
+    //   // })
+    // );
   }
 
   obtenerProductosFabricante(fabricante?: Fabricante) {
-    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/manufacturers/products/${fabricante?.id ?? ''}`).pipe(
-      map<any, ProductoFabricante[]>((res: any) => {
-        return res.data.productos;
-      }),
+    return this.http.get<ProductoFabricante[]>(`${this.apiUrl}/suppliers/manufacturers/products/${fabricante?.id ?? ''}/`).pipe(
+      // map<any, ProductoFabricante[]>((res: any) => {
+      //   return res.data.productos;
+      // }),
       map((productos: ProductoFabricante[]) => {
         return productos.map((producto: ProductoFabricante) => {
           return {
@@ -40,10 +41,11 @@ export class FabricantesService {
   }
 
   crearFabricante(fabricante: Fabricante) {
-    return this.http.post<Fabricante>(`${this.apiUrl}/manufacturers`, fabricante).pipe(
-      map<any, Fabricante>((res: any) => {
-        return res.data.fabricante;
-      })
-    );
+    return this.http.post<Fabricante>(`${this.apiUrl}/suppliers/manufacturers/`, fabricante)
+    // .pipe(
+    //   map<any, Fabricante>((res: any) => {
+    //     return res.data.fabricante;
+    //   })
+    // );
   }
 }

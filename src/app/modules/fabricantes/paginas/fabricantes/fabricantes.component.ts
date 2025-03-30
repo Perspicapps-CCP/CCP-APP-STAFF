@@ -74,6 +74,10 @@ export class FabricantesComponent implements OnInit {
     this.dialog.open(CrearFabricanteComponent, {
       width: '29.125rem',
     });
+
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.obtenerFabricantes();
+    });
   }
 
   abrirModalAgregarProductosFabricante(fabricante: Fabricante) {
