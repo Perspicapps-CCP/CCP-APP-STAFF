@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LocalizationService } from '../../servicios/localization.service';
 import { LanguageConfig } from '../../modelos/LanguajeConfig.interface';
 import { Router } from '@angular/router';
+import { LoginService } from '../../../modules/auth/servicios/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -56,7 +57,8 @@ export class MenuComponent {
 
   constructor(
     private localizationService: LocalizationService,
-    private router: Router
+    private router: Router,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
@@ -66,10 +68,11 @@ export class MenuComponent {
   cambiarIdioma(lenguaje: LanguageConfig) {
     if (lenguaje && lenguaje.localeCode) {
       this.localizationService.setLocale(lenguaje.localeCode);
+      // window.location.reload();
     }
   }
 
   cerrarSesion() {
-    this.router.navigate(['/auth/login']);
+    this.loginService.cerrarSesion();
   }
 }

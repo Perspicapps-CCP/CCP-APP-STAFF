@@ -1,0 +1,21 @@
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .image-container {
+    height: 318px;
+    img {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}

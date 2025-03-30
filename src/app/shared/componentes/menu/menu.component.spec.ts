@@ -8,6 +8,9 @@ import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
 import { LanguageConfig } from '../../modelos/LanguajeConfig.interface';
 import { LocalizationService } from '../../servicios/localization.service';
 import { TranslateService, TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { LoginService } from '../../../modules/auth/servicios/login.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 // Mock para LocalizationService
 class MockLocalizationService {
@@ -18,6 +21,13 @@ class MockLocalizationService {
   ];
 
   setLocale(locale: string): void { }
+}
+
+class MockLoginService {
+  cerrarSesion() {
+    // Mock implementation that doesn't rely on 'this' context
+    return;
+  }
 }
 
 // Mock para TranslateService
@@ -104,6 +114,7 @@ describe('MenuComponent', () => {
   let localizationService: LocalizationService;
   let router: Router;
   let activatedRoute: ActivatedRoute;
+  let service: LoginService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -129,7 +140,10 @@ describe('MenuComponent', () => {
               }
             }
           }
-        }
+        },
+        { provide: LoginService, useClass: MockLoginService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ]
     })
       .compileComponents();
@@ -139,6 +153,7 @@ describe('MenuComponent', () => {
     localizationService = TestBed.inject(LocalizationService);
     router = TestBed.inject(Router);
     activatedRoute = TestBed.inject(ActivatedRoute);
+    service = TestBed.inject(LoginService);
     fixture.detectChanges();
   });
 
@@ -159,8 +174,8 @@ describe('MenuComponent', () => {
   });
 
   it('should call cerrarSesion', () => {
-    const spy = spyOn(router, 'navigate');
+    const spy = spyOn(service, 'cerrarSesion').and.callThrough();
     component.cerrarSesion();
-    expect(spy).toHaveBeenCalledWith(['/auth/login']);
+    expect(spy).toHaveBeenCalled();
   });
 });

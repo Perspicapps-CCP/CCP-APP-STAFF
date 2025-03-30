@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
@@ -16,6 +16,8 @@ import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
 import { MAT_CARD_CONFIG } from '@angular/material/card';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MAT_MENU_DEFAULT_OPTIONS } from '@angular/material/menu';
+import { httpHeadersInterceptor } from './shared/interceptores/http-headers.interceptor';
+import { httpSpinnerInterceptor } from './shared/interceptores/http-spinner.interceptor';
 
 // Registrar los locales
 registerLocaleData(localeEsCO);
@@ -31,7 +33,10 @@ export const appConfig: ApplicationConfig = {
     { provide: LOCALE_ID, useValue: 'en-US' }, // Locale por defecto
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(
+      withInterceptorsFromDi(),
+      withInterceptors([httpHeadersInterceptor, httpSpinnerInterceptor])
+    ),
     provideAnimations(),
     provideHttpClient(),
     importProvidersFrom(

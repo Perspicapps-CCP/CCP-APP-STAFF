@@ -1,0 +1,79 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span>{{'VENDEDORES.CREAR_VENDEDOR.TITLE' | translate}}</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+  </div>
+  <div>
+    <form [formGroup]="vendedorForm" (ngSubmit)="crearVendedor()" class="flex flex-col w-full gap-[0.25rem]">
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="nombre-vendedor" name="nombre-vendedor"
+          placeholder="{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.NAME' | translate }}" autocomplete="name"
+          formControlName="full_name" [ngClass]="{'is-invalid':isInvalid('full_name')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('full_name').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="email" name="email"
+          placeholder="{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.EMAIL' | translate }}" autocomplete="email"
+          formControlName="email" [ngClass]="{'is-invalid':isInvalid('email')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('email').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <select class="form-control" id="identification-type" name="identification-type"
+          formControlName="id_type" [ngClass]="{'is-invalid':isInvalid('id_type')}">
+          <option value="" disabled selected>{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.IDENTIFICATION_TYPE' | translate }}
+          </option>
+          <option value="NIT">NIT</option>
+          <option value="CC">CC</option>
+          <option value="CE">CE</option>
+          <option value="TI">TI</option>
+        </select>
+        <div class="invalid-feedback">
+          {{getErrorMessage('id_type').key| translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="identification-number" name="identification-number"
+          placeholder="{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.IDENTIFICATION' | translate }}"
+          formControlName="identification" [ngClass]="{'is-invalid':isInvalid('identification')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('identification').key| translate}}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="phone" name="phone"
+          placeholder="{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.PHONE' | translate }}" autocomplete="phone"
+          formControlName="phone" [ngClass]="{'is-invalid':isInvalid('phone')}" numbersOnly>
+        <div class="invalid-feedback">
+          {{getErrorMessage('phone').key | translate:getErrorMessage('phone').params }}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <input type="text" class="form-control" id="user" name="user"
+          placeholder="{{ 'VENDEDORES.CREAR_VENDEDOR.FORM.USER' | translate }}"
+          formControlName="username" [ngClass]="{'is-invalid':isInvalid('username')}">
+        <div class="invalid-feedback">
+          {{getErrorMessage('username').key | translate}}
+        </div>
+      </div>
+
+      <div class="w-full flex gap-[0.50rem] justify-end">
+        <button type="button" class="btn btn btn-outline-secondary" (click)="dialogRef.close()">
+          {{'VENDEDORES.CREAR_VENDEDOR.BUTTON.CANCEL' | translate}}
+        </button>
+
+        <button type="submit" class="btn btn btn-outline-primary" [disabled]="!vendedorForm.valid">
+          {{'VENDEDORES.CREAR_VENDEDOR.BUTTON.SAVE' | translate}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

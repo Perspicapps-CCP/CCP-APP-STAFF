@@ -167,4 +167,54 @@ describe('LocalDatePipe', () => {
     // El formato debe respetarse independientemente del locale
     expect(result).toBe('2023-01-15');
   });
+
+  // Nuevas pruebas para el formato dateOnly
+
+  it('should format date-only according to es-ES locale', () => {
+    const mockService = localizationService as any;
+    mockService.setLocale('es-ES');
+
+    const testDate = new Date(2023, 0, 15, 14, 30);
+    const result = pipe.transform(testDate, undefined, true);
+
+    // Solo debe mostrar la fecha sin la hora
+    expect(result).toBe('15/01/2023');
+  });
+
+  it('should format date-only according to es-CO locale', () => {
+    const mockService = localizationService as any;
+    mockService.setLocale('es-CO');
+
+    const testDate = new Date(2023, 0, 15, 14, 30);
+    const result = pipe.transform(testDate, undefined, true);
+
+    // Solo debe mostrar la fecha sin la hora
+    expect(result).toBe('15/01/2023');
+  });
+
+  it('should format date-only according to en-US locale', () => {
+    const mockService = localizationService as any;
+    mockService.setLocale('en-US');
+
+    const testDate = new Date(2023, 0, 15, 14, 30);
+    const result = pipe.transform(testDate, undefined, true);
+
+    // Solo debe mostrar la fecha sin la hora para el formato estadounidense
+    expect(result).toContain('1/15/2023');
+    // No debe contener indicación AM/PM
+    expect(result).not.toContain('PM');
+    expect(result).not.toContain('AM');
+  });
+
+  it('should prioritize custom format over dateOnly parameter', () => {
+    const mockService = localizationService as any;
+    mockService.setLocale('es-ES');
+
+    const testDate = new Date(2023, 0, 15, 14, 30);
+    // Si se proporciona un formato personalizado, debe usarse ese formato
+    // independientemente del valor de dateOnly
+    const result = pipe.transform(testDate, 'yyyy/MM/dd', true);
+
+    expect(result).toBe('2023/01/15');
+  });
 });

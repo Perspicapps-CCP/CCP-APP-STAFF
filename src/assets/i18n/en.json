@@ -2,6 +2,9 @@
   "HOME": {
     "TITLE": "Welcome"
   },
+  "VISOR_IMAGES": {
+    "TITLE": "Product"
+  },
   "SETTINGS": {
     "TITLE": "Settings",
     "LANGUAGE": "Language",
@@ -10,9 +13,10 @@
     "DATE_FORMAT": "Date",
     "TIME_FORMAT": "Time",
     "CURRENT_LOCALE": "Current Locale",
-    "CURREN_LANGUAJE": "Current Language"
+    "CURREN_LANGUAJE": "Current Language",
+    "NOT_IMPLEMENTED_YET": "Not implemented yet"
   },
-  "MENU":{
+  "MENU": {
     "RUTAS": "Routes",
     "BODEGAS": "Warehouses",
     "FABRICANTES": "Manufacturers",
@@ -23,5 +27,228 @@
     "LENGUAJE": "Language",
     "SALIR": "Exit",
     "ARIA-ICON": "Menu icon"
+  },
+  "LOGIN": {
+    "IMAGE_ALT": "Company logo login",
+    "TITLE": "Login",
+    "ERROR_MESSAGE": "Error when try to login, please try again",
+    "FORM": {
+      "USERNAME": "User",
+      "PASSWORD": "Password",
+      "BUTTON": "Login"
+    },
+    "FORM_ERRORS": {
+      "FIELD_REQUIRED": "This field is required",
+      "USERNAME_MIN_LENGTH": "User must be at least 3 characters long",
+      "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long"
+    }
+  },
+  "FABRICANTES": {
+    "SEARCH_PLACEHOLDER": "Filter manufacturers",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "IDENTIFICATION": "Identification",
+      "PHONE": "Phone",
+      "ADDRESS": "Address",
+      "EMAIL": "Email",
+      "ACTIONS": "Actions",
+      "PRODUCTS": "Products"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No manufacturers found",
+      "DESCRIPTION": "You can add a new manufacturer by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_MANUFACTURER": "Add manufacturer",
+      "ADD_PRODUCT": "Add product",
+      "VIEW_PRODUCTS": "View products",
+      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
+      "ADD_IMAGES_FILES": "Add images files"
+    },
+    "PRODUCTOS_FABRICANTE": {
+      "SEARCH_PLACEHOLDER": "Filter products",
+      "TABLE_HEADERS": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "PRICE": "Unit cost",
+        "IMAGES": "Images",
+        "ACTIONS": "Actions"
+      },
+      "TOOLTIPS": {
+        "ADD_IMAGES": "Add images"
+      }
+    },
+    "CREAR_FABRICANTE": {
+      "TITLE": "Add manufacturer",
+      "FORM": {
+        "NAME": "Name",
+        "IDENTIFICATION_TYPE": "Identification type",
+        "IDENTIFICATION": "Identification",
+        "PHONE": "Phone",
+        "ADDRESS": "Address",
+        "EMAIL": "Email"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "FIELD_EMAIL": "This field must be a valid email"
+      },
+      "TOAST": {
+        "SUCCESS": "Manufacturer created successfully",
+        "ERROR": "Error creating manufacturer"
+      }
+    },
+    "CREAR_PRODUCTO": {
+      "TITLE": "Add product",
+      "FORM": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "PRICE": "Unit cost",
+        "IMAGES_UPLOAD": "Upload",
+        "NOT_IMAGES": "No images to upload",
+        "IMAGES_CHARGED": "images charged"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long"
+      },
+      "TOAST": {
+        "SUCCESS": "Product created successfully",
+        "ERROR": "Error creating product"
+      }
+    }
+  },
+  "BODEGAS": {
+    "SEARCH_PLACEHOLDER": "Filter wharehouses",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "ADDRESS": "Address",
+      "COUNTRY": "Country",
+      "CITY": "City",
+      "PHONE": "Phone",
+      "PRODUCTS": "Products"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No warehouses found",
+      "DESCRIPTION": "You can add a new warehouse by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_WAREHOUSE": "Add warehouse",
+      "ADD_PRODUCT": "Add product inventory",
+      "UPLOAD_PRODUCTS_MASSIVE": "Upload products massive file",
+      "VIEW_PRODUCTS": "View products"
+    },
+    "PRODUCTOS_BODEGA": {
+      "SEARCH_PLACEHOLDER": "Filter products",
+      "TABLE_HEADERS": {
+        "NAME": "Name",
+        "COD_PRODUCT": "Product code",
+        "QUANTITY": "Quantity",
+        "IMAGES": "Images"
+      }
+    }
+  },
+  "VENDEDORES": {
+    "SEARCH_PLACEHOLDER": "Filter sellers",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "IDENTIFICATION": "Identification",
+      "PHONE": "Phone",
+      "USER": "User"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No sellers found",
+      "DESCRIPTION": "You can add a new seller by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_SELLER": "Add seller"
+    },
+    "CREAR_VENDEDOR": {
+      "TITLE": "Add seller",
+      "FORM": {
+        "NAME": "First and last names",
+        "EMAIL": "Email",
+        "IDENTIFICATION_TYPE": "Identification type",
+        "IDENTIFICATION": "Identification",
+        "PHONE": "Phone",
+        "USER": "User"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "FIELD_EMAIL": "This field must be a valid email"
+      },
+      "TOAST": {
+        "SUCCESS": "Seller created successfully",
+        "ERROR": "Error creating seller"
+      }
+    }
+  },
+  "PLAN_VENTA": {
+    "SEARCH_PLACEHOLDER": "Filter sales plan",
+    "TABLE_HEADERS": {
+      "COD_PRODUCT": "Product code",
+      "START_DATE": "Start date",
+      "END_DATA": "End date",
+      "META": "Meta",
+      "SELLERS": "Sellers"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No sales plan found",
+      "DESCRIPTION": "You can add a new sales plan by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_PLAN": "Add sales plan",
+      "VIEW_SELLERS": "View sellers"
+    },
+    "VENDEDORES_PLAN": {
+      "SEARCH_PLACEHOLDER": "Filter sellers",
+      "TABLE_HEADERS": {
+        "NAME": "Names",
+        "PHONE": "Phone",
+        "USER": "User"
+      }
+    },
+    "CREAR_PLAN": {
+      "TITLE": "Add sales plan",
+      "FORM": {
+        "PRODUCT": "Select product",
+        "GOAL": "Goal",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "SELLERS": "Sellers"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must be {min} characters long",
+        "DATE_PAST": "The date must be in the future",
+        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date"
+      },
+      "TOAST": {
+        "SUCCESS": "Sales plan created successfully",
+        "ERROR": "Error creating sales plan",
+        "ERROR_SELLERS": "You must select at least one seller"
+      },
+      "TABLA_HEADER_SELLERS": {
+        "NAME": "Name Seller"
+      }
+    }
   }
 }

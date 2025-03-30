@@ -39,7 +39,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

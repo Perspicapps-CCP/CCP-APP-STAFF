@@ -10,6 +10,6 @@ export const sharedImports = [
   FormsModule,
   TranslateModule,
   MatIconModule,
-  NgbTooltipModule
+  NgbTooltipModule,
 ];
 

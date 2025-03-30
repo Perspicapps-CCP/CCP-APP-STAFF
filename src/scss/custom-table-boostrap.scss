@@ -1,0 +1,40 @@
+.table-ccp {
+  table {
+    font-size: 12px;
+    margin-bottom: 0px !important;
+    tr {
+      border-top: none;
+    }
+
+    th,
+    td {
+      /* Asegurar que los bordes en las celdas del extremo no interfieran */
+      &:first-child {
+        border-left: none;
+      }
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    /* Quitar bordes superiores de la primera fila */
+    thead tr:first-child th {
+      border-top: none;
+    }
+
+    /* Quitar bordes inferiores de la última fila */
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    th {
+      font-weight: normal;
+    }
+
+    /* Centrar verticalmente el contenido de las celdas */
+    th,
+    td {
+      vertical-align: middle;
+    }
+  }
+}

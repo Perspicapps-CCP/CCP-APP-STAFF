@@ -5,6 +5,9 @@ import { TranslateModule, TranslateLoader, TranslateService, TranslateStore } fr
 import { RouterModule } from '@angular/router';
 import { LocalizationService } from '../../../../shared/servicios/localization.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { LoginService } from '../../../auth/servicios/login.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 // Mock para LocalizationService
 class MockLocalizationService {
@@ -29,6 +32,7 @@ export class MockTranslateLoader implements TranslateLoader {
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
   let fixture: ComponentFixture<LayoutComponent>;
+  let service: LoginService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,7 +46,10 @@ describe('LayoutComponent', () => {
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
         TranslateService,
-        TranslateStore
+        TranslateStore,
+        LoginService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
       // El esquema NO_ERRORS_SCHEMA permite ignorar componentes desconocidos
       schemas: [NO_ERRORS_SCHEMA]
@@ -51,6 +58,7 @@ describe('LayoutComponent', () => {
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;
+    service = TestBed.inject(LoginService);
     fixture.detectChanges();
   });
 

@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="container">
+  <mat-card appearance="outlined" class="p-[2rem]">
+    <img src="assets/logos/logo-ccp-container.svg" alt="{{ 'LOGIN.IMAGE_ALT' | translate }}" class="logo" />
+  </mat-card>
+
+  <mat-card appearance="outlined" class="card-form">
+    <span class="title">{{'LOGIN.TITLE' | translate}}</span>
+    <div class="container-form">
+      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" class="w-full gap-[2rem]">
+        <div class="w-full">
+          <input type="text" class="form-control" id="ususario" placeholder="{{ 'LOGIN.FORM.USERNAME' | translate }}"
+            autocomplete="username" formControlName="username" [ngClass]="{'is-invalid':isInvalid('username')}">
+          <div class="invalid-feedback">
+            {{getErrorMessage('username') | async}}
+          </div>
+        </div>
+        <div class="w-full">
+          <div class="input-group has-validation">
+            <input #passwordInput type="password" class="form-control" id="password"
+              placeholder="{{ 'LOGIN.FORM.PASSWORD' | translate }}" autocomplete="current-password"
+              [ngClass]="{'is-invalid':isInvalid('password')}" formControlName="password">
+            <span class="input-group-text">
+              <i class="bi bi-eye-slash" id="toggleIcon" (click)="togglePasswordVisibility(passwordInput)"
+                [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+            </span>
+            <div class="invalid-feedback">
+              {{getErrorMessage('password') | async}}
+            </div>
+          </div>
+
+        </div>
+        <button class="btn btn-primary w-full button-login" type="submit"
+          [disabled]="loginForm.invalid">{{'LOGIN.FORM.BUTTON'
+          | translate}}</button>
+      </form>
+    </div>
+  </mat-card>
+</div>

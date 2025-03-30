@@ -1,0 +1,50 @@
+<div class="contenedor-detalle">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+      </span>
+      <input class="form-control border-l-0!"
+        placeholder="{{'BODEGAS.PRODUCTOS_BODEGA.SEARCH_PLACEHOLDER' | translate}}"
+        [formControl]="formBusquedaProductos">
+    </div>
+    <div class="flex gap-2">
+      <button type="button" class="btn btn-primary btn-actions-mat-icon"
+        ngbTooltip="{{'BODEGAS.TOOLTIPS.ADD_PRODUCT' | translate}}" (click)="abrirModalAgregarProductoBodega()">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+
+      <button type="button" class="btn btn-primary btn-actions-mat-icon"
+        ngbTooltip="{{'BODEGAS.TOOLTIPS.UPLOAD_PRODUCTS_MASSIVE' | translate}}">
+        <mat-icon>upload</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{'BODEGAS.PRODUCTOS_BODEGA.TABLE_HEADERS.NAME' | translate}}</th>
+            <th>{{'BODEGAS.PRODUCTOS_BODEGA.TABLE_HEADERS.COD_PRODUCT' | translate}}</th>
+            <th>{{'BODEGAS.PRODUCTOS_BODEGA.TABLE_HEADERS.QUANTITY' | translate}}</th>
+            <th>{{'BODEGAS.PRODUCTOS_BODEGA.TABLE_HEADERS.IMAGES' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of filterProductos$ | async; track producto.id; let i = $index) {
+          <tr>
+            <td [innerHTML]="producto.product_code| highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.name| highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td [innerHTML]="producto.quantity | highlightText: formBusquedaProductos.value ?? ''"></td>
+            <td>
+              <a class="link-offset-1" (click)="abrirVisorImagenes(producto); $event.preventDefault()"
+                href="#">{{'BODEGAS.PRODUCTOS_BODEGA.TABLE_HEADERS.IMAGES' | translate}}</a>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

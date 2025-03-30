@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 
 @use "scss/custom-bootstrap";
 
@@ -11,17 +10,21 @@
 
 @use "tailwindcss" as *;
 
+@use "scss/custom-table-boostrap";
+
 html {
-  @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
-    typography: Lato,
-    density: 0,
-  ));
-}/* You can add global styles to this file, and also import other style files */
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette
+      ),
+      typography: Lato,
+      density: 0
+    )
+  );
+} /* You can add global styles to this file, and also import other style files */
 
 .white-dialog-container .mat-mdc-dialog-surface {
   background-color: white !important;
@@ -32,4 +35,61 @@ html {
   .mat-mdc-menu-panel {
     background-color: white !important;
   }
+}
+
+.form-control.is-invalid {
+  background-image: none !important;
+}
+
+.btn-actions-mat-icon {
+  padding: 6px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn-actions {
+  padding: 6px 10px;
+}
+
+.btn-actions-table {
+  padding: 8px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eeeeee;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+  background-color: #eeeeee;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bs-primary);
+  border-radius: 20px;
+}
+
+strong.highlight {
+  background-color: #ffff0092;
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: 12px !important;
 }

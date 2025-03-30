@@ -12,7 +12,7 @@ export class LocalCurrencyPipe implements PipeTransform {
   constructor(private localizationService: LocalizationService) { }
 
   transform(
-    value: number,
+    value: number | string,
     currencyCode?: string,
     display?: 'code' | 'symbol' | 'symbol-narrow' | string | boolean,
     digitsInfo?: string

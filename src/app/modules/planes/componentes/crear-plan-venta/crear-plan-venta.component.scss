@@ -1,0 +1,37 @@
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .table-container {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color);
+  }
+
+  .form-check-input {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .th-checkbox {
+    width: 40px;
+    align-items: center;
+    justify-items: center;
+  }
+
+  .td-checkbox {
+    width: 40px;
+    align-items: center;
+    justify-items: center;
+  }
+}
