@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn } from '@angular/common/http';
 import { httpHeadersInterceptor } from './http-headers.interceptor';
 import { of } from 'rxjs';
+import { UsuarioService } from '../../modules/auth/servicios/usuario.service';
 
 describe('httpHeadersInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) =>
@@ -9,29 +10,23 @@ describe('httpHeadersInterceptor', () => {
 
   let nextHandlerSpy: jasmine.Spy;
   let next: HttpHandlerFn;
-  let localStorageSpy: jasmine.Spy;
-
-  // Crear un mock de localStorage
-  const mockLocalStorage = {
-    getItem: () => 'fake-token'
-  };
+  let usuarioServiceMock: jasmine.SpyObj<UsuarioService>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    // Crear un mock para UsuarioService
+    usuarioServiceMock = jasmine.createSpyObj('UsuarioService', [], {
+      token: 'fake-token'
+    });
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UsuarioService, useValue: usuarioServiceMock }
+      ]
+    });
 
     // Crear espía para el next handler
     nextHandlerSpy = jasmine.createSpy('next').and.returnValue(of({}));
     next = nextHandlerSpy;
-
-    // Espiar localStorage.getItem una sola vez por cada prueba
-    localStorageSpy = spyOn(localStorage, 'getItem').and.callFake((key) => {
-      return mockLocalStorage.getItem();
-    });
-  });
-
-  // Limpiar el espía después de cada prueba
-  afterEach(() => {
-    localStorageSpy.calls.reset();
   });
 
   it('should be created', () => {
@@ -44,9 +39,6 @@ describe('httpHeadersInterceptor', () => {
 
     // Ejecutar el interceptor
     interceptor(request, next);
-
-    // Verificar que localStorage.getItem fue llamado con 'token'
-    expect(localStorage.getItem).toHaveBeenCalledWith('token');
 
     // Verificar que next fue llamado con un request que incluye el header de autorización
     const modifiedRequest = nextHandlerSpy.calls.first().args[0] as HttpRequest<unknown>;
@@ -61,9 +53,6 @@ describe('httpHeadersInterceptor', () => {
     // Ejecutar el interceptor
     interceptor(request, next);
 
-    // Verificar que localStorage.getItem no fue llamado
-    expect(localStorage.getItem).not.toHaveBeenCalled();
-
     // Verificar que next fue llamado con el request original sin modificar
     const passedRequest = nextHandlerSpy.calls.mostRecent().args[0] as HttpRequest<unknown>;
     expect(passedRequest.headers.has('Authorization')).toBeFalse();
@@ -75,9 +64,6 @@ describe('httpHeadersInterceptor', () => {
 
     // Ejecutar el interceptor
     interceptor(request, next);
-
-    // Verificar que localStorage.getItem no fue llamado
-    expect(localStorage.getItem).not.toHaveBeenCalled();
 
     // Verificar que next fue llamado con el request original sin modificar
     const passedRequest = nextHandlerSpy.calls.mostRecent().args[0] as HttpRequest<unknown>;
