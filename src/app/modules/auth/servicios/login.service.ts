@@ -10,7 +10,7 @@ import { UsuarioService } from './usuario.service';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
 
   constructor(
     private http: HttpClient,
@@ -19,10 +19,7 @@ export class LoginService {
   ) { }
 
   iniciarSesion(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/users/login`, { username, password }).pipe(
-      map<any, Login>((res: any) => {
-        return res.data;
-      }),
+    return this.http.post<any>(`${this.apiUrl}/api/v1/users/login`, { username, password }).pipe(
       tap((res) => {
         localStorage.setItem('token', res.access_token);
         localStorage.setItem('usuario', JSON.stringify(res.user));
@@ -36,9 +33,5 @@ export class LoginService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
     this.router.navigate(['/auth/login']);
-  }
-
-  validarSesion(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/auth/me`);
   }
 }

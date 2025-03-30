@@ -238,7 +238,7 @@ describe('PlanesComponent', () => {
 
     // Verificar que se abrió el diálogo con los parámetros correctos
     expect(dialog.open).toHaveBeenCalledWith(CrearPlanVentaComponent, {
-      width: '29.125rem',
+      width: '37.0625rem',
     });
   });
 });

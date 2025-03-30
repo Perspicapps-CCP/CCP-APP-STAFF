@@ -19,7 +19,6 @@ import { FabricantesService } from '../../../fabricantes/servicios/fabricantes.s
     ReactiveFormsModule,
     TranslateModule,
     CommonModule,
-    OnlyNumbersDirective,
     NgbTypeaheadModule
   ],
   templateUrl: './crear-plan-venta.component.html',

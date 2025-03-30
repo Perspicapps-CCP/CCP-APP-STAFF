@@ -69,7 +69,6 @@ describe('LoginService', () => {
   it('should log in user and save data to localStorage', () => {
     const mockUser = { username: 'testuser', password: 'testpassword' };
     const mockResponse = {
-      data: {
         access_token: "e77c0b8a-a7b9-4c31-a524-a7c32e87b248",
         user: {
           id: "253e3e87-1981-4197-a140-eddb470b00af",
@@ -77,19 +76,18 @@ describe('LoginService', () => {
           email: "Nola_Wiza72@gmail.com",
           role: "STAFF"
         }
-      }
     };
 
     spyOn(router, 'navigate');
 
     service.iniciarSesion(mockUser.username, mockUser.password).subscribe(usuario => {
-      expect(usuario).toEqual(mockResponse.data);
-      expect(localStorage.setItem).toHaveBeenCalledWith('token', mockResponse.data.access_token);
-      expect(localStorage.setItem).toHaveBeenCalledWith('usuario', JSON.stringify(mockResponse.data.user));
+      expect(usuario).toEqual(mockResponse);
+      expect(localStorage.setItem).toHaveBeenCalledWith('token', mockResponse.access_token);
+      expect(localStorage.setItem).toHaveBeenCalledWith('usuario', JSON.stringify(mockResponse.user));
       expect(router.navigate).toHaveBeenCalledWith(['/home']);
     });
 
-    const req = httpMock.expectOne(`${environment.apiUrl}/users/login`);
+    const req = httpMock.expectOne(`${environment.apiUrlCCP}/api/v1/users/login`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockUser);
     req.flush(mockResponse);
@@ -103,17 +101,5 @@ describe('LoginService', () => {
     expect(localStorage.removeItem).toHaveBeenCalledWith('token');
     expect(localStorage.removeItem).toHaveBeenCalledWith('usuario');
     expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
-  });
-
-  it('should validate session', () => {
-    const mockResponse = { isValid: true, usuario: { id: 1, nombre: 'Test User' } };
-
-    service.validarSesion().subscribe(response => {
-      expect(response).toEqual(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/auth/me`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
   });
 });
