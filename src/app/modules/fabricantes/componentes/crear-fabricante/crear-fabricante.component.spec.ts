@@ -2,7 +2,12 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateService,
+  TranslateLoader,
+  TranslateFakeLoader,
+} from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { FabricantesService } from '../../servicios/fabricantes.service';
 import { CrearFabricanteComponent } from './crear-fabricante.component';
@@ -19,15 +24,15 @@ describe('CrearFabricanteComponent', () => {
 
   // Crear mocks para los servicios
   const fabricantesServiceMock = {
-    crearFabricante: jasmine.createSpy('crearFabricante').and.returnValue(of({}))
+    crearFabricante: jasmine.createSpy('crearFabricante').and.returnValue(of({})),
   };
 
   const matDialogRefMock = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
 
   const snackBarMock = {
-    open: jasmine.createSpy('open')
+    open: jasmine.createSpy('open'),
   };
 
   const translateServiceMock = {
@@ -37,7 +42,7 @@ describe('CrearFabricanteComponent', () => {
     onTranslationChange: of({}),
     onDefaultLangChange: of({}),
     getBrowserLang: () => 'es',
-    currentLang: 'es'
+    currentLang: 'es',
   };
 
   beforeEach(async () => {
@@ -46,7 +51,7 @@ describe('CrearFabricanteComponent', () => {
         CrearFabricanteComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -54,10 +59,9 @@ describe('CrearFabricanteComponent', () => {
         { provide: FabricantesService, useValue: fabricantesServiceMock },
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MatSnackBar, useValue: snackBarMock },
-        { provide: TranslateService, useValue: translateServiceMock }
-      ]
-    })
-      .compileComponents();
+        { provide: TranslateService, useValue: translateServiceMock },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CrearFabricanteComponent);
     component = fixture.componentInstance;
@@ -109,7 +113,7 @@ describe('CrearFabricanteComponent', () => {
       identification_number: '123456789',
       address: 'Calle Test 123',
       contact_phone: '1234567890',
-      email: 'test@empresa.com'
+      email: 'test@empresa.com',
     });
 
     // Verificar que el formulario es válido con todos los campos completados
@@ -195,7 +199,7 @@ describe('CrearFabricanteComponent', () => {
       identification_number: '123456789',
       address: 'Calle Test 123',
       contact_phone: '1234567890',
-      email: 'test@empresa.com'
+      email: 'test@empresa.com',
     };
 
     // Establecer valores en el formulario
@@ -224,11 +228,13 @@ describe('CrearFabricanteComponent', () => {
       identification_number: '123456789',
       address: 'Calle Test 123',
       contact_phone: '1234567890',
-      email: 'test@empresa.com'
+      email: 'test@empresa.com',
     };
 
     // Configurar el mock para que devuelva un error
-    fabricantesServiceMock.crearFabricante.and.returnValue(throwError(() => new Error('Error al crear fabricante')));
+    fabricantesServiceMock.crearFabricante.and.returnValue(
+      throwError(() => new Error('Error al crear fabricante')),
+    );
 
     // Establecer valores en el formulario
     component.fabricanteForm.setValue(mockFabricante);

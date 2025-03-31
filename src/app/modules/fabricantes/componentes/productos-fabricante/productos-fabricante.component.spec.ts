@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { TranslateModule, TranslateLoader, TranslateFakeLoader, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateFakeLoader,
+  TranslateService,
+} from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { LOCALE_ID, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -25,9 +30,15 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 describe('ProductosFabricanteComponent', () => {
@@ -36,20 +47,30 @@ describe('ProductosFabricanteComponent', () => {
 
   // Mocks para los servicios
   const fabricantesServiceMock = {
-    obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(of<ProductoFabricante[]>([
-      { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
-      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] }
-    ]))
+    obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(
+      of<ProductoFabricante[]>([
+        { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
+        {
+          id: '2',
+          name: 'Producto 2',
+          product_code: 'abc123',
+          unit_cost: 20.75,
+          images: ['20.75'],
+        },
+      ]),
+    ),
   };
 
   const dinamicSearchServiceMock = {
-    dynamicSearch: jasmine.createSpy('dynamicSearch').and.callFake((items: ProductoFabricante[], searchTerm) => {
-      return items.filter((item: { name: string }) => item.name.includes(searchTerm as string));
-    })
+    dynamicSearch: jasmine
+      .createSpy('dynamicSearch')
+      .and.callFake((items: ProductoFabricante[], searchTerm) => {
+        return items.filter((item: { name: string }) => item.name.includes(searchTerm as string));
+      }),
   };
 
   const dialogMock = {
-    open: jasmine.createSpy('open')
+    open: jasmine.createSpy('open'),
   };
 
   registerLocaleData(localeEs);
@@ -60,10 +81,10 @@ describe('ProductosFabricanteComponent', () => {
         ProductosFabricanteComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
         HighlightTextPipe,
-        LocalCurrencyPipe
+        LocalCurrencyPipe,
       ],
       providers: [
         { provide: FabricantesService, useValue: fabricantesServiceMock },
@@ -71,26 +92,25 @@ describe('ProductosFabricanteComponent', () => {
         { provide: MatDialog, useValue: dialogMock },
         { provide: LocalizationService, useClass: MockLocalizationService },
         { provide: LOCALE_ID, useValue: 'es-ES' },
-        TranslateService
+        TranslateService,
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProductosFabricanteComponent);
     component = fixture.componentInstance;
 
     // Establecer el Input requerido
     component.fabricante = {
-      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-      manufacturer_name: "Percy Aufderhar",
-      identification_type: "CE",
-      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-      address: "7631 Lucio Lakes",
-      contact_phone: "289.999.4000",
-      email: "Faye20@hotmail.com",
-      expandido: false
-    }
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '289.999.4000',
+      email: 'Faye20@hotmail.com',
+      expandido: false,
+    };
 
     // Llamar a ngOnInit explícitamente (ya que el ciclo de vida podría no ejecutarse automáticamente en pruebas)
     component.ngOnInit();
@@ -106,7 +126,7 @@ describe('ProductosFabricanteComponent', () => {
     // Configurar el componente con productos
     component.productos = [
       { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
-      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] }
+      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] },
     ];
 
     // Probar el método buscar con un término de búsqueda
@@ -114,18 +134,21 @@ describe('ProductosFabricanteComponent', () => {
     const resultado = component.buscar(terminoBusqueda);
 
     // Verificar que se llamó al servicio de búsqueda dinámica
-    expect(dinamicSearchServiceMock.dynamicSearch).toHaveBeenCalledWith(component.productos, terminoBusqueda);
+    expect(dinamicSearchServiceMock.dynamicSearch).toHaveBeenCalledWith(
+      component.productos,
+      terminoBusqueda,
+    );
   });
 
   // Prueba para el método abrirVisorImagenes
   it('debería abrir el visor de imágenes con el producto seleccionado', () => {
     // Crear un producto de prueba
     const productoSeleccionado = {
-      id: "b9830b3f-e507-44e3-bec0-8416c68c2047",
-      name: "Shirt",
-      product_code: "978-1-0365-2066-3",
+      id: 'b9830b3f-e507-44e3-bec0-8416c68c2047',
+      name: 'Shirt',
+      product_code: '978-1-0365-2066-3',
       unit_cost: 3360.1,
-      images: ['original_image.jpg', 'thumbnail_image.jpg']
+      images: ['original_image.jpg', 'thumbnail_image.jpg'],
     };
 
     // Llamar al método abrirVisorImagenes

@@ -8,9 +8,9 @@ import { LocalizationService } from './shared/servicios/localization.service';
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, NgxSpinnerModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  constructor(private localizationService: LocalizationService) { }
+  constructor(private localizationService: LocalizationService) {}
   title = 'ccp-project';
 }

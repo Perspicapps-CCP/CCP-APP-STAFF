@@ -8,30 +8,35 @@ import { VendedoresService } from '../../servicios/vendedores.service';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { CrearVendedorComponent } from '../../componentes/crear-vendedor/crear-vendedor.component';
 import { Vendedor } from '../../interfaces/vendedores.interface';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 
 // Mock del servicio de vendedores
 class MockVendedoresService {
   obtenerVendedores() {
     return of<Vendedor[]>([
       {
-        id: "1",
-        full_name: "Juan Pérez",
-        email: "juan@example.com",
-        id_type: "CC",
-        identification: "12345678",
-        phone: "3001234567",
-        username: "juanperez"
+        id: '1',
+        full_name: 'Juan Pérez',
+        email: 'juan@example.com',
+        id_type: 'CC',
+        identification: '12345678',
+        phone: '3001234567',
+        username: 'juanperez',
       },
       {
-        id: "2",
-        full_name: "María Gómez",
-        email: "maria@example.com",
-        id_type: "CE",
-        identification: "87654321",
-        phone: "3109876543",
-        username: "mariagomez"
-      }
+        id: '2',
+        full_name: 'María Gómez',
+        email: 'maria@example.com',
+        id_type: 'CE',
+        identification: '87654321',
+        phone: '3109876543',
+        username: 'mariagomez',
+      },
     ]);
   }
 }
@@ -39,9 +44,7 @@ class MockVendedoresService {
 // Mock del servicio de búsqueda dinámica
 class MockDinamicSearchService {
   dynamicSearch(items: Vendedor[], searchTerm: string) {
-    return items.filter(item =>
-      item.full_name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return items.filter(item => item.full_name.toLowerCase().includes(searchTerm.toLowerCase()));
   }
 }
 
@@ -50,24 +53,30 @@ class MockMatDialog {
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
-      close: (result?: any) => { }
+      close: (result?: any) => {
+        console.log('Dialog closed with result:', result);
+      },
     } as MatDialogRef<any>;
   }
 }
 
 // Mock del servicio de traducción
 class MockTranslateService {
-  get(key: string | Array<string>) {
+  get(key: string | string[]) {
     return of(key);
   }
-  instant(key: string | Array<string>) {
+  instant(key: string | string[]) {
     return key;
   }
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) { }
-  use(lang: string) { return of({}); }
+  setDefaultLang(lang: string) {
+    console.log(`Default language set to: ${lang}`);
+  }
+  use(lang: string) {
+    return of({});
+  }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
   onDefaultLangChange = new BehaviorSubject({});
@@ -93,20 +102,19 @@ describe('VendedoresComponent', () => {
         VendedoresComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: VendedoresService, useClass: MockVendedoresService },
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialog, useClass: MockMatDialog },
-        TranslateStore
+        TranslateStore,
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VendedoresComponent);
     component = fixture.componentInstance;

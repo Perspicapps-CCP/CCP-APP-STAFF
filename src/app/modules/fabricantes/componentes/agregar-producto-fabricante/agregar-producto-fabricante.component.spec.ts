@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TranslateModule, TranslateService, TranslateLoader, TranslateFakeLoader } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateService,
+  TranslateLoader,
+  TranslateFakeLoader,
+} from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { AgregarProductoFabricanteComponent } from './agregar-producto-fabricante.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -15,7 +20,7 @@ describe('AgregarProductoFabricanteComponent', () => {
 
   // Mock para el MatDialogRef
   const matDialogRefMock = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
 
   // Mock para los datos del diálogo (MAT_DIALOG_DATA)
@@ -25,7 +30,7 @@ describe('AgregarProductoFabricanteComponent', () => {
     contact_phone: '+57 3001234567',
     address: 'Calle 123 #45-67, Bogotá',
     email: 'contacto@fabricantetest.com',
-    id: '1'
+    id: '1',
   };
 
   // Mock para el TranslateService
@@ -36,7 +41,7 @@ describe('AgregarProductoFabricanteComponent', () => {
     onTranslationChange: of({}),
     onDefaultLangChange: of({}),
     getBrowserLang: () => 'es',
-    currentLang: 'es'
+    currentLang: 'es',
   };
 
   beforeEach(async () => {
@@ -45,17 +50,16 @@ describe('AgregarProductoFabricanteComponent', () => {
         AgregarProductoFabricanteComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MAT_DIALOG_DATA, useValue: dialogDataMock },
-        { provide: TranslateService, useValue: translateServiceMock }
+        { provide: TranslateService, useValue: translateServiceMock },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AgregarProductoFabricanteComponent);
     component = fixture.componentInstance;
@@ -104,7 +108,7 @@ describe('AgregarProductoFabricanteComponent', () => {
       item: (index: number) => mockFile,
       [Symbol.iterator]: function* () {
         yield mockFile;
-      }
+      },
     } as unknown as FileList;
 
     // Completar el formulario con datos válidos
@@ -113,7 +117,7 @@ describe('AgregarProductoFabricanteComponent', () => {
       product_code: 'PROD001',
       unit_cost: '100',
       images: mockFileList,
-      images_text: '1 archivo cargado'
+      images_text: '1 archivo cargado',
     });
 
     // Verificar que el formulario es válido con todos los campos completados
@@ -139,8 +143,8 @@ describe('AgregarProductoFabricanteComponent', () => {
     control?.setErrors({
       minlength: {
         requiredLength: 5,
-        actualLength: 3
-      }
+        actualLength: 3,
+      },
     });
     control?.markAsTouched();
 
@@ -160,8 +164,8 @@ describe('AgregarProductoFabricanteComponent', () => {
     control?.setErrors({
       maxlength: {
         requiredLength: 10,
-        actualLength: 15
-      }
+        actualLength: 15,
+      },
     });
     control?.markAsTouched();
 
@@ -181,7 +185,6 @@ describe('AgregarProductoFabricanteComponent', () => {
     const errorMessage = component.getErrorMessage('manufacturer_name');
     expect(errorMessage.key).toBe('');
   });
-
 
   // Prueba para el método isInvalid
   it('should return true for invalid and touched fields', () => {
@@ -205,7 +208,7 @@ describe('AgregarProductoFabricanteComponent', () => {
       product_code: 'PROD001',
       unit_cost: '100',
       images: null,
-      images_text: ''
+      images_text: '',
     };
 
     // Establecer valores en el formulario
@@ -228,13 +231,13 @@ describe('AgregarProductoFabricanteComponent', () => {
       item: (index: number) => mockFile,
       [Symbol.iterator]: function* () {
         yield mockFile;
-      }
+      },
     } as unknown as FileList;
 
     const mockEvent = {
       target: {
-        files: mockFileList
-      }
+        files: mockFileList,
+      },
     };
 
     // Configurar el spy del translateService
@@ -245,7 +248,9 @@ describe('AgregarProductoFabricanteComponent', () => {
     tick();
 
     // Verificar que se llama al servicio de traducción
-    expect(translateService.get).toHaveBeenCalledWith('FABRICANTES.CREAR_PRODUCTO.FORM.IMAGES_CHARGED');
+    expect(translateService.get).toHaveBeenCalledWith(
+      'FABRICANTES.CREAR_PRODUCTO.FORM.IMAGES_CHARGED',
+    );
 
     // Verificar que se actualizan los valores del formulario
     expect(component.productoForm.get('images')?.value).toBe(mockFileList);
@@ -258,9 +263,9 @@ describe('AgregarProductoFabricanteComponent', () => {
     const mockEvent = {
       target: {
         files: {
-          length: 0
-        }
-      }
+          length: 0,
+        },
+      },
     };
 
     // Llamar al método

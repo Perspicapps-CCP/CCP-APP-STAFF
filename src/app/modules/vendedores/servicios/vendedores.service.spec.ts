@@ -13,11 +13,7 @@ describe('VendedoresService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        VendedoresService,
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      providers: [VendedoresService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(VendedoresService);
@@ -44,7 +40,7 @@ describe('VendedoresService', () => {
           id_type: 'DNI',
           identification: '12345678',
           phone: '123456789',
-          username: 'juanperez'
+          username: 'juanperez',
         },
         {
           id: '2',
@@ -53,14 +49,14 @@ describe('VendedoresService', () => {
           id_type: 'DNI',
           identification: '87654321',
           phone: '987654321',
-          username: 'marialopez'
-        }
+          username: 'marialopez',
+        },
       ];
 
       const mockResponse = {
         data: {
-          vendedores: mockVendedores
-        }
+          vendedores: mockVendedores,
+        },
       };
 
       // Hacemos la llamada al método
@@ -85,7 +81,7 @@ describe('VendedoresService', () => {
         next: () => fail('Se esperaba un error pero se recibió una respuesta exitosa'),
         error: error => {
           errorResponse = error;
-        }
+        },
       });
 
       // Simulamos un error HTTP
@@ -93,11 +89,11 @@ describe('VendedoresService', () => {
       const mockError = new ProgressEvent('error', {
         lengthComputable: false,
         loaded: 0,
-        total: 0
+        total: 0,
       });
       req.error(mockError, {
         status: 500,
-        statusText: 'Error al cargar vendedores'
+        statusText: 'Error al cargar vendedores',
       });
 
       // Verificamos que el error se haya capturado
@@ -114,18 +110,18 @@ describe('VendedoresService', () => {
         id_type: 'DNI',
         identification: '11223344',
         phone: '555666777',
-        username: 'carlosgomez'
+        username: 'carlosgomez',
       };
 
       const vendedorCreado: Vendedor = {
         ...nuevoVendedor,
-        id: '3'
+        id: '3',
       };
 
       const mockResponse = {
         data: {
-          vendedor: vendedorCreado
-        }
+          vendedor: vendedorCreado,
+        },
       };
 
       // Hacemos la llamada al método
@@ -152,7 +148,7 @@ describe('VendedoresService', () => {
         id_type: 'DNI',
         identification: '11223344',
         phone: '555666777',
-        username: 'carlosgomez'
+        username: 'carlosgomez',
       };
 
       // Hacemos la llamada al método
@@ -161,7 +157,7 @@ describe('VendedoresService', () => {
         next: () => fail('Se esperaba un error pero se recibió una respuesta exitosa'),
         error: error => {
           errorResponse = error;
-        }
+        },
       });
 
       // Simulamos un error HTTP
@@ -170,11 +166,11 @@ describe('VendedoresService', () => {
       const mockError = new ProgressEvent('error', {
         lengthComputable: false,
         loaded: 0,
-        total: 0
+        total: 0,
       });
       req.error(mockError, {
         status: 500,
-        statusText: 'Error al crear vendedor'
+        statusText: 'Error al crear vendedor',
       });
 
       // Verificamos que el error se haya capturado

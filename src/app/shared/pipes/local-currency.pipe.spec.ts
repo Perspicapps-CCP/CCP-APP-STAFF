@@ -1,7 +1,12 @@
 import { LocalCurrencyPipe } from './local-currency.pipe';
 import { LocalizationService } from '../servicios/localization.service';
 import { TestBed } from '@angular/core/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEsCO from '@angular/common/locales/es-CO';
@@ -20,8 +25,6 @@ class MockLocalizationService {
   // Agrega cualquier otro método que utilice tu servicio real
 }
 
-
-
 describe('LocalCurrencyPipe', () => {
   let pipe: LocalCurrencyPipe;
   let localizationService: LocalizationService;
@@ -36,15 +39,15 @@ describe('LocalCurrencyPipe', () => {
       imports: [
         // Importamos TranslateModule con configuración para pruebas
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+        }),
       ],
       providers: [
         // Usamos nuestro mock en lugar del servicio real
         { provide: LocalizationService, useClass: MockLocalizationService },
         { provide: LOCALE_ID, useValue: 'es-ES' },
-        TranslateStore // Añadimos explícitamente el TranslateStore
-      ]
+        TranslateStore, // Añadimos explícitamente el TranslateStore
+      ],
     });
 
     // Obtenemos las instancias de los servicios

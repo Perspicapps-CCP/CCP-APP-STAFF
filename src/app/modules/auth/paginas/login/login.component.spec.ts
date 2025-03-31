@@ -5,23 +5,34 @@ import { LoginService } from '../../servicios/login.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { LocalizationService } from '../../../../shared/servicios/localization.service';
 
 class MockLocalizationService {
-  currentLocalizationSubject = new BehaviorSubject<any>({});
+  currentLocalizationSubject = new BehaviorSubject<unknown>({});
   currentLocalization$ = this.currentLocalizationSubject.asObservable();
   currentLang$ = new BehaviorSubject<string>('es').asObservable();
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 export class MockTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string): Observable<any> {
+  getTranslation(): Observable<Record<string, string>> {
     return of({});
   }
 }
@@ -33,23 +44,25 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     loginServiceMock = jasmine.createSpyObj('LoginService', ['iniciarSesion']);
-    loginServiceMock.iniciarSesion.and.returnValue(of({
-      "access_token": "e77c0b8a-a7b9-4c31-a524-a7c32e87b248",
-      "user": {
-        "id": "253e3e87-1981-4197-a140-eddb470b00af",
-        "username": "Esteban.Bins",
-        "email": "Nola_Wiza72@gmail.com",
-        "role": "STAFF"
-      }
-    }));
+    loginServiceMock.iniciarSesion.and.returnValue(
+      of({
+        access_token: 'e77c0b8a-a7b9-4c31-a524-a7c32e87b248',
+        user: {
+          id: '253e3e87-1981-4197-a140-eddb470b00af',
+          username: 'Esteban.Bins',
+          email: 'Nola_Wiza72@gmail.com',
+          role: 'STAFF',
+        },
+      }),
+    );
 
     await TestBed.configureTestingModule({
       imports: [
         LoginComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         provideHttpClient(),
@@ -57,7 +70,7 @@ describe('LoginComponent', () => {
         { provide: LocalizationService, useClass: MockLocalizationService },
         TranslateService,
         TranslateStore,
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
@@ -81,13 +94,17 @@ describe('LoginComponent', () => {
     const snackBarSpy = spyOn(component['_snackBar'], 'open');
 
     // Hacer que el servicio de login retorne un error
-    loginServiceMock.iniciarSesion.and.returnValue(new Observable(observer => {
-      observer.error('Error al iniciar sesión');
-    }));
+    loginServiceMock.iniciarSesion.and.returnValue(
+      new Observable(observer => {
+        observer.error('Error al iniciar sesión');
+      }),
+    );
 
     // Configurar el translate service para retornar un mensaje cuando se solicite 'LOGIN.ERROR_MESSAGE'
     const translateService = TestBed.inject(TranslateService);
-    spyOn(translateService, 'get').withArgs('LOGIN.ERROR_MESSAGE').and.returnValue(of('Error al iniciar sesión'));
+    spyOn(translateService, 'get')
+      .withArgs('LOGIN.ERROR_MESSAGE')
+      .and.returnValue(of('Error al iniciar sesión'));
 
     // Rellenar el formulario con datos válidos
     component.loginForm.controls['username'].setValue('usuario');

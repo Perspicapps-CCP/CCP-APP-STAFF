@@ -1,26 +1,46 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MenuComponent } from './menu.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { sharedImports } from '../../otros/shared-imports';
-import { Router, RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
-import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
-import { LanguageConfig } from '../../modelos/LanguajeConfig.interface';
-import { LocalizationService } from '../../servicios/localization.service';
-import { TranslateService, TranslateModule, TranslatePipe } from '@ngx-translate/core';
-import { LoginService } from '../../../modules/auth/servicios/login.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LoginService } from '../../../modules/auth/servicios/login.service';
+import { LanguageConfig } from '../../modelos/LanguajeConfig.interface';
+import { sharedImports } from '../../otros/shared-imports';
+import { LocalizationService } from '../../servicios/localization.service';
+import { MenuComponent } from './menu.component';
 
 // Mock para LocalizationService
 class MockLocalizationService {
   availableLanguages: LanguageConfig[] = [
-    { langCode: 'es', localeCode: 'es-CO', name: 'Español (CO)', currencyCode: 'COP', region: 'Colombia' },
-    { langCode: 'es', localeCode: 'es-ES', name: 'Español (ES)', currencyCode: 'EUR', region: 'España' },
-    { langCode: 'en', localeCode: 'en-US', name: 'English (US)', currencyCode: 'USD', region: 'United States' }
+    {
+      langCode: 'es',
+      localeCode: 'es-CO',
+      name: 'Español (CO)',
+      currencyCode: 'COP',
+      region: 'Colombia',
+    },
+    {
+      langCode: 'es',
+      localeCode: 'es-ES',
+      name: 'Español (ES)',
+      currencyCode: 'EUR',
+      region: 'España',
+    },
+    {
+      langCode: 'en',
+      localeCode: 'en-US',
+      name: 'English (US)',
+      currencyCode: 'USD',
+      region: 'United States',
+    },
   ];
 
-  setLocale(locale: string): void { }
+  setLocale(): void {
+    // Mock implementation that doesn't rely on 'this' context
+  }
 }
 
 class MockLoginService {
@@ -32,44 +52,58 @@ class MockLoginService {
 
 // Mock para TranslateService
 class MockTranslateService {
-  get(key: string | Array<string>): any {
+  get(key: string | string[]): any {
     // Devuelve un observable
     return {
       subscribe: (callback: any) => {
         if (typeof key === 'string') {
           callback(key);
         } else {
-          const result: { [key: string]: string } = {};
-          key.forEach(k => result[k] = k);
+          const result: Record<string, string> = {};
+          key.forEach(k => (result[k] = k));
           callback(result);
         }
         return {
-          unsubscribe: () => { }
+          unsubscribe: () => {
+            // Mock implementation that doesn't rely on 'this
+          },
         };
-      }
+      },
     };
   }
 
-  instant(key: string | Array<string>, interpolateParams?: Object): string | any {
+  instant(key: string | string[], interpolateParams?: object): string | any {
     if (typeof key === 'string') {
       return key;
     }
-    const result: { [key: string]: string } = {};
-    key.forEach(k => result[k] = k);
+    const result: Record<string, string> = {};
+    key.forEach(k => (result[k] = k));
     return result;
   }
 
   // Añadimos otros métodos que podrían ser necesarios
   onLangChange = {
-    subscribe: () => ({ unsubscribe: () => { } })
+    subscribe: () => ({
+      unsubscribe: () => {
+        // Mock implementation that doesn't rely on 'this' context
+      },
+    }),
   };
 
   onTranslationChange = {
-    subscribe: () => ({ unsubscribe: () => { } })
+    subscribe: () => ({
+      unsubscribe: () => {
+        // Mock implementation that doesn't rely on 'this' context
+      },
+    }),
   };
 
   onDefaultLangChange = {
-    subscribe: () => ({ unsubscribe: () => { } })
+    subscribe: () => ({
+      unsubscribe: () => {
+        // Mock implementation that doesn't rely on 'this' context
+      },
+    }),
   };
 
   // Idioma actual
@@ -81,8 +115,12 @@ class MockTranslateService {
     return {
       subscribe: (callback: any) => {
         callback(lang);
-        return { unsubscribe: () => { } };
-      }
+        return {
+          unsubscribe: () => {
+            // Mock implementation that doesn't rely on 'this' context
+          },
+        };
+      },
     };
   }
 }
@@ -90,7 +128,7 @@ class MockTranslateService {
 // Pipe Mock para translate (ahora como standalone)
 @Pipe({
   name: 'translate',
-  standalone: true
+  standalone: true,
 })
 class MockTranslatePipe implements PipeTransform {
   transform(value: string): string {
@@ -100,8 +138,8 @@ class MockTranslatePipe implements PipeTransform {
 
 // Directiva Mock para ngbTooltip (ahora como standalone)
 @Directive({
-  selector: '[ngbTooltip]',
-  standalone: true
+  selector: '[appNgbTooltip]',
+  standalone: true,
 })
 class MockTooltipDirective {
   @Input() ngbTooltip?: string;
@@ -126,7 +164,7 @@ describe('MenuComponent', () => {
         MenuComponent,
         // Importar los mocks en lugar de declararlos
         MockTranslatePipe,
-        MockTooltipDirective
+        MockTooltipDirective,
       ],
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
@@ -136,17 +174,16 @@ describe('MenuComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: () => null
-              }
-            }
-          }
+                get: () => null,
+              },
+            },
+          },
         },
         { provide: LoginService, useClass: MockLoginService },
         provideHttpClient(),
         provideHttpClientTesting(),
-      ]
-    })
-      .compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
@@ -166,10 +203,15 @@ describe('MenuComponent', () => {
   });
 
   it('should change language', () => {
-    const spy = spyOn(localizationService
-      , 'setLocale')
+    const spy = spyOn(localizationService, 'setLocale');
 
-    component.cambiarIdioma({ langCode: 'es', localeCode: 'es-CO', name: 'Español (CO)', currencyCode: 'COP', region: 'Colombia' });
+    component.cambiarIdioma({
+      langCode: 'es',
+      localeCode: 'es-CO',
+      name: 'Español (CO)',
+      currencyCode: 'COP',
+      region: 'Colombia',
+    });
     expect(spy).toHaveBeenCalledWith('es-CO');
   });
 

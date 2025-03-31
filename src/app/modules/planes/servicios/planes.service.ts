@@ -7,7 +7,7 @@ import { LocalDatePipe } from '../../../shared/pipes/local-date.pipe';
 import { LocalizationService } from '../../../shared/servicios/localization.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlanesService {
   private apiUrl = environment.apiUrl;
@@ -15,7 +15,7 @@ export class PlanesService {
 
   constructor(
     private http: HttpClient,
-    private localizationService: LocalizationService
+    private localizationService: LocalizationService,
   ) {
     this.localDatePipe = new LocalDatePipe(this.localizationService);
   }
@@ -26,13 +26,13 @@ export class PlanesService {
         res.data.planes.forEach((plan: any) => {
           plan.start_date = this.localDatePipe.transform(plan.start_date, undefined, true);
           plan.end_date = this.localDatePipe.transform(plan.end_date, undefined, true);
-          plan.goal= plan.goal + '';
+          plan.goal = plan.goal + '';
         });
         return res;
       }),
       map<any, PlanVenta[]>((res: any) => {
         return res.data.planes;
-      })
+      }),
     );
   }
 }

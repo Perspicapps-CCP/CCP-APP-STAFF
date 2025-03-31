@@ -11,6 +11,6 @@ export const httpSpinnerInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     finalize(() => {
       spinnerService.hide();
-    })
+    }),
   );
 };

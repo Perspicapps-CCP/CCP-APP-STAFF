@@ -2,14 +2,21 @@
   <div class="flex w-full gap-2">
     <div class="flex input-group w-full">
       <span class="input-group-text pr-2!">
-        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">manage_search</mat-icon>
       </span>
-      <input class="form-control border-l-0!" placeholder="{{'PLAN_VENTA.SEARCH_PLACEHOLDER' | translate}}"
-        [formControl]="formBusquedaPlanes">
+      <input
+        class="form-control border-l-0!"
+        placeholder="{{ 'PLAN_VENTA.SEARCH_PLACEHOLDER' | translate }}"
+        [formControl]="formBusquedaPlanes"
+      />
     </div>
     <div>
-      <button type="button" class="btn btn-primary btn-actions btn-md"
-        ngbTooltip="{{'PLAN_VENTA.TOOLTIPS.ADD_PLAN' | translate}}" (click)="abrirModalCrearPlan()">
+      <button
+        type="button"
+        class="btn btn-primary btn-actions btn-md"
+        ngbTooltip="{{ 'PLAN_VENTA.TOOLTIPS.ADD_PLAN' | translate }}"
+        (click)="abrirModalCrearPlan()"
+      >
         <i class="bi bi-plus"></i>
       </button>
     </div>
@@ -19,45 +26,56 @@
       <table class="table">
         <thead>
           <tr>
-            <th>{{'PLAN_VENTA.TABLE_HEADERS.COD_PRODUCT' | translate}}</th>
-            <th>{{'PLAN_VENTA.TABLE_HEADERS.START_DATE'  | translate}}</th>
-            <th>{{'PLAN_VENTA.TABLE_HEADERS.END_DATA' | translate}}</th>
-            <th>{{'PLAN_VENTA.TABLE_HEADERS.META' | translate}}</th>
-            <th>{{'PLAN_VENTA.TABLE_HEADERS.SELLERS' | translate}}</th>
+            <th>{{ 'PLAN_VENTA.TABLE_HEADERS.COD_PRODUCT' | translate }}</th>
+            <th>{{ 'PLAN_VENTA.TABLE_HEADERS.START_DATE' | translate }}</th>
+            <th>{{ 'PLAN_VENTA.TABLE_HEADERS.END_DATA' | translate }}</th>
+            <th>{{ 'PLAN_VENTA.TABLE_HEADERS.META' | translate }}</th>
+            <th>{{ 'PLAN_VENTA.TABLE_HEADERS.SELLERS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @for (plan of filterPlanes$ | async; track plan.id; let i = $index) {
-          <tr>
-            <td [innerHTML]="plan.product_id | highlightText: formBusquedaPlanes.value ?? ''"></td>
-            <td [innerHTML]="plan.start_date | highlightText: formBusquedaPlanes.value ?? ''"></td>
-            <td [innerHTML]="plan.end_date | highlightText: formBusquedaPlanes.value ?? ''"></td>
-            <td [innerHTML]="plan.goal| highlightText: formBusquedaPlanes.value ?? ''"></td>
-            <td>
-              <button type="button" class="btn btn-actions-table btn-sm"
-                ngbTooltip="{{'PLAN_VENTA.TOOLTIPS.VIEW_SELLERS' | translate}}" (click)="toggleExpansion(plan)">
-                <mat-icon>keyboard_arrow_up</mat-icon>
-              </button>
-            </td>
-          </tr>
-          <!-- Fila expandible -->
-          @if (planVentaSelected && planVentaSelected.id === plan.id) {
-          <tr>
-            <td colspan="5">
-              <div class="expanded-row">
-                <app-vendedores-plan class="expanded-content" [planVenta]="plan"></app-vendedores-plan>
-              </div>
-            </td>
-          </tr>
-          }
+            <tr>
+              <td
+                [innerHTML]="plan.product_id | highlightText: formBusquedaPlanes.value ?? ''"
+              ></td>
+              <td
+                [innerHTML]="plan.start_date | highlightText: formBusquedaPlanes.value ?? ''"
+              ></td>
+              <td [innerHTML]="plan.end_date | highlightText: formBusquedaPlanes.value ?? ''"></td>
+              <td [innerHTML]="plan.goal | highlightText: formBusquedaPlanes.value ?? ''"></td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-actions-table btn-sm"
+                  ngbTooltip="{{ 'PLAN_VENTA.TOOLTIPS.VIEW_SELLERS' | translate }}"
+                  (click)="toggleExpansion(plan)"
+                >
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                </button>
+              </td>
+            </tr>
+            <!-- Fila expandible -->
+            @if (planVentaSelected && planVentaSelected.id === plan.id) {
+              <tr>
+                <td colspan="5">
+                  <div class="expanded-row">
+                    <app-vendedores-plan
+                      class="expanded-content"
+                      [planVenta]="plan"
+                    ></app-vendedores-plan>
+                  </div>
+                </td>
+              </tr>
+            }
           } @empty {
-          <tr>
-            <td colspan="5">
-              <div class="text-center">
-                <p>{{'PLAN_VENTA.TABLE_EMPTY.TITLE' | translate}}</p>
-              </div>
-            </td>
-          </tr>
+            <tr>
+              <td colspan="5">
+                <div class="text-center">
+                  <p>{{ 'PLAN_VENTA.TABLE_EMPTY.TITLE' | translate }}</p>
+                </div>
+              </td>
+            </tr>
           }
         </tbody>
       </table>

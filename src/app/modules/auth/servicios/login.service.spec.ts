@@ -11,11 +11,23 @@ describe('LoginService', () => {
   let service: LoginService;
   let httpMock: HttpTestingController;
   let router: Router;
-  let originalLocalStorage: any;
+  let originalLocalStorage: {
+    getItem: (key: string) => string | null;
+    setItem: (key: string, value: string) => void;
+    removeItem: (key: string) => void;
+  };
 
   // Guarda las referencias originales antes de modificarlas
   beforeAll(() => {
-    originalLocalStorage = {};
+    originalLocalStorage = {
+      getItem: () => null,
+      setItem: (key: string, value: string) => {
+        console.log(`setItem called with key: ${key}, value: ${value}`);
+      },
+      removeItem: (key: string) => {
+        console.log(`removeItem called with key: ${key}`);
+      },
+    };
     originalLocalStorage.getItem = localStorage.getItem;
     originalLocalStorage.setItem = localStorage.setItem;
     originalLocalStorage.removeItem = localStorage.removeItem;
@@ -39,18 +51,13 @@ describe('LoginService', () => {
       value: {
         getItem: getItemSpy,
         setItem: setItemSpy,
-        removeItem: removeItemSpy
+        removeItem: removeItemSpy,
       },
-      writable: true
+      writable: true,
     });
 
     TestBed.configureTestingModule({
-      providers: [
-        LoginService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        provideRouter([])
-      ]
+      providers: [LoginService, provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
 
     service = TestBed.inject(LoginService);
@@ -69,13 +76,13 @@ describe('LoginService', () => {
   it('should log in user and save data to localStorage', () => {
     const mockUser = { username: 'testuser', password: 'testpassword' };
     const mockResponse = {
-        access_token: "e77c0b8a-a7b9-4c31-a524-a7c32e87b248",
-        user: {
-          id: "253e3e87-1981-4197-a140-eddb470b00af",
-          username: "Esteban.Bins",
-          email: "Nola_Wiza72@gmail.com",
-          role: "STAFF"
-        }
+      access_token: 'e77c0b8a-a7b9-4c31-a524-a7c32e87b248',
+      user: {
+        id: '253e3e87-1981-4197-a140-eddb470b00af',
+        username: 'Esteban.Bins',
+        email: 'Nola_Wiza72@gmail.com',
+        role: 'STAFF',
+      },
     };
 
     spyOn(router, 'navigate');
@@ -83,7 +90,10 @@ describe('LoginService', () => {
     service.iniciarSesion(mockUser.username, mockUser.password).subscribe(usuario => {
       expect(usuario).toEqual(mockResponse);
       expect(localStorage.setItem).toHaveBeenCalledWith('token', mockResponse.access_token);
-      expect(localStorage.setItem).toHaveBeenCalledWith('usuario', JSON.stringify(mockResponse.user));
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'usuario',
+        JSON.stringify(mockResponse.user),
+      );
       expect(router.navigate).toHaveBeenCalledWith(['/home']);
     });
 

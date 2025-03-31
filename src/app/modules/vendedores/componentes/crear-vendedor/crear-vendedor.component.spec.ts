@@ -3,7 +3,12 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { VendedoresService } from '../../servicios/vendedores.service';
 import { CrearVendedorComponent } from './crear-vendedor.component';
@@ -18,15 +23,15 @@ describe('CrearVendedorComponent', () => {
 
   // Crear mocks para los servicios
   const vendedoresServiceMock = {
-    crearVendedor: jasmine.createSpy('crearVendedor').and.returnValue(of({}))
+    crearVendedor: jasmine.createSpy('crearVendedor').and.returnValue(of({})),
   };
 
   const matDialogRefMock = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
 
   const snackBarMock = {
-    open: jasmine.createSpy('open')
+    open: jasmine.createSpy('open'),
   };
 
   const translateServiceMock = {
@@ -36,7 +41,7 @@ describe('CrearVendedorComponent', () => {
     onTranslationChange: of({}),
     onDefaultLangChange: of({}),
     getBrowserLang: () => 'es',
-    currentLang: 'es'
+    currentLang: 'es',
   };
 
   beforeEach(async () => {
@@ -45,7 +50,7 @@ describe('CrearVendedorComponent', () => {
         CrearVendedorComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
       schemas: [NO_ERRORS_SCHEMA],
@@ -53,10 +58,9 @@ describe('CrearVendedorComponent', () => {
         { provide: VendedoresService, useValue: vendedoresServiceMock },
         { provide: MatDialogRef, useValue: matDialogRefMock },
         { provide: MatSnackBar, useValue: snackBarMock },
-        { provide: TranslateService, useValue: translateServiceMock }
-      ]
-    })
-    .compileComponents();
+        { provide: TranslateService, useValue: translateServiceMock },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CrearVendedorComponent);
     component = fixture.componentInstance;
@@ -108,7 +112,7 @@ describe('CrearVendedorComponent', () => {
       id_type: 'CC',
       identification: '12345678',
       phone: '3001234567',
-      username: 'juanperez'
+      username: 'juanperez',
     });
 
     // Verificar que el formulario es válido con todos los campos completados
@@ -139,7 +143,7 @@ describe('CrearVendedorComponent', () => {
   // Prueba para el método getErrorMessage con error 'minlength'
   it('should return minlength error message for username', () => {
     const form = component.vendedorForm;
-    form.get('username')?.setValue('ab');  // Menos de 3 caracteres (mínimo establecido)
+    form.get('username')?.setValue('ab'); // Menos de 3 caracteres (mínimo establecido)
     form.get('username')?.markAsTouched();
 
     // Verificar que el error sea el esperado
@@ -148,7 +152,6 @@ describe('CrearVendedorComponent', () => {
     expect(errorMessage.params).toBeDefined();
     expect(errorMessage.params.min).toBe(3);
   });
-
 
   // Prueba para el método getErrorMessage con error 'maxlength'
   it('should return maxlength error message for phone', () => {
@@ -162,7 +165,6 @@ describe('CrearVendedorComponent', () => {
     expect(errorMessage.params).toBeDefined();
     expect(errorMessage.params.min).toBe(10);
   });
-
 
   it('should return empty error message for valid field', () => {
     const form = component.vendedorForm;
@@ -196,7 +198,7 @@ describe('CrearVendedorComponent', () => {
       id_type: 'CC',
       identification: '12345678',
       phone: '3001234567',
-      username: 'juanperez'
+      username: 'juanperez',
     };
 
     // Establecer valores en el formulario
@@ -225,11 +227,13 @@ describe('CrearVendedorComponent', () => {
       id_type: 'CC',
       identification: '12345678',
       phone: '3001234567',
-      username: 'juanperez'
+      username: 'juanperez',
     };
 
     // Configurar el mock para que devuelva un error
-    vendedoresServiceMock.crearVendedor.and.returnValue(throwError(() => new Error('Error al crear vendedor')));
+    vendedoresServiceMock.crearVendedor.and.returnValue(
+      throwError(() => new Error('Error al crear vendedor')),
+    );
 
     // Establecer valores en el formulario
     component.vendedorForm.setValue(mockVendedor);

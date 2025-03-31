@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
@@ -12,16 +12,11 @@ import { BodegasService } from '../../servicios/bodegas.service';
 
 @Component({
   selector: 'app-bodegas',
-  imports: [
-    sharedImports,
-    ReactiveFormsModule,
-    HighlightTextPipe,
-    ProductosBodegaComponent
-  ],
+  imports: [sharedImports, ReactiveFormsModule, HighlightTextPipe, ProductosBodegaComponent],
   templateUrl: './bodegas.component.html',
-  styleUrl: './bodegas.component.scss'
+  styleUrl: './bodegas.component.scss',
 })
-export class BodegasComponent {
+export class BodegasComponent implements OnInit {
   bodegaSelected: Bodega | null = null;
   bodegas: Bodega[] = [];
   //variable para el buscador de bodegas
@@ -31,15 +26,15 @@ export class BodegasComponent {
   constructor(
     private bodegasService: BodegasService,
     private dinamicSearchService: DinamicSearchService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.obtenerBodegas();
   }
 
   obtenerBodegas() {
-    this.bodegasService.obtenerBodegas().subscribe((res) => {
+    this.bodegasService.obtenerBodegas().subscribe(res => {
       this.bodegas = res;
       this.filterBodegas();
     });
@@ -48,7 +43,8 @@ export class BodegasComponent {
   filterBodegas() {
     this.filterBodegas$ = this.formBusquedaBodegas.valueChanges.pipe(
       startWith(''),
-      map((name) => this.buscar(name || '')));
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {
@@ -63,7 +59,7 @@ export class BodegasComponent {
       width: '600px',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.obtenerBodegas();
       }

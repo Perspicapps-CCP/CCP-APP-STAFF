@@ -8,19 +8,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 @Component({
   selector: 'app-login',
-  imports: [
-    sharedImports,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatSnackBarModule
-  ],
+  imports: [sharedImports, MatCardModule, ReactiveFormsModule, MatSnackBarModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   loginForm = new FormGroup({
     username: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
-    password: new FormControl<string>('', [Validators.required, Validators.minLength(6)])
+    password: new FormControl<string>('', [Validators.required, Validators.minLength(6)]),
   });
 
   showPassword = false;
@@ -28,9 +23,8 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private _snackBar: MatSnackBar,
-    private translate: TranslateService
-  ) { }
-
+    private translate: TranslateService,
+  ) {}
 
   togglePasswordVisibility(passwordInput: HTMLInputElement): void {
     this.showPassword = !this.showPassword;
@@ -38,12 +32,13 @@ export class LoginComponent {
   }
 
   isInvalid(controlName: string) {
-    return this.loginForm.get(controlName)!.invalid &&
+    return (
+      this.loginForm.get(controlName)!.invalid &&
       (this.loginForm.get(controlName)!.dirty || this.loginForm.get(controlName)!.touched)
+    );
   }
 
   getErrorMessage(controlName: string): Observable<string> {
-
     if (this.loginForm.get(controlName)?.hasError('required')) {
       return this.translate.get('LOGIN.FORM_ERRORS.FIELD_REQUIRED');
     }
@@ -59,10 +54,8 @@ export class LoginComponent {
     return of('');
   }
 
-
-
   iniciarSesion() {
-    let loginForm = this.loginForm.value;
+    const loginForm = this.loginForm.value;
     if (loginForm.username && loginForm.password) {
       this.loginService.iniciarSesion(loginForm.username, loginForm.password).subscribe({
         error: () => {
@@ -70,13 +63,12 @@ export class LoginComponent {
             this._snackBar.open(mensaje, '', {
               horizontalPosition: 'end',
               verticalPosition: 'top',
-              duration: 3000
+              duration: 3000,
             });
           });
-        }
+        },
       });
       console.log('Iniciar sesión');
     }
   }
-
 }

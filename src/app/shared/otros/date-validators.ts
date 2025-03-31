@@ -15,7 +15,7 @@ export function noMenorAFechaActual(): ValidatorFn {
     fechaActual.setHours(0, 0, 0, 0);
 
     if (fechaSeleccionada < fechaActual) {
-      return { 'fechaPasada': true };
+      return { fechaPasada: true };
     }
 
     return null;
@@ -38,8 +38,8 @@ export function fechaFinMayorAInicio(): ValidatorFn {
 
     if (fin < inicio) {
       // Marcamos específicamente el campo end_date como inválido
-      group.get('end_date')?.setErrors({ 'fechaFinMenor': true });
-      return { 'fechaFinMenor': true };
+      group.get('end_date')?.setErrors({ fechaFinMenor: true });
+      return { fechaFinMenor: true };
     }
 
     // Si la validación es exitosa, aseguramos que no mantenga este error específico

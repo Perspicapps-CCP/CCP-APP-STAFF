@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DinamicSearchService } from './dinamic-search.service';
 
-
 describe('DinamicSearchService', () => {
   let service: DinamicSearchService;
 
@@ -32,7 +31,11 @@ describe('DinamicSearchService', () => {
   });
 
   it('should filter the items based on the columnsObjectToFilter parameter', () => {
-    const input = [{ name: 'John', age: 30 }, { name: 'Jane', age: 25 }, { name: 'Bob', age: 40 }];
+    const input = [
+      { name: 'John', age: 30 },
+      { name: 'Jane', age: 25 },
+      { name: 'Bob', age: 40 },
+    ];
     const result = service.dynamicSearch(input, '30', ['age']);
     expect(result).toEqual([{ name: 'John', age: 30 }]);
   });

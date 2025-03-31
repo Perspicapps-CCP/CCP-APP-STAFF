@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutComponent } from './layout.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateModule, TranslateLoader, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { LocalizationService } from '../../../../shared/servicios/localization.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -17,9 +22,15 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 // Mock para el TranslateLoader
@@ -40,8 +51,8 @@ describe('LayoutComponent', () => {
         LayoutComponent,
         RouterModule.forRoot([]),
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
@@ -52,9 +63,8 @@ describe('LayoutComponent', () => {
         provideHttpClientTesting(),
       ],
       // El esquema NO_ERRORS_SCHEMA permite ignorar componentes desconocidos
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutComponent);
     component = fixture.componentInstance;

@@ -15,13 +15,9 @@ import { BodegasService } from '../../servicios/bodegas.service';
 
 @Component({
   selector: 'app-productos-bodega',
-  imports: [
-    sharedImports,
-    HighlightTextPipe,
-    ReactiveFormsModule
-  ],
+  imports: [sharedImports, HighlightTextPipe, ReactiveFormsModule],
   templateUrl: './productos-bodega.component.html',
-  styleUrl: './productos-bodega.component.scss'
+  styleUrl: './productos-bodega.component.scss',
 })
 export class ProductosBodegaComponent implements OnInit {
   @Input({ required: true }) bodega!: Bodega;
@@ -34,15 +30,15 @@ export class ProductosBodegaComponent implements OnInit {
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private translate: TranslateService
-  ) { }
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit(): void {
     this.obtenerProductosBodega();
   }
 
   obtenerProductosBodega() {
-    this.bodegasService.obtenerProductosBodega(this.bodega).subscribe((res) => {
+    this.bodegasService.obtenerProductosBodega(this.bodega).subscribe(res => {
       this.productos = res;
       this.filterProductos();
     });
@@ -51,7 +47,8 @@ export class ProductosBodegaComponent implements OnInit {
   filterProductos() {
     this.filterProductos$ = this.formBusquedaProductos.valueChanges.pipe(
       startWith(''),
-      map((name) => this.buscar(name || '')));
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {
@@ -74,7 +71,7 @@ export class ProductosBodegaComponent implements OnInit {
       this._snackBar.open(mensaje, '', {
         horizontalPosition: 'end',
         verticalPosition: 'top',
-        duration: 3000
+        duration: 3000,
       });
     });
   }

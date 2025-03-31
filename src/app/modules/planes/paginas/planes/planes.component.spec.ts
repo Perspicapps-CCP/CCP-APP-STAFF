@@ -6,7 +6,12 @@ import { PlanesService } from '../../servicios/planes.service';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearPlanVentaComponent } from '../../componentes/crear-plan-venta/crear-plan-venta.component';
 import { PlanVenta } from '../../interfaces/planes.interface';
@@ -21,10 +26,18 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getCurrentLanguage() { return 'es'; }
-  getCurrentLocale() { return 'es-ES'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getCurrentLanguage() {
+    return 'es';
+  }
+  getCurrentLocale() {
+    return 'es-ES';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 // Mock del servicio de planes
@@ -32,41 +45,41 @@ class MockPlanesService {
   obtenerPlanes() {
     return of<PlanVenta[]>([
       {
-        id: "123e4567-e89b-12d3-a456-426614174000",
-        product_id: "prod-001",
-        start_date: new Date("2025-01-01"),
-        end_date: new Date("2025-12-31"),
-        goal: "10000",
+        id: '123e4567-e89b-12d3-a456-426614174000',
+        product_id: 'prod-001',
+        start_date: new Date('2025-01-01'),
+        end_date: new Date('2025-12-31'),
+        goal: '10000',
         sellers: [
           {
-            id: "seller-001",
-            full_name: "Juan Pérez",
-            email: "juan@example.com",
-            id_type: "CC",
-            identification: "123456789",
-            phone: "3001234567",
-            username: "jperez"
-          }
-        ]
+            id: 'seller-001',
+            full_name: 'Juan Pérez',
+            email: 'juan@example.com',
+            id_type: 'CC',
+            identification: '123456789',
+            phone: '3001234567',
+            username: 'jperez',
+          },
+        ],
       },
       {
-        id: "223e4567-e89b-12d3-a456-426614174001",
-        product_id: "prod-002",
-        start_date: new Date("2025-02-01"),
-        end_date: new Date("2025-06-30"),
-        goal: "5000",
+        id: '223e4567-e89b-12d3-a456-426614174001',
+        product_id: 'prod-002',
+        start_date: new Date('2025-02-01'),
+        end_date: new Date('2025-06-30'),
+        goal: '5000',
         sellers: [
           {
-            id: "seller-002",
-            full_name: "Ana Gómez",
-            email: "ana@example.com",
-            id_type: "CC",
-            identification: "987654321",
-            phone: "3007654321",
-            username: "agomez"
-          }
-        ]
-      }
+            id: 'seller-002',
+            full_name: 'Ana Gómez',
+            email: 'ana@example.com',
+            id_type: 'CC',
+            identification: '987654321',
+            phone: '3007654321',
+            username: 'agomez',
+          },
+        ],
+      },
     ]);
   }
 }
@@ -74,15 +87,13 @@ class MockPlanesService {
 // Mock del servicio de búsqueda dinámica
 class MockDinamicSearchService {
   dynamicSearch(items: PlanVenta[], searchTerm: string) {
-    return items.filter(item =>
-      item.product_id.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return items.filter(item => item.product_id.toLowerCase().includes(searchTerm.toLowerCase()));
   }
 }
 
 // Mock para el LocalDatePipe
 class MockLocalDatePipe {
-  transform(date: string | Date, format?: string, isDate?: boolean) {
+  transform(date: string | Date) {
     if (date instanceof Date) {
       return date.toLocaleDateString();
     }
@@ -92,17 +103,21 @@ class MockLocalDatePipe {
 
 // Mock del servicio de traducción
 class MockTranslateService {
-  get(key: string | Array<string>) {
+  get(key: string | string[]) {
     return of(key);
   }
-  instant(key: string | Array<string>) {
+  instant(key: string | string[]) {
     return key;
   }
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) { }
-  use(lang: string) { return of({}); }
+  setDefaultLang(lang: string) {
+    console.log(`Default language set to: ${lang}`);
+  }
+  use() {
+    return of({});
+  }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
   onDefaultLangChange = new BehaviorSubject({});
@@ -120,7 +135,9 @@ class MockMatDialog {
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
-      close: (result?: any) => { }
+      close: (result?: unknown) => {
+        console.log('Dialog closed with result:', result);
+      },
     } as MatDialogRef<any>;
   }
 }
@@ -138,8 +155,8 @@ describe('PlanesComponent', () => {
         PlanesComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
@@ -148,13 +165,19 @@ describe('PlanesComponent', () => {
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialog, useClass: MockMatDialog },
         { provide: LocalDatePipe, useClass: MockLocalDatePipe },
-        { provide: HighlightTextPipe, useClass: class { transform(text: string, search: string) { return text; } } },
-        TranslateStore
+        {
+          provide: HighlightTextPipe,
+          useClass: class {
+            transform(text: string, search: string) {
+              return text;
+            }
+          },
+        },
+        TranslateStore,
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PlanesComponent);
     component = fixture.componentInstance;

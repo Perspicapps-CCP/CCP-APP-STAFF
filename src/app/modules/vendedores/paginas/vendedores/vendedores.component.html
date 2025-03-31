@@ -2,14 +2,21 @@
   <div class="flex w-full gap-2">
     <div class="flex input-group w-full">
       <span class="input-group-text pr-2!">
-        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">manage_search</mat-icon>
       </span>
-      <input class="form-control border-l-0!" placeholder="{{'VENDEDORES.SEARCH_PLACEHOLDER' | translate}}"
-        [formControl]="formBusquedaVendedores">
+      <input
+        class="form-control border-l-0!"
+        placeholder="{{ 'VENDEDORES.SEARCH_PLACEHOLDER' | translate }}"
+        [formControl]="formBusquedaVendedores"
+      />
     </div>
     <div>
-      <button type="button" class="btn btn-primary btn-actions btn-md"
-        ngbTooltip="{{'VENDEDORES.TOOLTIPS.ADD_SELLER' | translate}}" (click)="abrirModalCrearVendedor()">
+      <button
+        type="button"
+        class="btn btn-primary btn-actions btn-md"
+        ngbTooltip="{{ 'VENDEDORES.TOOLTIPS.ADD_SELLER' | translate }}"
+        (click)="abrirModalCrearVendedor()"
+      >
         <i class="bi bi-plus"></i>
       </button>
     </div>
@@ -20,31 +27,46 @@
         <table class="table">
           <thead>
             <tr>
-              <th>{{'VENDEDORES.TABLE_HEADERS.NAME' | translate}}</th>
-              <th>{{'VENDEDORES.TABLE_HEADERS.EMAIL' | translate}}</th>
-              <th>{{'VENDEDORES.TABLE_HEADERS.IDENTIFICATION' | translate}}</th>
-              <th>{{'VENDEDORES.TABLE_HEADERS.PHONE' | translate}}</th>
-              <th>{{'VENDEDORES.TABLE_HEADERS.USER' | translate}}</th>
+              <th>{{ 'VENDEDORES.TABLE_HEADERS.NAME' | translate }}</th>
+              <th>{{ 'VENDEDORES.TABLE_HEADERS.EMAIL' | translate }}</th>
+              <th>{{ 'VENDEDORES.TABLE_HEADERS.IDENTIFICATION' | translate }}</th>
+              <th>{{ 'VENDEDORES.TABLE_HEADERS.PHONE' | translate }}</th>
+              <th>{{ 'VENDEDORES.TABLE_HEADERS.USER' | translate }}</th>
             </tr>
           </thead>
           <tbody>
             @for (vendedor of filterVendedores$ | async; track vendedor.id; let i = $index) {
-            <tr>
-              <td [innerHTML]="vendedor.full_name | highlightText: formBusquedaVendedores.value ?? ''"></td>
-              <td [innerHTML]="vendedor.email | highlightText: formBusquedaVendedores.value ?? ''">
-              </td>
-              <td [innerHTML]="vendedor.identification | highlightText: formBusquedaVendedores.value ?? ''"></td>
-              <td [innerHTML]="vendedor.phone | highlightText: formBusquedaVendedores.value ?? ''"></td>
-              <td [innerHTML]="vendedor.username | highlightText: formBusquedaVendedores.value ?? ''"></td>
-            </tr>
+              <tr>
+                <td
+                  [innerHTML]="
+                    vendedor.full_name | highlightText: formBusquedaVendedores.value ?? ''
+                  "
+                ></td>
+                <td
+                  [innerHTML]="vendedor.email | highlightText: formBusquedaVendedores.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="
+                    vendedor.identification | highlightText: formBusquedaVendedores.value ?? ''
+                  "
+                ></td>
+                <td
+                  [innerHTML]="vendedor.phone | highlightText: formBusquedaVendedores.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="
+                    vendedor.username | highlightText: formBusquedaVendedores.value ?? ''
+                  "
+                ></td>
+              </tr>
             } @empty {
-            <tr>
-              <td colspan="7">
-                <div class="text-center">
-                  <p>{{'FABRICANTES.TABLE_EMPTY.TITLE' | translate}}</p>
-                </div>
-              </td>
-            </tr>
+              <tr>
+                <td colspan="7">
+                  <div class="text-center">
+                    <p>{{ 'FABRICANTES.TABLE_EMPTY.TITLE' | translate }}</p>
+                  </div>
+                </td>
+              </tr>
             }
           </tbody>
         </table>

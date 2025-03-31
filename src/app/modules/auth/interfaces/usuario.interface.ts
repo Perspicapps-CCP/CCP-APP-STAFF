@@ -8,7 +8,6 @@ export interface Usuario {
   phone: string;
 }
 
-
 export interface Login {
   access_token: string;
   user: User;

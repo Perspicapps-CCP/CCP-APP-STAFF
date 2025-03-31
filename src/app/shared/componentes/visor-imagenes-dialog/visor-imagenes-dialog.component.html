@@ -1,19 +1,21 @@
 <div class="modal-container">
   <div class="modal-header">
-    <span><strong>{{'VISOR_IMAGES.TITLE' | translate}}: </strong> {{data.name}}</span>
+    <span
+      ><strong>{{ 'VISOR_IMAGES.TITLE' | translate }}: </strong> {{ data.name }}</span
+    >
     <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
   </div>
   <div>
     @if (data.images) {
-    <ngb-carousel>
-      @for (image of data.images; track $index; let i = $index) {
-      <ng-template ngbSlide>
-        <div class="image-container">
-          <img [src]="image" [alt]="data.product_code + '-' + (i + 1)" />
-        </div>
-      </ng-template>
-      }
-    </ngb-carousel>
+      <ngb-carousel>
+        @for (image of data.images; track $index; let i = $index) {
+          <ng-template ngbSlide>
+            <div class="image-container">
+              <img [src]="image" [alt]="data.product_code + '-' + (i + 1)" />
+            </div>
+          </ng-template>
+        }
+      </ngb-carousel>
     }
   </div>
 </div>
