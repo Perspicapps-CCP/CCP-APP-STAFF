@@ -22,10 +22,17 @@ import {
 } from 'rxjs';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FabricantesService } from '../../../fabricantes/servicios/fabricantes.service';
+import { CalendarComponent } from '../../../../shared/componentes/calendar/calendar.component';
 
 @Component({
   selector: 'app-crear-plan-venta',
-  imports: [ReactiveFormsModule, TranslateModule, CommonModule, NgbTypeaheadModule],
+  imports: [
+    ReactiveFormsModule,
+    TranslateModule,
+    CommonModule,
+    NgbTypeaheadModule,
+    CalendarComponent,
+  ],
   templateUrl: './crear-plan-venta.component.html',
   styleUrl: './crear-plan-venta.component.scss',
 })
@@ -40,7 +47,7 @@ export class CrearPlanVentaComponent implements OnInit {
       product: new FormControl<ProductoFabricante | null>(null, [Validators.required]),
       goal: new FormControl<number>(0, [Validators.required]),
       start_date: new FormControl<Date | null>(null, [Validators.required, noMenorAFechaActual()]),
-      end_date: new FormControl<any>(null, [Validators.required, noMenorAFechaActual()]),
+      end_date: new FormControl<Date | null>(null, [Validators.required, noMenorAFechaActual()]),
     },
     { validators: fechaFinMayorAInicio() },
   );
@@ -142,6 +149,7 @@ export class CrearPlanVentaComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   crearPlan() {
-    this.dialogRef.close(this.planForm.value);
+    console.log('respuesta', this.planForm);
+    // this.dialogRef.close(this.planForm.value);
   }
 }

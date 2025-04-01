@@ -28,6 +28,20 @@
         </div>
       </div>
 
+      <div class="w-full min-h-[3.9375rem]">
+        <app-calendar formControlName="start_date"></app-calendar>
+        <div class="invalid-feedback">
+          {{ getErrorMessage('start_date').key | translate }}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <app-calendar formControlName="end_date"></app-calendar>
+        <div class="invalid-feedback">
+          {{ getErrorMessage('end_date').key | translate }}
+        </div>
+      </div>
+
       <div class="w-full pr-2 overflow-auto h-[6.75rem]">
         <div class="table-container table-ccp">
           <table class="table">
@@ -79,7 +93,7 @@
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.CANCEL' | translate }}
         </button>
 
-        <button type="submit" class="btn btn btn-outline-primary" [disabled]="!planForm.valid">
+        <button type="submit" class="btn btn btn-outline-primary">
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.SAVE' | translate }}
         </button>
       </div>

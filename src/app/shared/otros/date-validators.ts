@@ -7,14 +7,12 @@ export function noMenorAFechaActual(): ValidatorFn {
       return null; // Si no hay valor, no validamos
     }
 
-    const fechaSeleccionada = new Date(control.value);
-    // Resetear la hora a 00:00:00 para comparar solo fechas
-    fechaSeleccionada.setHours(0, 0, 0, 0);
-
+    // Convertir el valor a una fecha sin considerar la zona horaria
+    const fechaSeleccionada = new Date(`${control.value}T00:00:00Z`);
     const fechaActual = new Date();
     fechaActual.setHours(0, 0, 0, 0);
 
-    if (fechaSeleccionada < fechaActual) {
+    if (fechaSeleccionada.getTime() < fechaActual.getTime()) {
       return { fechaPasada: true };
     }
 
@@ -33,17 +31,21 @@ export function fechaFinMayorAInicio(): ValidatorFn {
       return null; // Si falta alguna fecha, no validamos
     }
 
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
+    // Convertir las fechas a UTC para evitar problemas de zona horaria
+    const inicio = new Date(`${fechaInicio}T00:00:00Z`);
+    const fin = new Date(`${fechaFin}T00:00:00Z`);
 
-    if (fin < inicio) {
+    if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
+      return { formatoInvalido: true }; // Validar que las fechas sean válidas
+    }
+
+    if (fin.getTime() < inicio.getTime()) {
       // Marcamos específicamente el campo end_date como inválido
       group.get('end_date')?.setErrors({ fechaFinMenor: true });
       return { fechaFinMenor: true };
     }
 
     // Si la validación es exitosa, aseguramos que no mantenga este error específico
-    // (aunque podría tener otros errores)
     const erroresActuales = group.get('end_date')?.errors;
     if (erroresActuales) {
       const { fechaFinMenor, ...otrosErrores } = erroresActuales;

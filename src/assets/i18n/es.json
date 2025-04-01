@@ -5,6 +5,15 @@
   "VISOR_IMAGES": {
     "TITLE": "Producto"
   },
+  "CALENDAR": {
+    "TITLE": "Calendario",
+    "SELECT_DATE": "Seleccionar fecha",
+    "SELECTED_DATE": "Fecha seleccionada",
+    "TODAY": "Hoy",
+    "NEXT_MONTH": "Mes siguiente",
+    "PREVIOUS_MONTH": "Mes anterior",
+    "CLOSE": "Cerrar"
+  },
   "SETTINGS": {
     "TITLE": "Configuración",
     "LANGUAGE": "Idioma",

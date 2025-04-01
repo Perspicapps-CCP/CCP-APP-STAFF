@@ -1,0 +1,25 @@
+<div class="input-group">
+  <input
+    #dateInput
+    class="form-control"
+    [placeholder]="'CALENDAR.SELECT_DATE' | translate"
+    name="dp"
+    [ngModel]="displayValue"
+    (ngModelChange)="onInputChange($event)"
+    ngbDatepicker
+    #d="ngbDatepicker"
+    [disabled]="disabled"
+    [attr.min-date]="minDate ? true : null"
+    [attr.max-date]="maxDate ? true : null"
+    autocomplete="off"
+    container="body"
+  />
+  <button
+    class="btn btn-outline-secondary bi bi-calendar3"
+    (click)="d.toggle()"
+    type="button"
+    [disabled]="disabled"
+  >
+    <i class="fa fa-calendar"></i>
+  </button>
+</div>
