@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith, tap } from 'rxjs';
 import { sharedImports } from '../../../../shared/otros/shared-imports';
@@ -13,16 +13,11 @@ import { LocalDatePipe } from '../../../../shared/pipes/local-date.pipe';
 
 @Component({
   selector: 'app-planes',
-  imports: [
-    sharedImports,
-    ReactiveFormsModule,
-    VendedoresPlanComponent,
-    HighlightTextPipe
-  ],
+  imports: [sharedImports, ReactiveFormsModule, VendedoresPlanComponent, HighlightTextPipe],
   templateUrl: './planes.component.html',
-  styleUrl: './planes.component.scss'
+  styleUrl: './planes.component.scss',
 })
-export class PlanesComponent {
+export class PlanesComponent implements OnInit {
   planVentaSelected: PlanVenta | null = null;
   planesVentas: PlanVenta[] = [];
   //variable para el buscador de fabricantes
@@ -33,14 +28,14 @@ export class PlanesComponent {
     private planesService: PlanesService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerPlanes();
   }
 
   obtenerPlanes() {
-    this.planesService.obtenerPlanes().subscribe((res) => {
+    this.planesService.obtenerPlanes().subscribe(res => {
       this.planesVentas = res;
       this.filterPlanes();
     });
@@ -49,8 +44,11 @@ export class PlanesComponent {
   filterPlanes() {
     this.filterPlanes$ = this.formBusquedaPlanes.valueChanges.pipe(
       startWith(''),
-      tap((value) => { console.log("value", value); }),
-      map((name) => this.buscar(name || '')));
+      tap(value => {
+        console.log('value', value);
+      }),
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {

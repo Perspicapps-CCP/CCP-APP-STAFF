@@ -2,11 +2,13 @@
   <div class="flex w-full gap-2">
     <div class="flex input-group w-full">
       <span class="input-group-text pr-2!">
-        <mat-icon style="font-size: 16px; width: 16px; height: 16px;">manage_search</mat-icon>
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">manage_search</mat-icon>
       </span>
-      <input class="form-control border-l-0!"
-        placeholder="{{'FABRICANTES.PRODUCTOS_FABRICANTE.SEARCH_PLACEHOLDER' | translate}}"
-        [formControl]="formBusquedaProductos">
+      <input
+        class="form-control border-l-0!"
+        placeholder="{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.SEARCH_PLACEHOLDER' | translate }}"
+        [formControl]="formBusquedaProductos"
+      />
     </div>
   </div>
   <div class="h-full w-full pr-2 overflow-auto">
@@ -14,32 +16,51 @@
       <table class="table">
         <thead>
           <tr>
-            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.NAME' | translate}}</th>
-            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.COD_PRODUCT' | translate}}</th>
-            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.PRICE' | translate}}</th>
-            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate}}</th>
-            <th>{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.ACTIONS' | translate}}</th>
+            <th>{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.NAME' | translate }}</th>
+            <th>{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.COD_PRODUCT' | translate }}</th>
+            <th>{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.PRICE' | translate }}</th>
+            <th>{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate }}</th>
+            <th>{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           @for (producto of filterProductos$ | async; track producto.id; let i = $index) {
-          <tr>
-            <td [innerHTML]="producto.name| highlightText: formBusquedaProductos.value ?? ''"></td>
-            <td [innerHTML]="producto.product_code| highlightText: formBusquedaProductos.value ?? ''"></td>
-            <td [innerHTML]="producto.unit_cost| localCurrency | highlightText: formBusquedaProductos.value ?? ''"></td>
-            <td>
-                <a class="link-offset-1" (click)="abrirVisorImagenes(producto); $event.preventDefault()"
-                href="#">{{'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate}}</a>
+            <tr>
+              <td
+                [innerHTML]="producto.name | highlightText: formBusquedaProductos.value ?? ''"
+              ></td>
+              <td
+                [innerHTML]="
+                  producto.product_code | highlightText: formBusquedaProductos.value ?? ''
+                "
+              ></td>
+              <td
+                [innerHTML]="
+                  producto.unit_cost
+                    | localCurrency
+                    | highlightText: formBusquedaProductos.value ?? ''
+                "
+              ></td>
+              <td>
+                <a
+                  class="link-offset-1"
+                  (click)="abrirVisorImagenes(producto); $event.preventDefault()"
+                  href="#"
+                  >{{ 'FABRICANTES.PRODUCTOS_FABRICANTE.TABLE_HEADERS.IMAGES' | translate }}</a
+                >
               </td>
-            <td>
-              <div class="flex gap-2">
-                <button type="button" class="btn btn-primary btn-actions-table btn-sm"
-                  ngbTooltip="{{'FABRICANTES.TOOLTIPS.ADD_IMAGES_FILES' | translate}}">
-                  <mat-icon>add_photo_alternate</mat-icon>
-                </button>
-              </div>
-            </td>
-          </tr>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-actions-table btn-sm"
+                    ngbTooltip="{{ 'FABRICANTES.TOOLTIPS.ADD_IMAGES_FILES' | translate }}"
+                  >
+                    <mat-icon>add_photo_alternate</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
           }
         </tbody>
       </table>

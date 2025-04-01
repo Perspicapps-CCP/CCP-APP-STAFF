@@ -9,17 +9,13 @@ describe('AgregarBodegaComponent', () => {
 
   beforeEach(async () => {
     const matDialogRefMock = {
-      close: jasmine.createSpy('close')
+      close: jasmine.createSpy('close'),
     };
-
 
     await TestBed.configureTestingModule({
       imports: [AgregarBodegaComponent],
-      providers: [
-        { provide: MatDialogRef, useValue: matDialogRefMock },
-      ],
-    })
-    .compileComponents();
+      providers: [{ provide: MatDialogRef, useValue: matDialogRefMock }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AgregarBodegaComponent);
     component = fixture.componentInstance;

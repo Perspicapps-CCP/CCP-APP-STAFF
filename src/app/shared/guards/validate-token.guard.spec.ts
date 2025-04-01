@@ -5,7 +5,7 @@ import { validateTokenGuard } from './validate-token.guard';
 
 describe('validateTokenGuard', () => {
   const executeGuard: CanActivateChildFn = (...guardParameters) =>
-      TestBed.runInInjectionContext(() => validateTokenGuard(...guardParameters));
+    TestBed.runInInjectionContext(() => validateTokenGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

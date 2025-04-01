@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Fabricante } from '../../interfaces/fabricantes.interface';
 import { ProductoFabricante } from '../../interfaces/producto-fabricante.interface';
 import { FabricantesService } from '../../servicios/fabricantes.service';
@@ -13,16 +13,11 @@ import { VisorImagenesDialogComponent } from '../../../../shared/componentes/vis
 
 @Component({
   selector: 'app-productos-fabricante',
-  imports: [
-    sharedImports,
-    HighlightTextPipe,
-    ReactiveFormsModule,
-    LocalCurrencyPipe
-  ],
+  imports: [sharedImports, HighlightTextPipe, ReactiveFormsModule, LocalCurrencyPipe],
   templateUrl: './productos-fabricante.component.html',
-  styleUrl: './productos-fabricante.component.scss'
+  styleUrl: './productos-fabricante.component.scss',
 })
-export class ProductosFabricanteComponent {
+export class ProductosFabricanteComponent implements OnInit {
   @Input({ required: true }) fabricante!: Fabricante;
   productos: ProductoFabricante[] = [];
   formBusquedaProductos = new FormControl('');
@@ -32,14 +27,14 @@ export class ProductosFabricanteComponent {
     private fabricantesService: FabricantesService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerProductosFabricantes();
   }
 
   obtenerProductosFabricantes() {
-    this.fabricantesService.obtenerProductosFabricante(this.fabricante).subscribe((res) => {
+    this.fabricantesService.obtenerProductosFabricante(this.fabricante).subscribe(res => {
       this.productos = res;
       this.filterProductos();
     });
@@ -48,7 +43,8 @@ export class ProductosFabricanteComponent {
   filterProductos() {
     this.filterProductos$ = this.formBusquedaProductos.valueChanges.pipe(
       startWith(''),
-      map((name) => this.buscar(name || '')));
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {

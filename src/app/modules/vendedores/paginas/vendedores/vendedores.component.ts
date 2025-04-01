@@ -11,13 +11,9 @@ import { CrearVendedorComponent } from '../../componentes/crear-vendedor/crear-v
 
 @Component({
   selector: 'app-vendedores',
-  imports: [
-    sharedImports,
-    ReactiveFormsModule,
-    HighlightTextPipe
-  ],
+  imports: [sharedImports, ReactiveFormsModule, HighlightTextPipe],
   templateUrl: './vendedores.component.html',
-  styleUrl: './vendedores.component.scss'
+  styleUrl: './vendedores.component.scss',
 })
 export class VendedoresComponent implements OnInit {
   vendedores: Vendedor[] = [];
@@ -30,15 +26,14 @@ export class VendedoresComponent implements OnInit {
     private vendedoresService: VendedoresService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerVendedores();
-
   }
 
   obtenerVendedores() {
-    this.vendedoresService.obtenerVendedores().subscribe((res) => {
+    this.vendedoresService.obtenerVendedores().subscribe(res => {
       this.vendedores = res;
       this.filterVendedores();
     });
@@ -47,8 +42,11 @@ export class VendedoresComponent implements OnInit {
   filterVendedores() {
     this.filterVendedores$ = this.formBusquedaVendedores.valueChanges.pipe(
       startWith(''),
-      tap((value) => { console.log("value", value); }),
-      map((name) => this.buscar(name || '')));
+      tap(value => {
+        console.log('value', value);
+      }),
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {

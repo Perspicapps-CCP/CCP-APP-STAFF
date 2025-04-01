@@ -7,22 +7,27 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { OnlyNumbersDirective } from '../../../../shared/directivas/only-numbers.directive';
-import { fechaFinMayorAInicio, noMenorAFechaActual } from '../../../../shared/otros/date-validators';
+import {
+  fechaFinMayorAInicio,
+  noMenorAFechaActual,
+} from '../../../../shared/otros/date-validators';
 import { VendedoresService } from '../../../vendedores/servicios/vendedores.service';
-import { debounceTime, distinctUntilChanged, filter, map, Observable, OperatorFunction } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  OperatorFunction,
+} from 'rxjs';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { FabricantesService } from '../../../fabricantes/servicios/fabricantes.service';
 
 @Component({
   selector: 'app-crear-plan-venta',
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    CommonModule,
-    NgbTypeaheadModule
-  ],
+  imports: [ReactiveFormsModule, TranslateModule, CommonModule, NgbTypeaheadModule],
   templateUrl: './crear-plan-venta.component.html',
-  styleUrl: './crear-plan-venta.component.scss'
+  styleUrl: './crear-plan-venta.component.scss',
 })
 export class CrearPlanVentaComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CrearPlanVentaComponent>);
@@ -30,12 +35,15 @@ export class CrearPlanVentaComponent implements OnInit {
   sellers: Vendedor[] = [];
   selectionSellers = new SelectionModel<Vendedor>(true, []);
 
-  planForm = new FormGroup({
-    product: new FormControl<ProductoFabricante | null>(null, [Validators.required]),
-    goal: new FormControl<number>(0, [Validators.required]),
-    start_date: new FormControl<Date | null>(null, [Validators.required, noMenorAFechaActual()]),
-    end_date: new FormControl<any>(null, [Validators.required, noMenorAFechaActual()]),
-  }, { validators: fechaFinMayorAInicio() });
+  planForm = new FormGroup(
+    {
+      product: new FormControl<ProductoFabricante | null>(null, [Validators.required]),
+      goal: new FormControl<number>(0, [Validators.required]),
+      start_date: new FormControl<Date | null>(null, [Validators.required, noMenorAFechaActual()]),
+      end_date: new FormControl<any>(null, [Validators.required, noMenorAFechaActual()]),
+    },
+    { validators: fechaFinMayorAInicio() },
+  );
 
   productos: ProductoFabricante[] = [];
 
@@ -43,7 +51,7 @@ export class CrearPlanVentaComponent implements OnInit {
     private translate: TranslateService,
     private vendedoresService: VendedoresService,
     private fabricantesService: FabricantesService,
-  ) { };
+  ) {}
 
   ngOnInit(): void {
     this.getSellers();
@@ -51,18 +59,18 @@ export class CrearPlanVentaComponent implements OnInit {
   }
 
   getProducts() {
-    this.fabricantesService.obtenerProductosFabricante().subscribe((res) => {
+    this.fabricantesService.obtenerProductosFabricante().subscribe(res => {
       this.productos = res;
     });
   }
 
   getSellers() {
-    this.vendedoresService.obtenerVendedores().subscribe((res) => {
+    this.vendedoresService.obtenerVendedores().subscribe(res => {
       this.sellers = res;
     });
   }
 
-  getErrorMessage(controlName: string): { key: string, params?: any } {
+  getErrorMessage(controlName: string): { key: string; params?: any } {
     if (this.planForm.get(controlName)?.hasError('required')) {
       return {
         key: 'PLAN_VENTA.CREAR_PLAN.FORM_ERRORS.FIELD_REQUIRED',
@@ -85,8 +93,10 @@ export class CrearPlanVentaComponent implements OnInit {
   }
 
   isInvalid(controlName: string) {
-    return this.planForm.get(controlName)!.invalid &&
+    return (
+      this.planForm.get(controlName)!.invalid &&
       (this.planForm.get(controlName)!.dirty || this.planForm.get(controlName)!.touched)
+    );
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -114,12 +124,19 @@ export class CrearPlanVentaComponent implements OnInit {
     return `${this.selectionSellers.isSelected(row) ? 'deselect' : 'select'} row ${row.username}`;
   }
 
-
-  searchProduct: OperatorFunction<string, readonly { name: string }[]> = (text$: Observable<string>) =>
+  searchProduct: OperatorFunction<string, readonly { name: string }[]> = (
+    text$: Observable<string>,
+  ) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => term.length < 2 ? [] : this.productos.filter(product => new RegExp(term, 'mi').test(product.name)).slice(0, 10))
+      map(term =>
+        term.length < 2
+          ? []
+          : this.productos
+              .filter(product => new RegExp(term, 'mi').test(product.name))
+              .slice(0, 10),
+      ),
     );
 
   formatter = (x: { name: string }) => x.name;

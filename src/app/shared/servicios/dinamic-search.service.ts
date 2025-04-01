@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DinamicSearchService {
   dynamicSearch(arreglo: any[], termSearch: string, columnsObjectToFilter?: string[]) {
@@ -10,12 +10,13 @@ export class DinamicSearchService {
     return arreglo.filter(objeto => {
       if (columnsObjectToFilter) {
         return columnsObjectToFilter.some(columna => {
-          return (objeto[columna] + '').toLowerCase().includes(busquedaMinusculas)
-        })
+          return (objeto[columna] + '').toLowerCase().includes(busquedaMinusculas);
+        });
       } else {
-        return Object.values(objeto).some(valor =>
-          typeof valor === "string" && valor.toLocaleLowerCase().includes(busquedaMinusculas)
-        )
+        return Object.values(objeto).some(
+          valor =>
+            typeof valor === 'string' && valor.toLocaleLowerCase().includes(busquedaMinusculas),
+        );
       }
     });
   }

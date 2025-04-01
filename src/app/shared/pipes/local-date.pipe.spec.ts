@@ -1,7 +1,13 @@
 import { LocalDatePipe } from './local-date.pipe';
 import { LocalizationService } from '../servicios/localization.service';
 import { TestBed } from '@angular/core/testing';
-import { TranslateService, TranslateStore, TranslateLoader, TranslateFakeLoader, TranslateModule } from '@ngx-translate/core';
+import {
+  TranslateService,
+  TranslateStore,
+  TranslateLoader,
+  TranslateFakeLoader,
+  TranslateModule,
+} from '@ngx-translate/core';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
@@ -41,10 +47,13 @@ class MockLocalizationService implements Partial<LocalizationService> {
   }
 
   getCurrencyCode(): string {
-    switch(this.locale) {
-      case 'es-CO': return 'COP';
-      case 'es-ES': return 'EUR';
-      default: return 'USD';
+    switch (this.locale) {
+      case 'es-CO':
+        return 'COP';
+      case 'es-ES':
+        return 'EUR';
+      default:
+        return 'USD';
     }
   }
 
@@ -67,15 +76,15 @@ describe('LocalDatePipe', () => {
       imports: [
         // Importamos TranslateModule con configuración para pruebas
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+        }),
       ],
       providers: [
         // Usamos nuestro mock en lugar del servicio real
         { provide: LocalizationService, useClass: MockLocalizationService },
         { provide: LOCALE_ID, useValue: 'es-ES' },
-        TranslateStore // Añadimos explícitamente el TranslateStore
-      ]
+        TranslateStore, // Añadimos explícitamente el TranslateStore
+      ],
     });
 
     // Obtenemos la instancia del servicio

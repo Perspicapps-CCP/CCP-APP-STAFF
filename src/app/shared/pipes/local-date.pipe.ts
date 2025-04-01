@@ -5,10 +5,10 @@ import { LocalizationService } from '../servicios/localization.service';
 @Pipe({
   name: 'localDate',
   standalone: true,
-  pure: false
+  pure: false,
 })
 export class LocalDatePipe implements PipeTransform {
-  private lastLocale: string = '';
+  private lastLocale = '';
 
   constructor(private localizationService: LocalizationService) {
     // Nos suscribimos a cambios en el locale
@@ -18,7 +18,7 @@ export class LocalDatePipe implements PipeTransform {
     });
   }
 
-  transform(value: any, format?: string, dateOnly: boolean = false): string | null {
+  transform(value: any, format?: string, dateOnly = false): string | null {
     const locale = this.localizationService.getLocale();
     const datePipe = new DatePipe(locale);
 
@@ -30,7 +30,7 @@ export class LocalDatePipe implements PipeTransform {
             return datePipe.transform(value, 'dd/MM/yyyy');
           } else {
             // Formato colombiano con AM/PM en minúscula
-            let formattedDate = datePipe.transform(value, 'dd/MM/yyyy h:mm a');
+            const formattedDate = datePipe.transform(value, 'dd/MM/yyyy h:mm a');
             return formattedDate ? formattedDate.replace('AM', 'a.m.').replace('PM', 'p.m.') : null;
           }
         case 'es-ES':

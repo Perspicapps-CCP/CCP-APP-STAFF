@@ -1,16 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
-import { BodegasComponent } from './bodegas.component';
-import { LocalizationService } from '../../../../shared/servicios/localization.service';
-import { BodegasService } from '../../servicios/bodegas.service';
-import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
-import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
+import { LocalizationService } from '../../../../shared/servicios/localization.service';
 import { AgregarBodegaComponent } from '../../componentes/agregar-bodega/agregar-bodega.component';
-import { ProductosBodegaComponent } from '../../componentes/productos-bodega/productos-bodega.component';
 import { Bodega } from '../../interfaces/bodega.interface';
+import { BodegasService } from '../../servicios/bodegas.service';
+import { BodegasComponent } from './bodegas.component';
 
 // Mock del servicio de localización
 class MockLocalizationService {
@@ -20,9 +24,15 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 // Mock del servicio de bodegas
@@ -30,20 +40,20 @@ class MockBodegasService {
   obtenerBodegas() {
     return of<Bodega[]>([
       {
-        warehouse_id: "1",
-        warehouse_name: "Bodega Central",
-        country: "Colombia",
-        city: "Bogotá",
-        address: "Calle 123 #45-67",
-        phone: "6011234567"
+        warehouse_id: '1',
+        warehouse_name: 'Bodega Central',
+        country: 'Colombia',
+        city: 'Bogotá',
+        address: 'Calle 123 #45-67',
+        phone: '6011234567',
       },
       {
-        warehouse_id: "2",
-        warehouse_name: "Almacén Norte",
-        country: "Colombia",
-        city: "Medellín",
-        address: "Carrera 45 #78-90",
-        phone: "6049876543"
+        warehouse_id: '2',
+        warehouse_name: 'Almacén Norte',
+        country: 'Colombia',
+        city: 'Medellín',
+        address: 'Carrera 45 #78-90',
+        phone: '6049876543',
       },
     ]);
   }
@@ -53,24 +63,28 @@ class MockBodegasService {
 class MockDinamicSearchService {
   dynamicSearch(items: Bodega[], searchTerm: string) {
     return items.filter(item =>
-      item.warehouse_name.toLowerCase().includes(searchTerm.toLowerCase())
+      item.warehouse_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 }
 
 // Mock del servicio de traducción
 class MockTranslateService {
-  get(key: string | Array<string>) {
+  get(key: string | string[]) {
     return of(key);
   }
-  instant(key: string | Array<string>) {
+  instant(key: string | string[]) {
     return key;
   }
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) { }
-  use(lang: string) { return of({}); }
+  setDefaultLang(lang: string) {
+    this.onDefaultLangChange.next({ lang });
+  }
+  use() {
+    return of({});
+  }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
   onDefaultLangChange = new BehaviorSubject({});
@@ -78,7 +92,7 @@ class MockTranslateService {
 
 // Mock del TranslateLoader
 export class MockTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string) {
+  getTranslation() {
     return of({});
   }
 }
@@ -88,7 +102,9 @@ class MockMatDialog {
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of(true),
-      close: (result?: any) => { }
+      close: (result?: any) => {
+        console.log('Dialog closed with result:', result);
+      },
     } as MatDialogRef<any>;
   }
 }
@@ -106,8 +122,8 @@ describe('BodegasComponent', () => {
         BodegasComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
@@ -115,12 +131,11 @@ describe('BodegasComponent', () => {
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialog, useClass: MockMatDialog },
-        TranslateStore
+        TranslateStore,
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BodegasComponent);
     component = fixture.componentInstance;
@@ -163,12 +178,12 @@ describe('BodegasComponent', () => {
 
     // Seleccionar una bodega
     const bodega: Bodega = {
-      warehouse_id: "1",
-      warehouse_name: "Bodega Central",
-      country: "Colombia",
-      city: "Bogotá",
-      address: "Calle 123 #45-67",
-      phone: "6011234567"
+      warehouse_id: '1',
+      warehouse_name: 'Bodega Central',
+      country: 'Colombia',
+      city: 'Bogotá',
+      address: 'Calle 123 #45-67',
+      phone: '6011234567',
     };
     component.toggleExpansion(bodega);
     expect(component.bodegaSelected).toBe(bodega);
@@ -179,12 +194,12 @@ describe('BodegasComponent', () => {
 
     // Seleccionar otra bodega después de tener una seleccionada
     const otraBodega: Bodega = {
-      warehouse_id: "2",
-      warehouse_name: "Almacén Norte",
-      country: "Colombia",
-      city: "Medellín",
-      address: "Carrera 45 #78-90",
-      phone: "6049876543"
+      warehouse_id: '2',
+      warehouse_name: 'Almacén Norte',
+      country: 'Colombia',
+      city: 'Medellín',
+      address: 'Carrera 45 #78-90',
+      phone: '6049876543',
     };
     component.toggleExpansion(bodega);
     component.toggleExpansion(otraBodega);

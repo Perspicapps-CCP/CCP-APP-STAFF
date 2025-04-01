@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-rutas',
   imports: [],
   templateUrl: './rutas.component.html',
-  styleUrl: './rutas.component.scss'
+  styleUrl: './rutas.component.scss',
 })
-export class RutasComponent {
-
-}
+export class RutasComponent {}

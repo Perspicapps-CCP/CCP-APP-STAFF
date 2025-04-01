@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
-import { Login, Usuario } from '../interfaces/usuario.interface';
+import { tap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { UsuarioService } from './usuario.service';
+import { Login } from '../interfaces/usuario.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
   private apiUrl = environment.apiUrlCCP;
@@ -15,17 +15,17 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private usuarioService: UsuarioService
-  ) { }
+    private usuarioService: UsuarioService,
+  ) {}
 
   iniciarSesion(username: string, password: string) {
-    return this.http.post<any>(`${this.apiUrl}/api/v1/users/login`, { username, password }).pipe(
-      tap((res) => {
+    return this.http.post<Login>(`${this.apiUrl}/api/v1/users/login`, { username, password }).pipe(
+      tap(res => {
         localStorage.setItem('token', res.access_token);
         localStorage.setItem('usuario', JSON.stringify(res.user));
         this.usuarioService.usuario = res;
         this.router.navigate(['/home']);
-      })
+      }),
     );
   }
 

@@ -2,7 +2,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { UsuarioService } from '../../modules/auth/servicios/usuario.service';
 
-
 export const httpHeadersInterceptor: HttpInterceptorFn = (req, next) => {
   if (!(req.url.includes('login') || req.url.includes('signin'))) {
     const usuarioService = inject(UsuarioService);
@@ -10,8 +9,8 @@ export const httpHeadersInterceptor: HttpInterceptorFn = (req, next) => {
 
     req = req.clone({
       setHeaders: {
-      Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
   return next(req);

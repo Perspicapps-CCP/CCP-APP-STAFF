@@ -1,5 +1,15 @@
-import { HttpClient, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import {
+  HttpClient,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  LOCALE_ID,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -35,7 +45,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptorsFromDi(),
-      withInterceptors([httpHeadersInterceptor, httpSpinnerInterceptor])
+      withInterceptors([httpHeadersInterceptor, httpSpinnerInterceptor]),
     ),
     provideAnimations(),
     provideHttpClient(),
@@ -44,33 +54,33 @@ export const appConfig: ApplicationConfig = {
         loader: {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
-          deps: [HttpClient]
+          deps: [HttpClient],
         },
-        defaultLanguage: 'en'
+        defaultLanguage: 'en',
       }),
     ),
     {
       provide: MAT_ICON_DEFAULT_OPTIONS,
       useValue: {
-        fontSet: 'material-symbols-outlined'
-      }
+        fontSet: 'material-symbols-outlined',
+      },
     },
     {
       provide: MAT_CARD_CONFIG,
-      useValue: { appearance: 'outlined' }
+      useValue: { appearance: 'outlined' },
     },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: {
         hasBackdrop: true,
-        panelClass: 'white-dialog-container'
-      }
+        panelClass: 'white-dialog-container',
+      },
     },
     {
       provide: MAT_MENU_DEFAULT_OPTIONS,
       useValue: {
         overlayPanelClass: 'white-menu-panel',
-      }
-    }
-  ]
+      },
+    },
+  ],
 };

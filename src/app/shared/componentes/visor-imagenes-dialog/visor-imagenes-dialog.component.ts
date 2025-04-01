@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-visor-imagenes-dialog',
   imports: [NgbCarouselModule, TranslateModule],
   templateUrl: './visor-imagenes-dialog.component.html',
-  styleUrl: './visor-imagenes-dialog.component.scss'
+  styleUrl: './visor-imagenes-dialog.component.scss',
 })
 export class VisorImagenesDialogComponent {
   readonly dialogRef = inject(MatDialogRef<VisorImagenesDialogComponent>);

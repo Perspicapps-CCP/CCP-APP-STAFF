@@ -5,7 +5,12 @@ import { BehaviorSubject, of } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
 import { BodegasService } from '../../servicios/bodegas.service';
@@ -23,9 +28,15 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 describe('ProductosBodegaComponent', () => {
@@ -33,20 +44,38 @@ describe('ProductosBodegaComponent', () => {
   let fixture: ComponentFixture<ProductosBodegaComponent>;
 
   const bodegasServiceMock = {
-    obtenerProductosBodega: jasmine.createSpy('obtenerProductosBodega').and.returnValue(of<ProductoBodega[]>([
-      { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['image1.jpg'], quantity: '10' },
-      { id: '2', name: 'Producto 2', product_code: 'xyz456', unit_cost: 20.75, images: ['image2.jpg'], quantity: '20' }
-    ]))
+    obtenerProductosBodega: jasmine.createSpy('obtenerProductosBodega').and.returnValue(
+      of<ProductoBodega[]>([
+        {
+          id: '1',
+          name: 'Producto 1',
+          product_code: 'abc123',
+          unit_cost: 10.5,
+          images: ['image1.jpg'],
+          quantity: '10',
+        },
+        {
+          id: '2',
+          name: 'Producto 2',
+          product_code: 'xyz456',
+          unit_cost: 20.75,
+          images: ['image2.jpg'],
+          quantity: '20',
+        },
+      ]),
+    ),
   };
 
   const dinamicSearchServiceMock = {
-    dynamicSearch: jasmine.createSpy('dynamicSearch').and.callFake((items: ProductoBodega[], searchTerm) => {
-      return items.filter((item: { name: string }) => item.name.includes(searchTerm as string));
-    })
+    dynamicSearch: jasmine
+      .createSpy('dynamicSearch')
+      .and.callFake((items: ProductoBodega[], searchTerm) => {
+        return items.filter((item: { name: string }) => item.name.includes(searchTerm as string));
+      }),
   };
 
   const dialogMock = {
-    open: jasmine.createSpy('open')
+    open: jasmine.createSpy('open'),
   };
 
   registerLocaleData(localeEs);
@@ -57,10 +86,10 @@ describe('ProductosBodegaComponent', () => {
         ProductosBodegaComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
         HighlightTextPipe,
-        LocalCurrencyPipe
+        LocalCurrencyPipe,
       ],
       providers: [
         { provide: BodegasService, useValue: bodegasServiceMock },
@@ -68,10 +97,9 @@ describe('ProductosBodegaComponent', () => {
         { provide: MatDialog, useValue: dialogMock },
         { provide: LocalizationService, useClass: MockLocalizationService },
         { provide: LOCALE_ID, useValue: 'es-ES' },
-        TranslateService
+        TranslateService,
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProductosBodegaComponent);
     component = fixture.componentInstance;
@@ -82,7 +110,7 @@ describe('ProductosBodegaComponent', () => {
       country: 'España',
       city: 'Madrid',
       address: 'Calle Test 123',
-      phone: '123456789'
+      phone: '123456789',
     };
 
     // Llamar a ngOnInit explícitamente (ya que el ciclo de vida podría no ejecutarse automáticamente en pruebas)
@@ -107,11 +135,11 @@ describe('ProductosBodegaComponent', () => {
   it('debería abrir el visor de imágenes con el producto seleccionado', () => {
     // Crear un producto de prueba
     const productoSeleccionado = {
-      id: "b9830b3f-e507-44e3-bec0-8416c68c2047",
-      name: "Shirt",
-      product_code: "978-1-0365-2066-3",
+      id: 'b9830b3f-e507-44e3-bec0-8416c68c2047',
+      name: 'Shirt',
+      product_code: '978-1-0365-2066-3',
       unit_cost: 3360.1,
-      images: ['original_image.jpg', 'thumbnail_image.jpg']
+      images: ['original_image.jpg', 'thumbnail_image.jpg'],
     };
 
     // Llamar al método abrirVisorImagenes
@@ -131,7 +159,9 @@ describe('ProductosBodegaComponent', () => {
 
     // Configurar el translate service para retornar un mensaje cuando se solicite 'SETTINGS.NOT_IMPLEMENTED_YET'
     const translateService = TestBed.inject(TranslateService);
-    spyOn(translateService, 'get').withArgs('SETTINGS.NOT_IMPLEMENTED_YET').and.returnValue(of('Funcionalidad no implementada aún'));
+    spyOn(translateService, 'get')
+      .withArgs('SETTINGS.NOT_IMPLEMENTED_YET')
+      .and.returnValue(of('Funcionalidad no implementada aún'));
 
     // Llamar al método que queremos probar
     component.abrirModalAgregarProductoBodega();

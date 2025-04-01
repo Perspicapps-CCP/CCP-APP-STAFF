@@ -5,11 +5,11 @@ import { OnlyNumbersDirective } from './only-numbers.directive';
 
 // Componente de prueba con configuración standalone
 @Component({
-  template: '<input type="text" numbersOnly>',
+  template: '<input type="text" appNumbersOnly>',
   standalone: true,
-  imports: [OnlyNumbersDirective]  // Importar la directiva
+  imports: [OnlyNumbersDirective], // Importar la directiva
 })
-class TestComponent { }
+class TestComponent {}
 
 describe('OnlyNumbersDirective', () => {
   let component: TestComponent;
@@ -18,7 +18,7 @@ describe('OnlyNumbersDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestComponent]  // Importar el componente, no declararlo
+      imports: [TestComponent], // Importar el componente, no declararlo
     });
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;

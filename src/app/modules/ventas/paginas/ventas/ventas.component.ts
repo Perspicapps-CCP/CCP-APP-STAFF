@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-ventas',
   imports: [],
   templateUrl: './ventas.component.html',
-  styleUrl: './ventas.component.scss'
+  styleUrl: './ventas.component.scss',
 })
-export class VentasComponent {
-
-}
+export class VentasComponent {}

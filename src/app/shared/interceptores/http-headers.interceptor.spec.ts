@@ -15,13 +15,11 @@ describe('httpHeadersInterceptor', () => {
   beforeEach(() => {
     // Crear un mock para UsuarioService
     usuarioServiceMock = jasmine.createSpyObj('UsuarioService', [], {
-      token: 'fake-token'
+      token: 'fake-token',
     });
 
     TestBed.configureTestingModule({
-      providers: [
-        { provide: UsuarioService, useValue: usuarioServiceMock }
-      ]
+      providers: [{ provide: UsuarioService, useValue: usuarioServiceMock }],
     });
 
     // Crear espía para el next handler

@@ -1,4 +1,4 @@
-import { Vendedor } from "../../vendedores/interfaces/vendedores.interface";
+import { Vendedor } from '../../vendedores/interfaces/vendedores.interface';
 
 export interface PlanVenta {
   id: string;

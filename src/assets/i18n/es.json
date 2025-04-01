@@ -188,7 +188,7 @@
       },
       "FORM_ERRORS": {
         "FIELD_REQUIRED": "Este campo es obligatorio",
-        "FIELD_LENGTH": "Este campo debe tener {min} caracteres de longitud",
+        "FIELD_LENGTH": "Este campo debe tener {{min}} caracteres de longitud",
         "FIELD_EMAIL": "Este campo debe ser un correo electrónico válido"
       },
       "TOAST": {

@@ -14,12 +14,7 @@ import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-pr
 
 @Component({
   selector: 'app-fabricantes',
-  imports: [
-    sharedImports,
-    ProductosFabricanteComponent,
-    ReactiveFormsModule,
-    HighlightTextPipe
-  ],
+  imports: [sharedImports, ProductosFabricanteComponent, ReactiveFormsModule, HighlightTextPipe],
   templateUrl: './fabricantes.component.html',
   styleUrl: './fabricantes.component.scss',
 })
@@ -34,15 +29,14 @@ export class FabricantesComponent implements OnInit {
     private fabricantesService: FabricantesService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.obtenerFabricantes();
-
   }
 
   obtenerFabricantes() {
-    this.fabricantesService.obtenerFabricantes().subscribe((res) => {
+    this.fabricantesService.obtenerFabricantes().subscribe(res => {
       this.fabricantes = res;
       this.filterFabricantes();
     });
@@ -51,8 +45,11 @@ export class FabricantesComponent implements OnInit {
   filterFabricantes() {
     this.filterFabricantes$ = this.formBusquedaFabricantes.valueChanges.pipe(
       startWith(''),
-      tap((value) => { console.log("value", value); }),
-      map((name) => this.buscar(name || '')));
+      tap(value => {
+        console.log('value', value);
+      }),
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {
@@ -83,7 +80,7 @@ export class FabricantesComponent implements OnInit {
   abrirModalAgregarProductosFabricante(fabricante: Fabricante) {
     this.dialog.open(AgregarProductoFabricanteComponent, {
       width: '29.125rem',
-      data: { ...fabricante }
+      data: { ...fabricante },
     });
   }
 }

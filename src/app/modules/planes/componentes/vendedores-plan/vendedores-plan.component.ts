@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PlanVenta } from '../../interfaces/planes.interface';
 import { map, Observable, startWith } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -9,22 +9,16 @@ import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe'
 
 @Component({
   selector: 'app-vendedores-plan',
-  imports: [
-    sharedImports,
-    HighlightTextPipe,
-    ReactiveFormsModule
-  ],
+  imports: [sharedImports, HighlightTextPipe, ReactiveFormsModule],
   templateUrl: './vendedores-plan.component.html',
-  styleUrl: './vendedores-plan.component.scss'
+  styleUrl: './vendedores-plan.component.scss',
 })
-export class VendedoresPlanComponent {
+export class VendedoresPlanComponent implements OnInit {
   @Input({ required: true }) planVenta!: PlanVenta;
   formBusquedaVendedores = new FormControl('');
   filterVendedores$?: Observable<Vendedor[]>;
 
-  constructor(
-    private dinamicSearchService: DinamicSearchService,
-  ) { }
+  constructor(private dinamicSearchService: DinamicSearchService) {}
 
   ngOnInit(): void {
     this.filterVendedores();
@@ -33,7 +27,8 @@ export class VendedoresPlanComponent {
   filterVendedores() {
     this.filterVendedores$ = this.formBusquedaVendedores.valueChanges.pipe(
       startWith(''),
-      map((name) => this.buscar(name || '')));
+      map(name => this.buscar(name || '')),
+    );
   }
 
   buscar(name: string) {
@@ -42,5 +37,4 @@ export class VendedoresPlanComponent {
     }
     return this.planVenta.sellers.slice();
   }
-
 }

@@ -1,63 +1,105 @@
 <div class="modal-container">
   <div class="modal-header">
-    <span>{{'FABRICANTES.CREAR_PRODUCTO.TITLE' | translate}}</span>
+    <span>{{ 'FABRICANTES.CREAR_PRODUCTO.TITLE' | translate }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
   </div>
   <div>
-    <form [formGroup]="productoForm" (ngSubmit)="crearProducto()" class="flex flex-col w-full gap-[0.25rem]">
-
+    <form
+      [formGroup]="productoForm"
+      (ngSubmit)="crearProducto()"
+      class="flex flex-col w-full gap-[0.25rem]"
+    >
       <div class="w-full min-h-[3.9375rem]">
-        <input type="text" class="form-control" id="nombre-producto" name="nombre-producto"
-          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.NAME' | translate }}" autocomplete="name"
-          formControlName="product_name" [ngClass]="{'is-invalid':isInvalid('product_name')}">
+        <input
+          type="text"
+          class="form-control"
+          id="nombre-producto"
+          name="nombre-producto"
+          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.NAME' | translate }}"
+          autocomplete="name"
+          formControlName="product_name"
+          [ngClass]="{ 'is-invalid': isInvalid('product_name') }"
+        />
         <div class="invalid-feedback">
-          {{getErrorMessage('product_name').key | translate}}
+          {{ getErrorMessage('product_name').key | translate }}
         </div>
       </div>
 
       <div class="w-full min-h-[3.9375rem]">
-        <input type="text" class="form-control" id="codigo-producto" name="codigo-producto"
-          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.COD_PRODUCT' | translate }}" autocomplete="off"
-          formControlName="product_code" [ngClass]="{'is-invalid':isInvalid('product_code')}">
+        <input
+          type="text"
+          class="form-control"
+          id="codigo-producto"
+          name="codigo-producto"
+          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.COD_PRODUCT' | translate }}"
+          autocomplete="off"
+          formControlName="product_code"
+          [ngClass]="{ 'is-invalid': isInvalid('product_code') }"
+        />
         <div class="invalid-feedback">
-          {{getErrorMessage('product_code').key | translate}}
+          {{ getErrorMessage('product_code').key | translate }}
         </div>
       </div>
 
       <div class="w-full min-h-[3.9375rem]">
-        <input class="form-control" id="unit-cost" name="unit-cost"
-          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.PRICE' | translate }}" autocomplete="off"
-          formControlName="unit_cost" [ngClass]="{'is-invalid':isInvalid('unit_cost')}" numbersOnly>
+        <input
+          class="form-control"
+          id="unit-cost"
+          name="unit-cost"
+          placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.PRICE' | translate }}"
+          autocomplete="off"
+          formControlName="unit_cost"
+          [ngClass]="{ 'is-invalid': isInvalid('unit_cost') }"
+          appNumbersOnly
+        />
         <div class="invalid-feedback">
-          {{getErrorMessage('unit_cost').key | translate}}
+          {{ getErrorMessage('unit_cost').key | translate }}
         </div>
       </div>
 
       <div class="w-full min-h-[3.9375rem]">
         <div class="input-group">
-          <button class="btn btn-outline-secondary input-group-text" type="button" id="button-addon1"
-            (click)="inputFile.click()">Cargar</button>
-          <input type="file" class="hidden" #inputFile (change)="onFileSelected($event)" accept="image/*" multiple>
+          <button
+            class="btn btn-outline-secondary input-group-text"
+            type="button"
+            id="button-addon1"
+            (click)="inputFile.click()"
+          >
+            Cargar
+          </button>
+          <input
+            type="file"
+            class="hidden"
+            #inputFile
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            multiple
+          />
 
           <input
-            (click)="inputFile.click();"
-            class="form-control cursor-pointer" type="text" id="images_text" name="images_text"
-            [ngClass]="{'is-invalid':isInvalid('images_text')}" readonly
-            placeholder="{{'FABRICANTES.CREAR_PRODUCTO.FORM.NOT_IMAGES' | translate}}"
-            formControlName="images_text">
-            <div class="invalid-feedback">
-              {{getErrorMessage('images_text').key | translate}}
-            </div>
+            (click)="inputFile.click()"
+            class="form-control cursor-pointer"
+            type="text"
+            id="images_text"
+            name="images_text"
+            [ngClass]="{ 'is-invalid': isInvalid('images_text') }"
+            readonly
+            placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.NOT_IMAGES' | translate }}"
+            formControlName="images_text"
+          />
+          <div class="invalid-feedback">
+            {{ getErrorMessage('images_text').key | translate }}
+          </div>
         </div>
       </div>
 
       <div class="w-full flex gap-[0.50rem] justify-end">
         <button type="button" class="btn btn btn-outline-secondary" (click)="dialogRef.close()">
-          {{'FABRICANTES.CREAR_PRODUCTO.BUTTON.CANCEL' | translate}}
+          {{ 'FABRICANTES.CREAR_PRODUCTO.BUTTON.CANCEL' | translate }}
         </button>
 
         <button type="submit" class="btn btn btn-outline-primary" [disabled]="!productoForm.valid">
-          {{'FABRICANTES.CREAR_PRODUCTO.BUTTON.SAVE' | translate}}
+          {{ 'FABRICANTES.CREAR_PRODUCTO.BUTTON.SAVE' | translate }}
         </button>
       </div>
     </form>

@@ -11,7 +11,7 @@ describe('VisorImagenesDialogComponent', () => {
 
   // Mock para el MatDialogRef
   const matDialogRefMock = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
 
   // Mock para los datos del diálogo (MAT_DIALOG_DATA)
@@ -21,7 +21,7 @@ describe('VisorImagenesDialogComponent', () => {
     product_code: 'TEST-001',
     unit_cost: '100',
     images: ['image1.jpg', 'image2.jpg'],
-    manufacturer_id: 1
+    manufacturer_id: 1,
   };
 
   beforeEach(async () => {
@@ -30,16 +30,15 @@ describe('VisorImagenesDialogComponent', () => {
         VisorImagenesDialogComponent,
         NgbCarouselModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: dialogDataMock }
+        { provide: MAT_DIALOG_DATA, useValue: dialogDataMock },
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VisorImagenesDialogComponent);
     component = fixture.componentInstance;

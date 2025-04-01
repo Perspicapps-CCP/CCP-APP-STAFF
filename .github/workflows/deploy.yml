@@ -23,13 +23,13 @@ jobs:
 
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
-      
-    # - name: Run ESLint
-    #   run: npx eslint . --ext .ts,.html
-      
-    # - name: Check Prettier formatting
-    #   run: npx prettier --check .
-      
+
+    - name: Run ESLint
+      run: npm run lint:check
+
+    - name: Check Prettier formatting
+      run: npm run format:check
+
     - name: Run tests
       run: npm run headless-test
 

@@ -1,21 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, model } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { OnlyNumbersDirective } from '../../../../shared/directivas/only-numbers.directive';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Fabricante } from '../../interfaces/fabricantes.interface';
 
 @Component({
   selector: 'app-agregar-producto-fabricante',
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    CommonModule,
-    OnlyNumbersDirective
-  ],
+  imports: [ReactiveFormsModule, TranslateModule, CommonModule, OnlyNumbersDirective],
   templateUrl: './agregar-producto-fabricante.component.html',
-  styleUrl: './agregar-producto-fabricante.component.scss'
+  styleUrl: './agregar-producto-fabricante.component.scss',
 })
 export class AgregarProductoFabricanteComponent {
   readonly dialogRef = inject(MatDialogRef<AgregarProductoFabricanteComponent>);
@@ -29,11 +24,9 @@ export class AgregarProductoFabricanteComponent {
     images_text: new FormControl<string>('', [Validators.required]),
   });
 
-  constructor(
-    private translate: TranslateService
-  ) { };
+  constructor(private translate: TranslateService) {}
 
-  getErrorMessage(controlName: string): { key: string, params?: any } {
+  getErrorMessage(controlName: string): { key: string; params?: any } {
     if (this.productoForm.get(controlName)?.hasError('required')) {
       return {
         key: 'FABRICANTES.CREAR_PRODUCTO.FORM_ERRORS.FIELD_REQUIRED',
@@ -43,14 +36,14 @@ export class AgregarProductoFabricanteComponent {
     if (this.productoForm.get(controlName)?.hasError('minlength')) {
       return {
         key: 'FABRICANTES.CREAR_PRODUCTO.FORM_ERRORS.FIELD_LENGTH',
-        params: { min: this.productoForm.get(controlName)?.errors?.['minlength']?.requiredLength }
+        params: { min: this.productoForm.get(controlName)?.errors?.['minlength']?.requiredLength },
       };
     }
 
     if (this.productoForm.get(controlName)?.hasError('maxlength')) {
       return {
         key: 'FABRICANTES.CREAR_PRODUCTO.FORM_ERRORS.FIELD_LENGTH',
-        params: { min: this.productoForm.get(controlName)?.errors?.['maxlength']?.requiredLength }
+        params: { min: this.productoForm.get(controlName)?.errors?.['maxlength']?.requiredLength },
       };
     }
 
@@ -58,8 +51,10 @@ export class AgregarProductoFabricanteComponent {
   }
 
   isInvalid(controlName: string) {
-    return this.productoForm.get(controlName)!.invalid &&
+    return (
+      this.productoForm.get(controlName)!.invalid &&
       (this.productoForm.get(controlName)!.dirty || this.productoForm.get(controlName)!.touched)
+    );
   }
 
   crearProducto() {
@@ -68,15 +63,17 @@ export class AgregarProductoFabricanteComponent {
 
   onFileSelected(event: any) {
     const files = event.target.files;
-    console.log("archivos cargados", files);
+    console.log('archivos cargados', files);
     if (files.length > 0) {
       const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append('images', files[i]);
+      for (const file of files) {
+        formData.append('images', file);
       }
-      this.translate.get('FABRICANTES.CREAR_PRODUCTO.FORM.IMAGES_CHARGED').subscribe((mensaje: string) => {
-        this.productoForm.patchValue({ images_text: `${files.length} ${mensaje}` });
-      });
+      this.translate
+        .get('FABRICANTES.CREAR_PRODUCTO.FORM.IMAGES_CHARGED')
+        .subscribe((mensaje: string) => {
+          this.productoForm.patchValue({ images_text: `${files.length} ${mensaje}` });
+        });
       this.productoForm.patchValue({ images: files });
     } else {
       this.productoForm.patchValue({ images: null });

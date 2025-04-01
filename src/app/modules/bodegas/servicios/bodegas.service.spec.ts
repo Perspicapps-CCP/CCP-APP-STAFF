@@ -20,7 +20,7 @@ describe('BodegasService', () => {
       country: 'País 1',
       city: 'Ciudad 1',
       address: 'Dirección 1',
-      phone: '123456789'
+      phone: '123456789',
     },
     {
       warehouse_id: '2',
@@ -28,27 +28,35 @@ describe('BodegasService', () => {
       country: 'País 2',
       city: 'Ciudad 2',
       address: 'Dirección 2',
-      phone: '987654321'
-    }
+      phone: '987654321',
+    },
   ];
 
   const mockProductosInventario: ProductoBodegaInventario[] = [
     { product_id: '101', warehouse_id: '1', quantity: 10, last_update: new Date() },
-    { product_id: '102', warehouse_id: '1', quantity: 20, last_update: new Date() }
+    { product_id: '102', warehouse_id: '1', quantity: 20, last_update: new Date() },
   ];
 
   const mockProductosFabricante: ProductoFabricante[] = [
-    { id: '101', name: 'Producto 1', product_code: 'P001', unit_cost: 100, images: ['imagen1.jpg'] },
-    { id: '102', name: 'Producto 2', product_code: 'P002', unit_cost: 200, images: ['imagen2.jpg'] }
+    {
+      id: '101',
+      name: 'Producto 1',
+      product_code: 'P001',
+      unit_cost: 100,
+      images: ['imagen1.jpg'],
+    },
+    {
+      id: '102',
+      name: 'Producto 2',
+      product_code: 'P002',
+      unit_cost: 200,
+      images: ['imagen2.jpg'],
+    },
   ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        BodegasService,
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      providers: [BodegasService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(BodegasService);
@@ -67,8 +75,8 @@ describe('BodegasService', () => {
     it('debe retornar un array de bodegas', () => {
       const mockResponse = {
         data: {
-          warehouses: mockBodegas
-        }
+          warehouses: mockBodegas,
+        },
       };
 
       service.obtenerBodegas().subscribe(bodegas => {
@@ -88,26 +96,26 @@ describe('BodegasService', () => {
 
       const mockInventarioResponse = {
         data: {
-          productos: mockProductosInventario
-        }
+          productos: mockProductosInventario,
+        },
       };
 
       const mockFabricanteResponse = {
         data: {
-          productos: mockProductosFabricante
-        }
+          productos: mockProductosFabricante,
+        },
       };
 
       // Resultados esperados después de la combinación
       const expectedProductos: ProductoBodega[] = [
         {
           ...mockProductosFabricante[0],
-          quantity: '10'
+          quantity: '10',
         },
         {
           ...mockProductosFabricante[1],
-          quantity: '20'
-        }
+          quantity: '20',
+        },
       ];
 
       service.obtenerProductosBodega(bodega).subscribe(productos => {
@@ -122,7 +130,9 @@ describe('BodegasService', () => {
       });
 
       // Primera solicitud para obtener productos de inventario
-      const reqInventario = httpMock.expectOne(`${apiUrl}/inventory?warehouse=${bodega.warehouse_id}`);
+      const reqInventario = httpMock.expectOne(
+        `${apiUrl}/inventory?warehouse=${bodega.warehouse_id}`,
+      );
       expect(reqInventario.request.method).toBe('GET');
       reqInventario.flush(mockInventarioResponse);
 
@@ -130,7 +140,7 @@ describe('BodegasService', () => {
       const reqFabricante = httpMock.expectOne(`${apiUrl}/manufacturers/listProducts`);
       expect(reqFabricante.request.method).toBe('POST');
       expect(reqFabricante.request.body).toEqual({
-        idsProductos: ['101', '102']
+        idsProductos: ['101', '102'],
       });
       reqFabricante.flush(mockFabricanteResponse);
     });
@@ -138,7 +148,10 @@ describe('BodegasService', () => {
 
   describe('unionProductosBodega', () => {
     it('debe combinar correctamente los productos de inventario y fabricante', () => {
-      const resultado = service.unionProductosBodega(mockProductosInventario, mockProductosFabricante);
+      const resultado = service.unionProductosBodega(
+        mockProductosInventario,
+        mockProductosFabricante,
+      );
 
       expect(resultado.length).toBe(2);
       expect(resultado[0].id).toBe('101');
@@ -158,11 +171,14 @@ describe('BodegasService', () => {
           product_id: '103',
           warehouse_id: '1',
           quantity: 30,
-          last_update: new Date()
-        } // Este producto no existe en mockProductosFabricante
+          last_update: new Date(),
+        }, // Este producto no existe en mockProductosFabricante
       ];
 
-      const resultado = service.unionProductosBodega(productosInventarioExtra, mockProductosFabricante);
+      const resultado = service.unionProductosBodega(
+        productosInventarioExtra,
+        mockProductosFabricante,
+      );
 
       expect(resultado.length).toBe(2); // Solo 2 productos deberían ser combinados
       expect(resultado.some(p => p.id === '103')).toBeFalsy(); // El producto 103 no debería estar en el resultado

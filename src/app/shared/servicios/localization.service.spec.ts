@@ -9,8 +9,8 @@ describe('LocalizationService', () => {
   let service: LocalizationService;
   let translateService: jasmine.SpyObj<TranslateService>;
   let navigatorLanguageSpy: jasmine.Spy;
-  let store: { [key: string]: string };
-  let getItemSpy: jasmine.Spy = jasmine.createSpy('getItem');
+  let store: Record<string, string>;
+  const getItemSpy: jasmine.Spy = jasmine.createSpy('getItem');
 
   // Mock para TranslateLoader
   class TranslateLoaderMock {
@@ -27,13 +27,15 @@ describe('LocalizationService', () => {
     const translateSpy = jasmine.createSpyObj('TranslateService', ['use']);
 
     // Mock para localStorage
-    getItemSpy.and.callFake((key) => store[key] || null);
+    getItemSpy.and.callFake(key => store[key] || null);
     Object.defineProperty(localStorage, 'getItem', { value: getItemSpy });
-    spyOn(localStorage, 'setItem').and.callFake((key, value) => store[key] = value);
+    spyOn(localStorage, 'setItem').and.callFake((key, value) => (store[key] = value));
 
     // Mock para navigator.language
-    navigatorLanguageSpy = spyOn<any, string>(Object.getOwnPropertyDescriptor(Navigator.prototype, 'language')!, 'get')
-      .and.returnValue('en-US');
+    navigatorLanguageSpy = spyOn<any, string>(
+      Object.getOwnPropertyDescriptor(Navigator.prototype, 'language')!,
+      'get',
+    ).and.returnValue('en-US');
 
     // Spy en console.error para verificar errores
     spyOn(console, 'error');
@@ -45,8 +47,8 @@ describe('LocalizationService', () => {
         { provide: TranslateStore, useValue: {} },
         { provide: TranslateLoader, useClass: TranslateLoaderMock },
         { provide: TranslateService, useValue: translateSpy },
-        { provide: LOCALE_ID, useValue: 'en-US' }
-      ]
+        { provide: LOCALE_ID, useValue: 'en-US' },
+      ],
     });
 
     // Obtener referencias a los servicios
@@ -192,13 +194,13 @@ describe('LocalizationService', () => {
         localeCode: 'es-CO',
         name: 'Español (CO)',
         currencyCode: 'COP',
-        region: 'Colombia'
+        region: 'Colombia',
       });
     });
   });
 
   describe('observables', () => {
-    it('debería emitir los valores correctos en currentLocalization$', (done) => {
+    it('debería emitir los valores correctos en currentLocalization$', done => {
       service.setLocale('es-CO');
 
       service.currentLocalization$.subscribe(config => {
@@ -209,7 +211,7 @@ describe('LocalizationService', () => {
       });
     });
 
-    it('debería emitir los valores correctos en currentLocale$', (done) => {
+    it('debería emitir los valores correctos en currentLocale$', done => {
       service.setLocale('es-CO');
 
       service.currentLocale$.subscribe(locale => {
@@ -218,7 +220,7 @@ describe('LocalizationService', () => {
       });
     });
 
-    it('debería emitir los valores correctos en currentLang$', (done) => {
+    it('debería emitir los valores correctos en currentLang$', done => {
       service.setLocale('es-CO');
 
       service.currentLang$.subscribe(lang => {
@@ -227,7 +229,7 @@ describe('LocalizationService', () => {
       });
     });
 
-    it('debería reflejar cambios cuando se actualiza el locale', (done) => {
+    it('debería reflejar cambios cuando se actualiza el locale', done => {
       // Establecer un valor inicial
       service.setLocale('en-US');
 
@@ -253,9 +255,27 @@ describe('LocalizationService', () => {
     it('debería retornar todos los lenguajes soportados', () => {
       const lenguajes = service.getAllAvailableLanguages();
       expect(lenguajes).toEqual([
-        { langCode: 'es', localeCode: 'es-CO', name: 'Español (CO)', currencyCode: 'COP', region: 'Colombia' },
-        { langCode: 'es', localeCode: 'es-ES', name: 'Español (ES)', currencyCode: 'EUR', region: 'España' },
-        { langCode: 'en', localeCode: 'en-US', name: 'English (US)', currencyCode: 'USD', region: 'United States' }
+        {
+          langCode: 'es',
+          localeCode: 'es-CO',
+          name: 'Español (CO)',
+          currencyCode: 'COP',
+          region: 'Colombia',
+        },
+        {
+          langCode: 'es',
+          localeCode: 'es-ES',
+          name: 'Español (ES)',
+          currencyCode: 'EUR',
+          region: 'España',
+        },
+        {
+          langCode: 'en',
+          localeCode: 'en-US',
+          name: 'English (US)',
+          currencyCode: 'USD',
+          region: 'United States',
+        },
       ]);
     });
 

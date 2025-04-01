@@ -6,21 +6,18 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VendedoresService {
   private apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-  ) { }
-
+  constructor(private http: HttpClient) {}
 
   obtenerVendedores() {
     return this.http.get<Vendedor[]>(`${this.apiUrl}/sales/sellers`).pipe(
       map<any, Vendedor[]>((res: any) => {
         return res.data.vendedores;
-      })
+      }),
     );
   }
 
@@ -28,7 +25,7 @@ export class VendedoresService {
     return this.http.post<Vendedor>(`${this.apiUrl}/sales/sellers`, vendedor).pipe(
       map<any, Vendedor>((res: any) => {
         return res.data.vendedor;
-      })
+      }),
     );
   }
 }

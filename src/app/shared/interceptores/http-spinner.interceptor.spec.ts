@@ -1,4 +1,4 @@
-import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { httpSpinnerInterceptor } from './http-spinner.interceptor';
 import { SpinnerService } from '../servicios/spinner.service';
@@ -12,9 +12,7 @@ describe('httpSpinnerInterceptor', () => {
     const spinnerSpy = jasmine.createSpyObj('SpinnerService', ['show', 'hide']);
 
     TestBed.configureTestingModule({
-      providers: [
-        { provide: SpinnerService, useValue: spinnerSpy }
-      ]
+      providers: [{ provide: SpinnerService, useValue: spinnerSpy }],
     });
 
     // Obtener la instancia del servicio desde el TestBed
@@ -44,8 +42,12 @@ describe('httpSpinnerInterceptor', () => {
 
       // Suscribirse y completar inmediatamente para que finalize() se ejecute
       result$.subscribe({
-        next: () => {},
-        complete: () => {}
+        next: () => {
+          // Mock implementation that doesn't rely on 'this' context
+        },
+        complete: () => {
+          //Mock implementation that doesn't rely on 'this' context
+        },
       });
 
       // Verificar que hide fue llamado después de que el observable se completó
@@ -58,9 +60,10 @@ describe('httpSpinnerInterceptor', () => {
     const mockRequest = new HttpRequest('GET', '/test');
 
     // Crear un handler que devuelve un error
-    const errorHandler: HttpHandlerFn = () => new Observable(observer => {
-      observer.error(new Error('Test error'));
-    });
+    const errorHandler: HttpHandlerFn = () =>
+      new Observable(observer => {
+        observer.error(new Error('Test error'));
+      });
 
     // Ejecutar el interceptor en el contexto de inyección
     TestBed.runInInjectionContext(() => {
@@ -72,9 +75,15 @@ describe('httpSpinnerInterceptor', () => {
 
       // Suscribirse y manejar el error para que finalize() se ejecute
       result$.subscribe({
-        next: () => {},
-        error: () => {},
-        complete: () => {}
+        next: () => {
+          // Mock implementation that doesn't rely on 'this' context
+        },
+        error: () => {
+          // Mock implementation that doesn't rely on 'this' context
+        },
+        complete: () => {
+          // Mock implementation that doesn't rely on 'this' context
+        },
       });
 
       // Verificar que hide fue llamado después de que ocurrió el error

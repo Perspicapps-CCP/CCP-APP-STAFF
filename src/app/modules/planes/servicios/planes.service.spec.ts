@@ -16,25 +16,21 @@ describe('PlanesService', () => {
   beforeEach(() => {
     // Mock simple para LocalDatePipe
     localDatePipeMock = {
-      transform: jasmine.createSpy('transform').and.callFake((date) => new Date(date))
+      transform: jasmine.createSpy('transform').and.callFake(date => new Date(date)),
     };
 
     // Spy para HttpClient
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
 
     // Spy para LocalizationService con propiedades observables
-    localizationServiceSpy = jasmine.createSpyObj(
-      'LocalizationService',
-      ['getCurrentLanguage'],
-      {
-        'currentLocalization$': new BehaviorSubject({
-          langCode: 'es',
-          localeCode: 'es-CO'
-        }).asObservable(),
-        'currentLocale$': of('es-CO'),
-        'currentLang$': of('es')
-      }
-    );
+    localizationServiceSpy = jasmine.createSpyObj('LocalizationService', ['getCurrentLanguage'], {
+      currentLocalization$: new BehaviorSubject({
+        langCode: 'es',
+        localeCode: 'es-CO',
+      }).asObservable(),
+      currentLocale$: of('es-CO'),
+      currentLang$: of('es'),
+    });
 
     localizationServiceSpy.getCurrentLanguage.and.returnValue('es');
 
@@ -44,7 +40,7 @@ describe('PlanesService', () => {
     // Sobreescribimos la propiedad privada para evitar la instanciación de LocalDatePipe
     Object.defineProperty(service, 'localDatePipe', {
       value: localDatePipeMock,
-      writable: true
+      writable: true,
     });
   });
 
@@ -62,10 +58,10 @@ describe('PlanesService', () => {
             start_date: '2025-01-01T00:00:00.000Z',
             end_date: '2025-12-31T00:00:00.000Z',
             goal: 1000,
-            sellers: []
-          }
-        ]
-      }
+            sellers: [],
+          },
+        ],
+      },
     };
 
     const expectedPlanes = [
@@ -75,8 +71,8 @@ describe('PlanesService', () => {
         start_date: new Date('2025-01-01T00:00:00.000Z'),
         end_date: new Date('2025-12-31T00:00:00.000Z'),
         goal: '1000',
-        sellers: []
-      }
+        sellers: [],
+      },
     ];
 
     httpClientSpy.get.and.returnValue(of(mockPlanes));
@@ -85,8 +81,16 @@ describe('PlanesService', () => {
       expect(planes).toEqual(expectedPlanes);
       expect(planes[0].goal).toBe('1000');
 
-      expect(localDatePipeMock.transform).toHaveBeenCalledWith('2025-01-01T00:00:00.000Z', undefined, true);
-      expect(localDatePipeMock.transform).toHaveBeenCalledWith('2025-12-31T00:00:00.000Z', undefined, true);
+      expect(localDatePipeMock.transform).toHaveBeenCalledWith(
+        '2025-01-01T00:00:00.000Z',
+        undefined,
+        true,
+      );
+      expect(localDatePipeMock.transform).toHaveBeenCalledWith(
+        '2025-12-31T00:00:00.000Z',
+        undefined,
+        true,
+      );
     });
 
     expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrl}/sales/plans`);

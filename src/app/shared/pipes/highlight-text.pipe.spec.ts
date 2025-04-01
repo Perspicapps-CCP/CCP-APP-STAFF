@@ -1,4 +1,4 @@
-import { HighlightTextPipe } from "./highlight-text.pipe";
+import { HighlightTextPipe } from './highlight-text.pipe';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TestBed } from '@angular/core/testing';
 
@@ -8,12 +8,14 @@ describe('HighlightTextPipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{
-        provide: DomSanitizer,
-        useValue: {
-          bypassSecurityTrustHtml: (val: string) => val,
-        }
-      }],
+      providers: [
+        {
+          provide: DomSanitizer,
+          useValue: {
+            bypassSecurityTrustHtml: (val: string) => val,
+          },
+        },
+      ],
     });
     sanitizer = TestBed.inject(DomSanitizer);
     pipe = new HighlightTextPipe(sanitizer);
@@ -40,7 +42,7 @@ describe('HighlightTextPipe', () => {
 
   it('should highlight the search term if found', () => {
     const value = 'some text';
-    let result = pipe.transform(value, 'some');
+    const result = pipe.transform(value, 'some');
     expect(result).toEqual('<strong style="color:black" class="highlight">some</strong> text');
   });
 });

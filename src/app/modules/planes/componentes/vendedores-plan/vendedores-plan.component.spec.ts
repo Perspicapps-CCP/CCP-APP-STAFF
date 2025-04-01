@@ -5,33 +5,43 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PlanVenta } from '../../interfaces/planes.interface';
 import { BehaviorSubject, of } from 'rxjs';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { Vendedor } from '../../../vendedores/interfaces/vendedores.interface';
 
 // Mock del servicio de búsqueda dinámica
 class MockDinamicSearchService {
   dynamicSearch(items: Vendedor[], searchTerm: string) {
-    return items.filter(item =>
-      item.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchTerm.toLowerCase())
+    return items.filter(
+      item =>
+        item.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.email.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 }
 
 // Mock del servicio de traducción
 class MockTranslateService {
-  get(key: string | Array<string>) {
+  get(key: string | string[]) {
     return of(key);
   }
-  instant(key: string | Array<string>) {
+  instant(key: string | string[]) {
     return key;
   }
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) { }
-  use(lang: string) { return of({}); }
+  setDefaultLang(lang: string) {
+    this.onDefaultLangChange.next({ lang });
+  }
+  use() {
+    return of({});
+  }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
   onDefaultLangChange = new BehaviorSubject({});
@@ -39,7 +49,7 @@ class MockTranslateService {
 
 // Mock del TranslateLoader
 export class MockTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string) {
+  getTranslation() {
     return of({});
   }
 }
@@ -51,31 +61,31 @@ describe('VendedoresPlanComponent', () => {
 
   // Datos de prueba
   const mockPlanVenta: PlanVenta = {
-    id: "123e4567-e89b-12d3-a456-426614174000",
-    product_id: "prod-001",
-    start_date: new Date("2025-01-01"),
-    end_date: new Date("2025-12-31"),
-    goal: "10000",
+    id: '123e4567-e89b-12d3-a456-426614174000',
+    product_id: 'prod-001',
+    start_date: new Date('2025-01-01'),
+    end_date: new Date('2025-12-31'),
+    goal: '10000',
     sellers: [
       {
-        id: "seller-001",
-        full_name: "Juan Pérez",
-        email: "juan@example.com",
-        id_type: "CC",
-        identification: "123456789",
-        phone: "3001234567",
-        username: "jperez"
+        id: 'seller-001',
+        full_name: 'Juan Pérez',
+        email: 'juan@example.com',
+        id_type: 'CC',
+        identification: '123456789',
+        phone: '3001234567',
+        username: 'jperez',
       },
       {
-        id: "seller-002",
-        full_name: "Ana Gómez",
-        email: "ana@example.com",
-        id_type: "CC",
-        identification: "987654321",
-        phone: "3007654321",
-        username: "agomez"
-      }
-    ]
+        id: 'seller-002',
+        full_name: 'Ana Gómez',
+        email: 'ana@example.com',
+        id_type: 'CC',
+        identification: '987654321',
+        phone: '3007654321',
+        username: 'agomez',
+      },
+    ],
   };
 
   beforeEach(async () => {
@@ -84,18 +94,24 @@ describe('VendedoresPlanComponent', () => {
         VendedoresPlanComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
-        { provide: HighlightTextPipe, useClass: class { transform(text: string, search: string) { return text; } } },
-        TranslateStore
+        {
+          provide: HighlightTextPipe,
+          useClass: class {
+            transform(text: string) {
+              return text;
+            }
+          },
+        },
+        TranslateStore,
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VendedoresPlanComponent);
     component = fixture.componentInstance;
@@ -165,7 +181,7 @@ describe('VendedoresPlanComponent', () => {
     // Crear un plan sin vendedores
     const planSinVendedores: PlanVenta = {
       ...mockPlanVenta,
-      sellers: []
+      sellers: [],
     };
 
     // Asignar el nuevo plan

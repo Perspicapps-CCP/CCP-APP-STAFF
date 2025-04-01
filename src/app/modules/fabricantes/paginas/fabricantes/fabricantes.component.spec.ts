@@ -6,7 +6,12 @@ import { FabricantesService } from '../../servicios/fabricantes.service';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
 import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
@@ -20,9 +25,15 @@ class MockLocalizationService {
   localeId = 'es-ES';
   currentLocale$ = new BehaviorSubject<string>('es-ES');
 
-  getLocale() { return 'es-ES'; }
-  getLang() { return 'es'; }
-  getCurrencyCode() { return 'EUR'; }
+  getLocale() {
+    return 'es-ES';
+  }
+  getLang() {
+    return 'es';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
 }
 
 // Mock del servicio de fabricantes
@@ -30,22 +41,22 @@ class MockFabricantesService {
   obtenerFabricantes() {
     return of<Fabricante[]>([
       {
-        id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-        manufacturer_name: "Percy Aufderhar",
-        identification_type: "CE",
-        identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-        address: "7631 Lucio Lakes",
-        contact_phone: "2899994000",
-        email: "Faye20@hotmail.com"
+        id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+        manufacturer_name: 'Percy Aufderhar',
+        identification_type: 'CE',
+        identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+        address: '7631 Lucio Lakes',
+        contact_phone: '2899994000',
+        email: 'Faye20@hotmail.com',
       },
       {
-        id: "0df4f543-81af-46d7-8ba4-5a229dbcce7e",
-        manufacturer_name: "Cassandra Mertz",
-        identification_type: "CC",
-        identification_number: "4236a0c5-0964-43da-8ec8-003f3eaac1f3",
-        address: "215 McKenzie Causeway",
-        contact_phone: "6299090284",
-        email: "Dessie_Bednar@yahoo.com"
+        id: '0df4f543-81af-46d7-8ba4-5a229dbcce7e',
+        manufacturer_name: 'Cassandra Mertz',
+        identification_type: 'CC',
+        identification_number: '4236a0c5-0964-43da-8ec8-003f3eaac1f3',
+        address: '215 McKenzie Causeway',
+        contact_phone: '6299090284',
+        email: 'Dessie_Bednar@yahoo.com',
       },
     ]);
   }
@@ -55,24 +66,28 @@ class MockFabricantesService {
 class MockDinamicSearchService {
   dynamicSearch(items: Fabricante[], searchTerm: string) {
     return items.filter(item =>
-      item.manufacturer_name.toLowerCase().includes(searchTerm.toLowerCase())
+      item.manufacturer_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 }
 
 // Mock del servicio de traducción
 class MockTranslateService {
-  get(key: string | Array<string>) {
+  get(key: string | string[]) {
     return of(key);
   }
-  instant(key: string | Array<string>) {
+  instant(key: string | string[]) {
     return key;
   }
   getBrowserLang() {
     return 'es';
   }
-  setDefaultLang(lang: string) { }
-  use(lang: string) { return of({}); }
+  setDefaultLang(lang: string) {
+    console.log(`Default language set to: ${lang}`);
+  }
+  use() {
+    return of({});
+  }
   onLangChange = new BehaviorSubject({ lang: 'es' });
   onTranslationChange = new BehaviorSubject({});
   onDefaultLangChange = new BehaviorSubject({});
@@ -93,7 +108,9 @@ class MockMatDialog {
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
-      close: (result?: any) => { }
+      close: (result?: any) => {
+        console.log('Dialog closed with result:', result);
+      },
     } as MatDialogRef<any>;
   }
 }
@@ -111,8 +128,8 @@ describe('FabricantesComponent', () => {
         FabricantesComponent,
         ReactiveFormsModule,
         TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: MockTranslateLoader }
-        })
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
       ],
       providers: [
         { provide: LocalizationService, useClass: MockLocalizationService },
@@ -120,12 +137,11 @@ describe('FabricantesComponent', () => {
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialog, useClass: MockMatDialog },
-        TranslateStore
+        TranslateStore,
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FabricantesComponent);
     component = fixture.componentInstance;
@@ -169,14 +185,14 @@ describe('FabricantesComponent', () => {
     expect(component.fabricanteSelected).toBeNull();
 
     // Seleccionar un fabricante
-    const fabricante:Fabricante = {
-      id: "0df4f543-81af-46d7-8ba4-5a229dbcce7e",
-      manufacturer_name: "Cassandra Mertz",
-      identification_type: "CC",
-      identification_number: "4236a0c5-0964-43da-8ec8-003f3eaac1f3",
-      address: "215 McKenzie Causeway",
-      contact_phone: "6299090284",
-      email: "Dessie_Bednar@yahoo.com"
+    const fabricante: Fabricante = {
+      id: '0df4f543-81af-46d7-8ba4-5a229dbcce7e',
+      manufacturer_name: 'Cassandra Mertz',
+      identification_type: 'CC',
+      identification_number: '4236a0c5-0964-43da-8ec8-003f3eaac1f3',
+      address: '215 McKenzie Causeway',
+      contact_phone: '6299090284',
+      email: 'Dessie_Bednar@yahoo.com',
     };
     component.toggleExpansion(fabricante);
     expect(component.fabricanteSelected).toBe(fabricante);
@@ -186,14 +202,14 @@ describe('FabricantesComponent', () => {
     expect(component.fabricanteSelected).toBeNull();
 
     // Seleccionar otro fabricante después de tener uno seleccionado
-    const otroFabricante:Fabricante = {
-      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-      manufacturer_name: "Percy Aufderhar",
-      identification_type: "CE",
-      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-      address: "7631 Lucio Lakes",
-      contact_phone: "2899994000",
-      email: "Faye20@hotmail.com"
+    const otroFabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
     };
     component.toggleExpansion(fabricante);
     component.toggleExpansion(otroFabricante);
@@ -239,13 +255,13 @@ describe('FabricantesComponent', () => {
   it('debería abrir el modal para agregar productos a un fabricante', () => {
     // Crear un fabricante de prueba
     const fabricante = {
-      id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-      manufacturer_name: "Percy Aufderhar",
-      identification_type: "CE",
-      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-      address: "7631 Lucio Lakes",
-      contact_phone: "2899994000",
-      email: "Faye20@hotmail.com"
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
     };
 
     // Llamar al método
@@ -254,7 +270,7 @@ describe('FabricantesComponent', () => {
     // Verificar que se abrió el diálogo con los parámetros correctos
     expect(dialog.open).toHaveBeenCalledWith(AgregarProductoFabricanteComponent, {
       width: '29.125rem',
-      data: { ...fabricante }
+      data: { ...fabricante },
     });
   });
 });

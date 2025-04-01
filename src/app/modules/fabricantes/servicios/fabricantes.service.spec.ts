@@ -14,11 +14,7 @@ describe('FabricantesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        FabricantesService,
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      providers: [FabricantesService, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(FabricantesService);
@@ -39,7 +35,7 @@ describe('FabricantesService', () => {
     // Mock de la respuesta del servidor
     const mockResponse = [
       { id: '1', manufacturer_name: 'Fabricante 1' },
-      { id: '2', manufacturer_name: 'Fabricante 2' }
+      { id: '2', manufacturer_name: 'Fabricante 2' },
     ];
 
     // Llamar al método del servicio
@@ -70,7 +66,7 @@ describe('FabricantesService', () => {
       contact_phone: '555-1234',
       address: 'Calle Test 123',
       email: 'test@fabricante.com',
-      expandido: false
+      expandido: false,
     };
     // Mock de la respuesta del servidor
     const mockResponse = [
@@ -85,7 +81,9 @@ describe('FabricantesService', () => {
     });
 
     // Configurar la respuesta mock para la petición HTTP
-    const req = httpMock.expectOne(`${environment.apiUrlCCP}/suppliers/manufacturers/products/${fabricante.id}/`);
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/products/${fabricante.id}/`,
+    );
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
 
@@ -99,31 +97,31 @@ describe('FabricantesService', () => {
     expect(resultado[1].unit_cost).toBe(20.75);
   });
 
-  it('debería crear un fabricante correctamente', (done) => {
+  it('debería crear un fabricante correctamente', done => {
     // Crear fabricante de prueba para enviar
     const nuevoFabricante: Fabricante = {
-      manufacturer_name: "Percy Aufderhar",
-      identification_type: "CE",
-      identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-      address: "7631 Lucio Lakes",
-      contact_phone: "289.999.4000",
-      email: "Faye20@hotmail.com",
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '289.999.4000',
+      email: 'Faye20@hotmail.com',
     };
 
     // Mock de la respuesta del servidor (fabricante creado con ID asignado)
     const mockResponse = {
-          manufacturer_name: "Percy Aufderhar",
-          identification_type: "CE",
-          identification_number: "27d90e27-970a-41e7-83c1-7e6402296a51",
-          address: "7631 Lucio Lakes",
-          contact_phone: "289.999.4000",
-          email: "Faye20@hotmail.com",
-          id: "423b3d2c-bc23-4892-8022-0ee081803d19",
-        };
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '289.999.4000',
+      email: 'Faye20@hotmail.com',
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+    };
 
     // Llamar al método del servicio
     service.crearFabricante(nuevoFabricante).subscribe({
-      next: (fabricanteCreado) => {
+      next: fabricanteCreado => {
         // Verificaciones dentro del subscribe para asegurar que se ejecuten después de recibir la respuesta
         expect(fabricanteCreado).toBeTruthy();
         expect(fabricanteCreado.id).toBe('423b3d2c-bc23-4892-8022-0ee081803d19');
@@ -134,9 +132,9 @@ describe('FabricantesService', () => {
         expect(fabricanteCreado.email).toBe('Faye20@hotmail.com');
         done(); // Indicar que la prueba asíncrona está completa
       },
-      error: (error) => {
+      error: error => {
         done.fail(error); // Fallar el test si hay un error
-      }
+      },
     });
 
     // Configurar la respuesta mock para la petición HTTP

@@ -1,4 +1,4 @@
-import { ProductoFabricante } from "../../fabricantes/interfaces/producto-fabricante.interface";
+import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabricante.interface';
 
 export interface ProductoBodegaInventario {
   product_id: string;
