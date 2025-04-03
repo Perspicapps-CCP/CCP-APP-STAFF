@@ -76,9 +76,19 @@
                     type="button"
                     class="btn btn-primary btn-actions-table btn-sm"
                     ngbTooltip="{{ 'FABRICANTES.TOOLTIPS.UPLOAD_PRODUCTS_MASSIVE' | translate }}"
+                    (click)="cargaMasiva.click()"
                   >
                     <mat-icon>upload</mat-icon>
                   </button>
+                  <input
+                    class="hidden"
+                    type="file"
+                    accept=".csv"
+                    [multiple]="false"
+                    #cargaMasiva
+                    (change)="cargaMasivaProductos($event, cargaMasiva, fabricante)"
+                    hidden
+                  />
                 </div>
               </td>
               <td>

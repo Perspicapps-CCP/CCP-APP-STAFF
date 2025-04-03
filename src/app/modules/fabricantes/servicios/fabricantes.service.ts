@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { map } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { Fabricante } from '../interfaces/fabricantes.interface';
 import { ProductoFabricante } from '../interfaces/producto-fabricante.interface';
+import { MasivoProductoResponse } from '../interfaces/masivo-productos-response';
 
 @Injectable({
   providedIn: 'root',
@@ -45,5 +46,15 @@ export class FabricantesService {
 
   crearFabricante(fabricante: Fabricante) {
     return this.http.post<Fabricante>(`${this.apiUrl}/suppliers/manufacturers/`, fabricante);
+  }
+
+  cargaMasivaProductosFabricante(fabricante: Fabricante, file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<MasivoProductoResponse>(
+      `${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/batch/`,
+      formData,
+    );
   }
 }

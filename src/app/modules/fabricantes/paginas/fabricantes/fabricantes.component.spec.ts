@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { FabricantesComponent } from './fabricantes.component';
 import { LocalizationService } from '../../../../shared/servicios/localization.service';
 import { FabricantesService } from '../../servicios/fabricantes.service';
@@ -16,6 +16,19 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
 import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
 import { Fabricante } from '../../interfaces/fabricantes.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+// Interfaces para la respuesta de carga masiva
+interface MasivoProductoResponse {
+  total_successful_records: number;
+  total_errors_records: number;
+  detail: Detail[];
+}
+
+interface Detail {
+  row_file: number;
+  detail: string;
+}
 
 // Mock del servicio de localización
 class MockLocalizationService {
@@ -59,6 +72,14 @@ class MockFabricantesService {
         email: 'Dessie_Bednar@yahoo.com',
       },
     ]);
+  }
+
+  cargaMasivaProductosFabricante(fabricante: Fabricante, file: File) {
+    return of<MasivoProductoResponse>({
+      total_successful_records: 10,
+      total_errors_records: 0,
+      detail: [],
+    });
   }
 }
 
@@ -115,12 +136,26 @@ class MockMatDialog {
   }
 }
 
+// Mock para MatSnackBar
+class MockMatSnackBar {
+  open(message: string, action = '', config?: any) {
+    return {
+      onAction: () => of({}),
+      dismiss: () => {
+        console.log('Snackbar dismissed');
+      },
+    };
+  }
+}
+
 describe('FabricantesComponent', () => {
   let component: FabricantesComponent;
   let fixture: ComponentFixture<FabricantesComponent>;
   let fabricantesService: FabricantesService;
   let dinamicSearchService: DinamicSearchService;
   let dialog: MatDialog;
+  let snackBar: MatSnackBar;
+  let translateService: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -137,6 +172,7 @@ describe('FabricantesComponent', () => {
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
         { provide: MatDialog, useClass: MockMatDialog },
+        { provide: MatSnackBar, useClass: MockMatSnackBar },
         TranslateStore,
       ],
       // Ignorar errores de componentes secundarios que no son críticos para estas pruebas
@@ -148,6 +184,8 @@ describe('FabricantesComponent', () => {
     fabricantesService = TestBed.inject(FabricantesService);
     dinamicSearchService = TestBed.inject(DinamicSearchService);
     dialog = TestBed.inject(MatDialog);
+    snackBar = TestBed.inject(MatSnackBar);
+    translateService = TestBed.inject(TranslateService);
 
     // Espiar métodos para verificar llamadas
     spyOn(fabricantesService, 'obtenerFabricantes').and.callThrough();
@@ -273,4 +311,348 @@ describe('FabricantesComponent', () => {
       data: { ...fabricante },
     });
   });
+
+  // Nuevas pruebas para el método cargaMasivaProductos
+  it('debería manejar correctamente la carga exitosa de un archivo CSV sin errores', fakeAsync(() => {
+    // Espiar el método cargaMasivaProductosFabricante del servicio
+    spyOn(fabricantesService, 'cargaMasivaProductosFabricante').and.returnValue(
+      of({
+        total_successful_records: 10,
+        total_errors_records: 0,
+        detail: [],
+      }),
+    );
+
+    // Espiar los métodos del servicio de traducción y snackbar
+    spyOn(translateService, 'get').and.callThrough();
+    spyOn(snackBar, 'open').and.callThrough();
+
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Seleccionar el fabricante
+    component.fabricanteSelected = fabricante;
+
+    // Crear un archivo CSV mock
+    const file = new File(['contenido del csv'], 'productos.csv', { type: 'text/csv' });
+    const fileList = {
+      0: file,
+      length: 1,
+      item: (index: number) => file,
+      [Symbol.iterator]: function* () {
+        yield file;
+      },
+    } as unknown as FileList;
+
+    // Crear un evento mock
+    const event = {
+      target: {
+        files: fileList,
+      },
+    } as any;
+
+    // Elemento HTML input mock
+    const cargaMasiva = document.createElement('input');
+
+    // Resetear el contador de llamadas a obtenerFabricantes para la prueba
+    (component.obtenerFabricantes as jasmine.Spy).calls.reset();
+
+    // Llamar al método
+    component.cargaMasivaProductos(event, cargaMasiva, fabricante);
+    tick();
+
+    // Verificar que se llamó al servicio con los parámetros correctos
+    expect(fabricantesService.cargaMasivaProductosFabricante).toHaveBeenCalledWith(
+      fabricante,
+      file,
+    );
+
+    // Verificar que se solicitó la traducción del mensaje de éxito
+    expect(translateService.get).toHaveBeenCalledWith('FABRICANTES.TOAST.SUCCESS_FILE');
+
+    // Verificar que se mostró el snackbar
+    expect(snackBar.open).toHaveBeenCalled();
+
+    // Verificar que se refrescaron los fabricantes
+    expect(component.obtenerFabricantes).toHaveBeenCalled();
+
+    // Verificar que se limpió el input
+    expect(cargaMasiva.value).toBe('');
+
+    // Verificar que se deseleccionó el fabricante
+    expect(component.fabricanteSelected).toBeNull();
+  }));
+
+  it('debería manejar correctamente la carga de un archivo CSV con errores', fakeAsync(() => {
+    // Mock de respuesta con errores
+    const errorResponse: MasivoProductoResponse = {
+      total_successful_records: 8,
+      total_errors_records: 2,
+      detail: [
+        { row_file: 3, detail: 'Campo requerido faltante' },
+        { row_file: 5, detail: 'Formato inválido' },
+      ],
+    };
+
+    // Espiar el método cargaMasivaProductosFabricante del servicio
+    spyOn(fabricantesService, 'cargaMasivaProductosFabricante').and.returnValue(of(errorResponse));
+
+    // Espiar los métodos del snackbar
+    spyOn(snackBar, 'open').and.callThrough();
+
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Seleccionar el fabricante
+    component.fabricanteSelected = fabricante;
+
+    // Crear un archivo CSV mock
+    const file = new File(['contenido del csv'], 'productos.csv', { type: 'text/csv' });
+    const fileList = {
+      0: file,
+      length: 1,
+      item: (index: number) => file,
+      [Symbol.iterator]: function* () {
+        yield file;
+      },
+    } as unknown as FileList;
+
+    // Crear un evento mock
+    const event = {
+      target: {
+        files: fileList,
+      },
+    } as any;
+
+    // Elemento HTML input mock
+    const cargaMasiva = document.createElement('input');
+
+    // Resetear el contador de llamadas a obtenerFabricantes para la prueba
+    (component.obtenerFabricantes as jasmine.Spy).calls.reset();
+
+    // Llamar al método
+    component.cargaMasivaProductos(event, cargaMasiva, fabricante);
+    tick();
+
+    // Verificar que se llamó al servicio con los parámetros correctos
+    expect(fabricantesService.cargaMasivaProductosFabricante).toHaveBeenCalledWith(
+      fabricante,
+      file,
+    );
+
+    // Verificar que se mostró el snackbar con los mensajes de error
+    expect(snackBar.open).toHaveBeenCalledWith(
+      jasmine.stringContaining('3: Campo requerido faltante'),
+      '',
+      jasmine.objectContaining({
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        duration: 5000,
+        panelClass: ['multiline-snackbar'],
+      }),
+    );
+
+    // Verificar que se refrescaron los fabricantes
+    expect(component.obtenerFabricantes).toHaveBeenCalled();
+
+    // Verificar que se limpió el input
+    expect(cargaMasiva.value).toBe('');
+
+    // Verificar que se deseleccionó el fabricante
+    expect(component.fabricanteSelected).toBeNull();
+  }));
+
+  it('debería rechazar archivos que no sean CSV', fakeAsync(() => {
+    // Espiar los métodos relevantes
+    spyOn(fabricantesService, 'cargaMasivaProductosFabricante').and.callThrough();
+    spyOn(translateService, 'get').and.callThrough();
+    spyOn(snackBar, 'open').and.callThrough();
+
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Seleccionar el fabricante
+    component.fabricanteSelected = fabricante;
+
+    // Crear un archivo que NO es CSV
+    const file = new File(['contenido del archivo'], 'productos.txt', { type: 'text/plain' });
+    const fileList = {
+      0: file,
+      length: 1,
+      item: (index: number) => file,
+      [Symbol.iterator]: function* () {
+        yield file;
+      },
+    } as unknown as FileList;
+
+    // Crear un evento mock
+    const event = {
+      target: {
+        files: fileList,
+      },
+    } as any;
+
+    // Elemento HTML input mock
+    const cargaMasiva = document.createElement('input');
+
+    // Llamar al método
+    component.cargaMasivaProductos(event, cargaMasiva, fabricante);
+    tick();
+
+    // Verificar que NO se llamó al servicio
+    expect(fabricantesService.cargaMasivaProductosFabricante).not.toHaveBeenCalled();
+
+    // Verificar que se solicitó la traducción del mensaje de error
+    expect(translateService.get).toHaveBeenCalledWith('FABRICANTES.TOAST.ERROR_SCV_FILE');
+
+    // Verificar que se mostró el snackbar
+    expect(snackBar.open).toHaveBeenCalled();
+
+    // Verificar que se deseleccionó el fabricante (ahora debe ser null como se actualizó en el código)
+    expect(component.fabricanteSelected).toBeNull();
+
+    // Verificar que se limpió el input
+    expect(cargaMasiva.value).toBe('');
+  }));
+
+  it('debería manejar errores del servicio durante la carga de archivos', fakeAsync(() => {
+    // Espiar los métodos relevantes
+    spyOn(fabricantesService, 'cargaMasivaProductosFabricante').and.returnValue(
+      throwError(() => new Error('Error al cargar el archivo')),
+    );
+    spyOn(translateService, 'get').and.callThrough();
+    spyOn(snackBar, 'open').and.callThrough();
+    spyOn(console, 'error').and.callThrough();
+
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Seleccionar el fabricante
+    component.fabricanteSelected = fabricante;
+
+    // Crear un archivo CSV mock
+    const file = new File(['contenido del csv'], 'productos.csv', { type: 'text/csv' });
+    const fileList = {
+      0: file,
+      length: 1,
+      item: (index: number) => file,
+      [Symbol.iterator]: function* () {
+        yield file;
+      },
+    } as unknown as FileList;
+
+    // Crear un evento mock
+    const event = {
+      target: {
+        files: fileList,
+      },
+    } as any;
+
+    // Elemento HTML input mock
+    const cargaMasiva = document.createElement('input');
+
+    // Llamar al método
+    component.cargaMasivaProductos(event, cargaMasiva, fabricante);
+    tick();
+
+    // Verificar que se llamó al servicio con los parámetros correctos
+    expect(fabricantesService.cargaMasivaProductosFabricante).toHaveBeenCalledWith(
+      fabricante,
+      file,
+    );
+
+    // Verificar que se registró el error en la consola
+    expect(console.error).toHaveBeenCalled();
+
+    // Verificar que se solicitó la traducción del mensaje de error
+    expect(translateService.get).toHaveBeenCalledWith('FABRICANTES.TOAST.ERROR_FILE');
+
+    // Verificar que se mostró el snackbar
+    expect(snackBar.open).toHaveBeenCalled();
+
+    // Verificar que se limpió el input
+    expect(cargaMasiva.value).toBe('');
+
+    // Verificar que se deseleccionó el fabricante
+    expect(component.fabricanteSelected).toBeNull();
+  }));
+
+  it('no debería hacer nada si no se selecciona ningún archivo', fakeAsync(() => {
+    // Espiar los métodos relevantes
+    spyOn(fabricantesService, 'cargaMasivaProductosFabricante').and.callThrough();
+    spyOn(translateService, 'get').and.callThrough();
+    spyOn(snackBar, 'open').and.callThrough();
+
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Crear un evento mock sin archivos
+    const event = {
+      target: {
+        files: null,
+      },
+    } as any;
+
+    // Elemento HTML input mock
+    const cargaMasiva = document.createElement('input');
+
+    // Llamar al método
+    component.cargaMasivaProductos(event, cargaMasiva, fabricante);
+    tick();
+
+    // Verificar que no se llamó al servicio
+    expect(fabricantesService.cargaMasivaProductosFabricante).not.toHaveBeenCalled();
+
+    // Verificar que no se solicitó traducción
+    expect(translateService.get).not.toHaveBeenCalled();
+
+    // Verificar que no se mostró el snackbar
+    expect(snackBar.open).not.toHaveBeenCalled();
+
+    // Verificar que se limpió el input
+    expect(cargaMasiva.value).toBe('');
+
+    // Verificar que se deseleccionó el fabricante
+    expect(component.fabricanteSelected).toBeNull();
+  }));
 });

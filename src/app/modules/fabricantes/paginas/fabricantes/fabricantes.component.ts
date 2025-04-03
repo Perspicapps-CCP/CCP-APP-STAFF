@@ -11,6 +11,8 @@ import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe'
 import { CrearFabricanteComponent } from '../../componentes/crear-fabricante/crear-fabricante.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AgregarProductoFabricanteComponent } from '../../componentes/agregar-producto-fabricante/agregar-producto-fabricante.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fabricantes',
@@ -29,6 +31,8 @@ export class FabricantesComponent implements OnInit {
     private fabricantesService: FabricantesService,
     private dinamicSearchService: DinamicSearchService,
     private dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -82,5 +86,64 @@ export class FabricantesComponent implements OnInit {
       width: '29.125rem',
       data: { ...fabricante },
     });
+  }
+
+  cargaMasivaProductos($event: Event, cargaMasiva: HTMLInputElement, fabricante: Fabricante) {
+    const target = $event.target as HTMLInputElement;
+    const files = target.files;
+    cargaMasiva.value = '';
+    this.fabricanteSelected = null;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+      const fileName = file.name;
+      if (!fileName.toLowerCase().endsWith('.csv')) {
+        this.translate.get('FABRICANTES.TOAST.ERROR_SCV_FILE').subscribe((mensaje: string) => {
+          this._snackBar.open(mensaje, '', {
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        });
+        return;
+      }
+      this.fabricantesService.cargaMasivaProductosFabricante(fabricante, file).subscribe({
+        next: res => {
+          if (res.total_errors_records > 0) {
+            const mensaje = res.detail.map(element => {
+              return `${element.row_file}: ${element.detail}
+              `;
+            });
+
+            this._snackBar.open(`${mensaje.join('\n')}`, '', {
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              duration: 5000,
+              panelClass: ['multiline-snackbar'],
+            });
+          } else {
+            this.translate.get('FABRICANTES.TOAST.SUCCESS_FILE').subscribe((mensaje: string) => {
+              this._snackBar.open(mensaje, '', {
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                duration: 3000,
+              });
+            });
+          }
+
+          this.obtenerFabricantes();
+        },
+        error: err => {
+          console.error('Error al cargar el archivo CSV:', err);
+          this.translate.get('FABRICANTES.TOAST.ERROR_FILE').subscribe((mensaje: string) => {
+            this._snackBar.open(mensaje, '', {
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              duration: 3000,
+            });
+          });
+        },
+      });
+    }
   }
 }
