@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { PlanesService } from './planes.service';
 import { LocalizationService } from '../../../shared/servicios/localization.service';
 import { environment } from '../../../../environments/environment';
-import { PlanVenta } from '../interfaces/planes.interface';
+import { PlanVenta, PlanVentaPost } from '../interfaces/planes.interface';
 import { BehaviorSubject, of } from 'rxjs';
 import { LocalDatePipe } from '../../../shared/pipes/local-date.pipe';
 
@@ -20,7 +20,7 @@ describe('PlanesService', () => {
     };
 
     // Spy para HttpClient
-    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get', 'post']); // Add 'post' here
 
     // Spy para LocalizationService con propiedades observables
     localizationServiceSpy = jasmine.createSpyObj('LocalizationService', ['getCurrentLanguage'], {
@@ -94,5 +94,26 @@ describe('PlanesService', () => {
     });
 
     expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrl}/api/v1/sales/plans/`);
+  });
+
+  it('should call crearPlan from the API', () => {
+    const mockPlan: PlanVentaPost = {
+      product_id: 'prod-1',
+      start_date: new Date('2025-01-01T00:00:00.000Z'),
+      end_date: new Date('2025-12-31T00:00:00.000Z'),
+      goal: 1000,
+      seller_ids: [],
+    };
+
+    httpClientSpy.post.and.returnValue(of(mockPlan));
+
+    service.crearPlan(mockPlan).subscribe(plan => {
+      expect(plan).toEqual(mockPlan);
+    });
+
+    expect(httpClientSpy.post).toHaveBeenCalledWith(
+      `${environment.apiUrl}/api/v1/sales/plans/`,
+      mockPlan,
+    );
   });
 });

@@ -207,7 +207,7 @@
     }
   },
   "PLAN_VENTA": {
-    "SEARCH_PLACEHOLDER": "Filtrar plan de ventas",
+    "SEARCH_PLACEHOLDER": "Filtrar planes de venta",
     "TABLE_HEADERS": {
       "COD_PRODUCT": "Código de producto",
       "START_DATE": "Fecha de inicio",
@@ -216,11 +216,11 @@
       "SELLERS": "Vendedores"
     },
     "TABLE_EMPTY": {
-      "TITLE": "No se encontró ningún plan de ventas",
-      "DESCRIPTION": "Puede añadir un nuevo plan de ventas haciendo clic en el botón de abajo"
+      "TITLE": "No se encontraron planes de venta",
+      "DESCRIPTION": "Puede añadir un nuevo plan de venta haciendo clic en el botón de abajo"
     },
     "TOOLTIPS": {
-      "ADD_PLAN": "Agregar plan de ventas",
+      "ADD_PLAN": "Agregar plan de venta",
       "VIEW_SELLERS": "Ver vendedores"
     },
     "VENDEDORES_PLAN": {
@@ -229,6 +229,35 @@
         "NAME": "Nombres",
         "PHONE": "Teléfono",
         "USER": "Usuario"
+      }
+    },
+    "CREAR_PLAN": {
+      "TITLE": "Agregar plan de venta",
+      "FORM": {
+        "PRODUCT": "Seleccionar producto",
+        "GOAL": "Meta",
+        "START_DATE": "Fecha de inicio",
+        "END_DATE": "Fecha de fin",
+        "SELLERS": "Vendedores"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "FIELD_LENGTH": "Este campo debe tener {{min}} caracteres de longitud",
+        "DATE_PAST": "La fecha debe ser en el futuro",
+        "END_DATE_BEFORE_START_DATE": "La fecha de fin debe ser posterior a la fecha de inicio",
+        "GOAL_MIN": "La meta debe ser al menos {{min}}"
+      },
+      "TOAST": {
+        "SUCCESS": "Plan de venta creado exitosamente",
+        "ERROR": "Error al crear el plan de venta",
+        "ERROR_SELLERS": "Debe seleccionar al menos un vendedor"
+      },
+      "TABLA_HEADER_SELLERS": {
+        "NAME": "Nombre del Vendedor"
       }
     }
   }
