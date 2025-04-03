@@ -50,7 +50,7 @@ describe('ProductosBodegaComponent', () => {
           id: '1',
           name: 'Producto 1',
           product_code: 'abc123',
-          unit_cost: 10.5,
+          price: 10.5,
           images: ['image1.jpg'],
           quantity: '10',
         },
@@ -58,7 +58,7 @@ describe('ProductosBodegaComponent', () => {
           id: '2',
           name: 'Producto 2',
           product_code: 'xyz456',
-          unit_cost: 20.75,
+          price: 20.75,
           images: ['image2.jpg'],
           quantity: '20',
         },
@@ -138,7 +138,7 @@ describe('ProductosBodegaComponent', () => {
       id: 'b9830b3f-e507-44e3-bec0-8416c68c2047',
       name: 'Shirt',
       product_code: '978-1-0365-2066-3',
-      unit_cost: 3360.1,
+      price: 3360.1,
       images: ['original_image.jpg', 'thumbnail_image.jpg'],
     };
 

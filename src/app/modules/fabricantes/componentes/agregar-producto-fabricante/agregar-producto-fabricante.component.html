@@ -48,12 +48,12 @@
           name="unit-cost"
           placeholder="{{ 'FABRICANTES.CREAR_PRODUCTO.FORM.PRICE' | translate }}"
           autocomplete="off"
-          formControlName="unit_cost"
-          [ngClass]="{ 'is-invalid': isInvalid('unit_cost') }"
+          formControlName="price"
+          [ngClass]="{ 'is-invalid': isInvalid('price') }"
           appNumbersOnly
         />
         <div class="invalid-feedback">
-          {{ getErrorMessage('unit_cost').key | translate }}
+          {{ getErrorMessage('price').key | translate }}
         </div>
       </div>
 
