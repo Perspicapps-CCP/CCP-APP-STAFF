@@ -70,8 +70,8 @@ describe('FabricantesService', () => {
     };
     // Mock de la respuesta del servidor
     const mockResponse = [
-      { id: '101', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: [] },
-      { id: '102', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: [] },
+      { id: '101', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: [] },
+      { id: '102', name: 'Producto 2', product_code: 'abc123', price: 20.75, images: [] },
     ];
 
     // Llamar al método del servicio
@@ -82,7 +82,7 @@ describe('FabricantesService', () => {
 
     // Configurar la respuesta mock para la petición HTTP
     const req = httpMock.expectOne(
-      `${environment.apiUrlCCP}/suppliers/manufacturers/products/${fabricante.id}/`,
+      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/`,
     );
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
@@ -91,10 +91,10 @@ describe('FabricantesService', () => {
     expect(resultado.length).toBe(2);
     expect(resultado[0].id).toBe('101');
     expect(resultado[0].name).toBe('Producto 1');
-    expect(resultado[0].unit_cost).toBe(10.5);
+    expect(resultado[0].price).toBe(10.5);
     expect(resultado[1].id).toBe('102');
     expect(resultado[1].name).toBe('Producto 2');
-    expect(resultado[1].unit_cost).toBe(20.75);
+    expect(resultado[1].price).toBe(20.75);
   });
 
   it('debería crear un fabricante correctamente', done => {
@@ -142,5 +142,72 @@ describe('FabricantesService', () => {
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(nuevoFabricante);
     req.flush(mockResponse);
+  });
+
+  it('debería obtener productos por IDs', () => {
+    // Array de IDs a enviar
+    const idsProductos = ['101', '102', '103'];
+
+    // Mock de la respuesta del servidor
+    const mockResponse = [
+      { id: '101', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: [] },
+      { id: '102', name: 'Producto 2', product_code: 'def456', price: 20.75, images: [] },
+      { id: '103', name: 'Producto 3', product_code: 'ghi789', price: 15.25, images: [] },
+    ];
+
+    // Llamar al método del servicio
+    let resultado: ProductoFabricante[] = [];
+    service.obtenerProductos(idsProductos).subscribe(data => {
+      resultado = data;
+    });
+
+    // Configurar la respuesta mock para la petición HTTP
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/listProducts/`,
+    );
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ productsIds: idsProductos });
+    req.flush(mockResponse);
+
+    // Verificar resultados
+    expect(resultado.length).toBe(3);
+    expect(resultado[0].id).toBe('101');
+    expect(resultado[0].name).toBe('Producto 1');
+    expect(resultado[0].price).toBe(10.5);
+    expect(resultado[1].id).toBe('102');
+    expect(resultado[1].name).toBe('Producto 2');
+    expect(resultado[2].id).toBe('103');
+    expect(resultado[2].name).toBe('Producto 3');
+  });
+
+  it('debería obtener productos sin enviar IDs (array vacío)', () => {
+    // Mock de la respuesta del servidor cuando no se envían IDs
+    const mockResponse: ProductoFabricante[] = [
+      { id: '101', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: [] },
+      { id: '102', name: 'Producto 2', product_code: 'def456', price: 20.75, images: [] },
+      { id: '103', name: 'Producto 3', product_code: 'ghi789', price: 15.25, images: [] },
+    ];
+
+    // Llamar al método del servicio sin pasar IDs (usará el valor por defecto [])
+    let resultado: ProductoFabricante[] = [];
+    service.obtenerProductos().subscribe(data => {
+      resultado = data;
+    });
+
+    // Configurar la respuesta mock para la petición HTTP
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/listProducts/`,
+    );
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ productsIds: [] }); // Verificar que se envía un array vacío
+    req.flush(mockResponse);
+
+    // Verificar que el resultado es un array vacío
+    expect(resultado).toEqual([
+      { id: '101', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: [] },
+      { id: '102', name: 'Producto 2', product_code: 'def456', price: 20.75, images: [] },
+      { id: '103', name: 'Producto 3', product_code: 'ghi789', price: 15.25, images: [] },
+    ]);
+    expect(resultado.length).toBe(3);
   });
 });

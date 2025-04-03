@@ -8,3 +8,11 @@ export interface PlanVenta {
   goal: string;
   sellers: Vendedor[];
 }
+
+export interface PlanVentaPost {
+  product_id: string;
+  goal: number;
+  start_date: Date;
+  end_date: Date;
+  seller_ids: string[];
+}

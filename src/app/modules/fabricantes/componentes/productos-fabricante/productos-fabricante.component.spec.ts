@@ -49,12 +49,12 @@ describe('ProductosFabricanteComponent', () => {
   const fabricantesServiceMock = {
     obtenerProductosFabricante: jasmine.createSpy('obtenerProductosFabricante').and.returnValue(
       of<ProductoFabricante[]>([
-        { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
+        { id: '1', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: ['10.5'] },
         {
           id: '2',
           name: 'Producto 2',
           product_code: 'abc123',
-          unit_cost: 20.75,
+          price: 20.75,
           images: ['20.75'],
         },
       ]),
@@ -125,8 +125,8 @@ describe('ProductosFabricanteComponent', () => {
   it('debería filtrar productos utilizando el servicio de búsqueda dinámica', () => {
     // Configurar el componente con productos
     component.productos = [
-      { id: '1', name: 'Producto 1', product_code: 'abc123', unit_cost: 10.5, images: ['10.5'] },
-      { id: '2', name: 'Producto 2', product_code: 'abc123', unit_cost: 20.75, images: ['20.75'] },
+      { id: '1', name: 'Producto 1', product_code: 'abc123', price: 10.5, images: ['10.5'] },
+      { id: '2', name: 'Producto 2', product_code: 'abc123', price: 20.75, images: ['20.75'] },
     ];
 
     // Probar el método buscar con un término de búsqueda
@@ -147,7 +147,7 @@ describe('ProductosFabricanteComponent', () => {
       id: 'b9830b3f-e507-44e3-bec0-8416c68c2047',
       name: 'Shirt',
       product_code: '978-1-0365-2066-3',
-      unit_cost: 3360.1,
+      price: 3360.1,
       images: ['original_image.jpg', 'thumbnail_image.jpg'],
     };
 

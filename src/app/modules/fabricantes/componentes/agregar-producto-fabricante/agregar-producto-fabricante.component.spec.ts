@@ -82,7 +82,7 @@ describe('AgregarProductoFabricanteComponent', () => {
     expect(component.productoForm).toBeDefined();
     expect(component.productoForm.get('product_name')?.value).toBe('');
     expect(component.productoForm.get('product_code')?.value).toBe('');
-    expect(component.productoForm.get('unit_cost')?.value).toBe('');
+    expect(component.productoForm.get('price')?.value).toBe('');
     expect(component.productoForm.get('images')?.value).toBeNull();
     expect(component.productoForm.get('images_text')?.value).toBe('');
   });
@@ -115,7 +115,7 @@ describe('AgregarProductoFabricanteComponent', () => {
     form.patchValue({
       product_name: 'Producto Test',
       product_code: 'PROD001',
-      unit_cost: '100',
+      price: '100',
       images: mockFileList,
       images_text: '1 archivo cargado',
     });
@@ -206,7 +206,7 @@ describe('AgregarProductoFabricanteComponent', () => {
     const mockProducto = {
       product_name: 'Producto Test',
       product_code: 'PROD001',
-      unit_cost: '100',
+      price: '100',
       images: null,
       images_text: '',
     };

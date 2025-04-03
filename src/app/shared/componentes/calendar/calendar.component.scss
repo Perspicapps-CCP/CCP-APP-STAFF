@@ -1,0 +1,26 @@
+/* Estilos para asegurar que el datepicker se muestre correctamente sobre modales */
+::ng-deep {
+  /* Asegurar que el calendario tenga un z-index mayor que los modales de Angular Material */
+  ngb-datepicker {
+    z-index: 1100 !important; /* Valor mayor que el z-index de los modales de Angular Material */
+  }
+
+  .ngb-dp-container {
+    z-index: 1100 !important;
+  }
+
+  /* Corregir posicionamiento relativo al viewport */
+  .ngb-dp-header,
+  .ngb-dp-month-name,
+  .ngb-dp-weekdays,
+  .ngb-dp-week {
+    background-color: white; /* Asegurar que el fondo sea visible */
+  }
+
+  /* Mejorar visibilidad en modales oscuros si es necesario */
+  .ngb-dp-day,
+  .ngb-dp-weekday,
+  .ngb-dp-week-number {
+    color: #212529 !important;
+  }
+}

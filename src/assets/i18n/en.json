@@ -5,6 +5,15 @@
   "VISOR_IMAGES": {
     "TITLE": "Product"
   },
+  "CALENDAR": {
+    "TITLE": "Calendar",
+    "SELECT_DATE": "Select date",
+    "SELECTED_DATE": "Selected date",
+    "TODAY": "Today",
+    "NEXT_MONTH": "Next month",
+    "PREVIOUS_MONTH": "Previous month",
+    "CLOSE": "Close"
+  },
   "SETTINGS": {
     "TITLE": "Settings",
     "LANGUAGE": "Language",
@@ -239,7 +248,8 @@
         "FIELD_REQUIRED": "This field is required",
         "FIELD_LENGTH": "This field must be {{min}} characters long",
         "DATE_PAST": "The date must be in the future",
-        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date"
+        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date",
+        "GOAL_MIN": "The goal must be at least {{min}}"
       },
       "TOAST": {
         "SUCCESS": "Sales plan created successfully",

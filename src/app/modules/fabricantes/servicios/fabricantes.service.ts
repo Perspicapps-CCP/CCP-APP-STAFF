@@ -17,24 +17,30 @@ export class FabricantesService {
     return this.http.get<Fabricante[]>(`${this.apiUrl}/suppliers/manufacturers/`);
   }
 
-  obtenerProductosFabricante(fabricante?: Fabricante) {
+  obtenerProductosFabricante(fabricante: Fabricante) {
     return this.http
       .get<
         ProductoFabricante[]
-      >(`${this.apiUrl}/suppliers/manufacturers/products/${fabricante?.id ?? ''}/`)
+      >(`${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/`)
       .pipe(
-        // map<any, ProductoFabricante[]>((res: any) => {
-        //   return res.data.productos;
-        // }),
         map((productos: ProductoFabricante[]) => {
           return productos.map((producto: ProductoFabricante) => {
             return {
               ...producto,
-              costoUnidadLocale: producto.unit_cost.toString(),
+              costoUnidadLocale: producto.price.toString(),
             };
           });
         }),
       );
+  }
+
+  obtenerProductos(idsProductos: string[] = []) {
+    return this.http.post<ProductoFabricante[]>(
+      `${this.apiUrl}/suppliers/manufacturers/listProducts/`,
+      {
+        productsIds: idsProductos,
+      },
+    );
   }
 
   crearFabricante(fabricante: Fabricante) {

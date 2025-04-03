@@ -126,6 +126,5 @@ export class CrearFabricanteComponent {
         this.dialogRef.close();
       },
     });
-    this.dialogRef.close(this.fabricanteForm.value);
   }
 }

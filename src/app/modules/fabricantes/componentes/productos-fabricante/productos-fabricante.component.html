@@ -36,9 +36,7 @@
               ></td>
               <td
                 [innerHTML]="
-                  producto.unit_cost
-                    | localCurrency
-                    | highlightText: formBusquedaProductos.value ?? ''
+                  producto.price | localCurrency | highlightText: formBusquedaProductos.value ?? ''
                 "
               ></td>
               <td>

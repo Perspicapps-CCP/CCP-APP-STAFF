@@ -19,7 +19,7 @@ describe('VisorImagenesDialogComponent', () => {
     id: 1,
     product_name: 'Producto Test',
     product_code: 'TEST-001',
-    unit_cost: '100',
+    price: '100',
     images: ['image1.jpg', 'image2.jpg'],
     manufacturer_id: 1,
   };

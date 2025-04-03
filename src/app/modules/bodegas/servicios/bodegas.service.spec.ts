@@ -42,14 +42,14 @@ describe('BodegasService', () => {
       id: '101',
       name: 'Producto 1',
       product_code: 'P001',
-      unit_cost: 100,
+      price: 100,
       images: ['imagen1.jpg'],
     },
     {
       id: '102',
       name: 'Producto 2',
       product_code: 'P002',
-      unit_cost: 200,
+      price: 200,
       images: ['imagen2.jpg'],
     },
   ];
@@ -123,7 +123,7 @@ describe('BodegasService', () => {
         expect(productos[0].id).toBe('101');
         expect(productos[0].name).toBe('Producto 1');
         expect(productos[0].product_code).toBe('P001');
-        expect(productos[0].unit_cost).toBe(100);
+        expect(productos[0].price).toBe(100);
         expect(productos[0].quantity).toBe('10');
         expect(productos[1].id).toBe('102');
         expect(productos[1].quantity).toBe('20');
@@ -157,7 +157,7 @@ describe('BodegasService', () => {
       expect(resultado[0].id).toBe('101');
       expect(resultado[0].name).toBe('Producto 1');
       expect(resultado[0].product_code).toBe('P001');
-      expect(resultado[0].unit_cost).toBe(100);
+      expect(resultado[0].price).toBe(100);
       expect(resultado[0].quantity).toBe('10');
       expect(resultado[1].id).toBe('102');
       expect(resultado[1].name).toBe('Producto 2');

@@ -19,7 +19,7 @@ export class AgregarProductoFabricanteComponent {
   productoForm = new FormGroup({
     product_name: new FormControl<string>('', [Validators.required]),
     product_code: new FormControl<string>('', [Validators.required]),
-    unit_cost: new FormControl<string>('', [Validators.required]),
+    price: new FormControl<string>('', [Validators.required]),
     images: new FormControl<any>(null, [Validators.required]),
     images_text: new FormControl<string>('', [Validators.required]),
   });
