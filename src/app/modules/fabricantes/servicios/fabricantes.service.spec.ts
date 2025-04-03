@@ -6,6 +6,7 @@ import { FabricantesService } from './fabricantes.service';
 import { environment } from '../../../../environments/environment';
 import { Fabricante } from '../interfaces/fabricantes.interface';
 import { ProductoFabricante } from '../interfaces/producto-fabricante.interface';
+import { MasivoProductoResponse } from '../interfaces/masivo-productos-response';
 
 describe('FabricantesService', () => {
   let service: FabricantesService;
@@ -209,5 +210,123 @@ describe('FabricantesService', () => {
       { id: '103', name: 'Producto 3', product_code: 'ghi789', price: 15.25, images: [] },
     ]);
     expect(resultado.length).toBe(3);
+  });
+
+  // Nueva prueba para cargaMasivaProductosFabricante
+  it('debería realizar la carga masiva de productos para un fabricante', done => {
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Crear un archivo CSV mock
+    const file = new File(['contenido del csv'], 'productos.csv', { type: 'text/csv' });
+
+    // Mock de la respuesta del servidor
+    const mockResponse: MasivoProductoResponse = {
+      total_successful_records: 8,
+      total_errors_records: 2,
+      detail: [
+        { row_file: 3, detail: 'Campo requerido faltante' },
+        { row_file: 5, detail: 'Formato inválido' },
+      ],
+    };
+
+    // Llamar al método del servicio
+    service.cargaMasivaProductosFabricante(fabricante, file).subscribe({
+      next: response => {
+        // Verificar la respuesta
+        expect(response).toBeTruthy();
+        expect(response.total_successful_records).toBe(8);
+        expect(response.total_errors_records).toBe(2);
+        expect(response.detail.length).toBe(2);
+        expect(response.detail[0].row_file).toBe(3);
+        expect(response.detail[0].detail).toBe('Campo requerido faltante');
+        expect(response.detail[1].row_file).toBe(5);
+        expect(response.detail[1].detail).toBe('Formato inválido');
+        done();
+      },
+      error: error => {
+        done.fail(error);
+      },
+    });
+
+    // Configurar la respuesta mock para la petición HTTP
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/batch/`,
+    );
+    expect(req.request.method).toBe('POST');
+
+    // Verificar que el cuerpo es un FormData que contiene un archivo
+    // Nota: No podemos verificar directamente el contenido del FormData,
+    // pero podemos comprobar que es una instancia de FormData
+    expect(req.request.body instanceof FormData).toBeTruthy();
+
+    req.flush(mockResponse);
+  });
+
+  // Prueba adicional para cargaMasivaProductosFabricante con respuesta exitosa (sin errores)
+  it('debería procesar correctamente una carga masiva sin errores', done => {
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Crear un archivo CSV mock
+    const file = new File(['contenido del csv'], 'productos.csv', { type: 'text/csv' });
+
+    // Mock de la respuesta del servidor (sin errores)
+    const mockResponse: MasivoProductoResponse = {
+      total_successful_records: 10,
+      total_errors_records: 0,
+      detail: [],
+    };
+
+    // Espiar el objeto FormData
+    spyOn(window as any, 'FormData').and.returnValue({
+      append: jasmine.createSpy('append'),
+    });
+
+    // Llamar al método del servicio
+    service.cargaMasivaProductosFabricante(fabricante, file).subscribe({
+      next: response => {
+        // Verificar la respuesta
+        expect(response).toBeTruthy();
+        expect(response.total_successful_records).toBe(10);
+        expect(response.total_errors_records).toBe(0);
+        expect(response.detail.length).toBe(0);
+        done();
+      },
+      error: error => {
+        done.fail(error);
+      },
+    });
+
+    // Configurar la respuesta mock para la petición HTTP
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/batch/`,
+    );
+    expect(req.request.method).toBe('POST');
+
+    // Verificar que se está usando FormData
+    expect(window.FormData).toHaveBeenCalled();
+
+    // Verificar que se agregó el archivo al FormData
+    const formData = (window as any).FormData();
+    expect(formData.append).toHaveBeenCalledWith('file', file);
+
+    req.flush(mockResponse);
   });
 });

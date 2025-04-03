@@ -133,6 +133,11 @@
         "SUCCESS": "Product created successfully",
         "ERROR": "Error creating product"
       }
+    },
+    "TOAST": {
+      "SUCCESS_FILE": "Products uploaded successfully",
+      "ERROR_FILE": "Error uploading products",
+      "ERROR_SCV_FILE": "file formatot not valid, must be .csv"
     }
   },
   "BODEGAS": {
