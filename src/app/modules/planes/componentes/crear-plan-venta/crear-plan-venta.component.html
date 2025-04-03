@@ -28,15 +28,45 @@
         </div>
       </div>
 
+      <div>
+        <div class="w-full min-h-[3.9375rem]">
+          <input
+            type="number"
+            class="form-control"
+            id="goal"
+            appNumbersOnly
+            formControlName="goal"
+            placeholder="{{ 'PLAN_VENTA.CREAR_PLAN.FORM.GOAL' | translate }}"
+            [ngClass]="{ 'is-invalid': isInvalid('goal') }"
+          />
+          <div class="invalid-feedback">
+            {{ getErrorMessage('goal').key | translate: getErrorMessage('goal').params }}
+          </div>
+        </div>
+      </div>
+
       <div class="w-full min-h-[3.9375rem]">
-        <app-calendar formControlName="start_date"></app-calendar>
+        <app-calendar
+          formControlName="start_date"
+          [ngClass]="{
+            'is-invalid':
+              planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched,
+          }"
+          [errorClass]="planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched"
+        ></app-calendar>
         <div class="invalid-feedback">
           {{ getErrorMessage('start_date').key | translate }}
         </div>
       </div>
 
       <div class="w-full min-h-[3.9375rem]">
-        <app-calendar formControlName="end_date"></app-calendar>
+        <app-calendar
+          formControlName="end_date"
+          [ngClass]="{
+            'is-invalid': planForm.get('end_date')?.invalid && planForm.get('end_date')?.touched,
+          }"
+          [errorClass]="planForm.get('end_date')?.invalid && planForm.get('end_date')?.touched"
+        ></app-calendar>
         <div class="invalid-feedback">
           {{ getErrorMessage('end_date').key | translate }}
         </div>
@@ -93,7 +123,7 @@
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.CANCEL' | translate }}
         </button>
 
-        <button type="submit" class="btn btn btn-outline-primary">
+        <button type="submit" class="btn btn btn-outline-primary" [disabled]="planForm.invalid">
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.SAVE' | translate }}
         </button>
       </div>

@@ -213,6 +213,8 @@ export class CalendarComponent implements OnInit, OnDestroy, AfterViewInit, Cont
     // Función vacía por defecto, se sobrescribirá en el padre
   };
 
+  @Input() errorClass?: boolean;
+
   constructor(
     private localizationService: LocalizationService,
     private translateService: TranslateService,

@@ -248,7 +248,8 @@
         "FIELD_REQUIRED": "This field is required",
         "FIELD_LENGTH": "This field must be {{min}} characters long",
         "DATE_PAST": "The date must be in the future",
-        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date"
+        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date",
+        "GOAL_MIN": "The goal must be at least {{min}}"
       },
       "TOAST": {
         "SUCCESS": "Sales plan created successfully",

@@ -3,59 +3,77 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angu
 // Validador para verificar que una fecha no sea menor a la fecha actual
 export function noMenorAFechaActual(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (!control.value) {
-      return null; // Si no hay valor, no validamos
+    // Si no hay valor o está vacío, no validamos
+    if (!control.value || control.value === '') {
+      return null;
     }
 
-    // Convertir el valor a una fecha sin considerar la zona horaria
-    const fechaSeleccionada = new Date(`${control.value}T00:00:00Z`);
-    const fechaActual = new Date();
-    fechaActual.setHours(0, 0, 0, 0);
+    try {
+      // Para la fecha seleccionada, tomamos solo la fecha sin hora
+      const fechaString = control.value; // Formato "YYYY-MM-DD"
 
-    if (fechaSeleccionada.getTime() < fechaActual.getTime()) {
-      return { fechaPasada: true };
+      // Obtenemos los componentes de fecha actual en hora local (Colombia)
+      const fechaActual = new Date();
+      const anioActual = fechaActual.getFullYear();
+      const mesActual = fechaActual.getMonth() + 1; // getMonth() devuelve 0-11
+      const diaActual = fechaActual.getDate();
+
+      // Convertimos a string formato "YYYY-MM-DD" para comparación neutral a zona horaria
+      const fechaActualString = `${anioActual}-${mesActual.toString().padStart(2, '0')}-${diaActual.toString().padStart(2, '0')}`;
+
+      // Comparamos como strings para evitar conversiones de zona horaria
+      if (fechaString < fechaActualString) {
+        return { fechaPasada: true };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error al validar fecha:', error);
+      return { fechaInvalida: true };
     }
-
-    return null;
   };
 }
 
 // Validador para verificar que end_date no sea menor a start_date
 export function fechaFinMayorAInicio(): ValidatorFn {
   return (formGroup: AbstractControl): ValidationErrors | null => {
+    if (!(formGroup instanceof FormGroup)) {
+      return null;
+    }
+
     const group = formGroup as FormGroup;
     const fechaInicio = group.get('start_date')?.value;
     const fechaFin = group.get('end_date')?.value;
 
-    if (!fechaInicio || !fechaFin) {
-      return null; // Si falta alguna fecha, no validamos
+    // Si alguna fecha está ausente o vacía, no validamos
+    if (!fechaInicio || !fechaFin || fechaInicio === '' || fechaFin === '') {
+      return null;
     }
 
-    // Convertir las fechas a UTC para evitar problemas de zona horaria
-    const inicio = new Date(`${fechaInicio}T00:00:00Z`);
-    const fin = new Date(`${fechaFin}T00:00:00Z`);
-
-    if (isNaN(inicio.getTime()) || isNaN(fin.getTime())) {
-      return { formatoInvalido: true }; // Validar que las fechas sean válidas
-    }
-
-    if (fin.getTime() < inicio.getTime()) {
-      // Marcamos específicamente el campo end_date como inválido
-      group.get('end_date')?.setErrors({ fechaFinMenor: true });
-      return { fechaFinMenor: true };
-    }
-
-    // Si la validación es exitosa, aseguramos que no mantenga este error específico
-    const erroresActuales = group.get('end_date')?.errors;
-    if (erroresActuales) {
-      const { fechaFinMenor, ...otrosErrores } = erroresActuales;
-      if (Object.keys(otrosErrores).length > 0) {
-        group.get('end_date')?.setErrors(otrosErrores);
+    try {
+      // Comparamos directamente los strings en formato ISO "YYYY-MM-DD"
+      // Esto evita problemas de zona horaria
+      if (fechaFin < fechaInicio) {
+        // Marcamos específicamente el campo end_date como inválido
+        const endDateControl = group.get('end_date');
+        if (endDateControl) {
+          const currentErrors = endDateControl.errors || {};
+          endDateControl.setErrors({ ...currentErrors, fechaFinMenor: true });
+        }
+        return { fechaFinMenor: true };
       } else {
-        group.get('end_date')?.setErrors(null);
+        // Si la validación es exitosa, quitamos solo este error específico
+        const endDateControl = group.get('end_date');
+        if (endDateControl && endDateControl.errors) {
+          const { fechaFinMenor, ...otherErrors } = endDateControl.errors;
+          endDateControl.setErrors(Object.keys(otherErrors).length ? otherErrors : null);
+        }
       }
-    }
 
-    return null;
+      return null;
+    } catch (error) {
+      console.error('Error al validar rango de fechas:', error);
+      return { fechaInvalida: true };
+    }
   };
 }

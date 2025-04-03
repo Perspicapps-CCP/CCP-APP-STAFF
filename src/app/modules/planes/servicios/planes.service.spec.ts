@@ -93,6 +93,6 @@ describe('PlanesService', () => {
       );
     });
 
-    expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrl}/sales/plans`);
+    expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrl}/api/v1/sales/plans/`);
   });
 });

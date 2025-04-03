@@ -13,6 +13,10 @@
     [attr.max-date]="maxDate ? true : null"
     autocomplete="off"
     container="body"
+    [ngClass]="{
+      'is-invalid': errorClass && !disabled,
+      'is-valid': errorClass && !disabled,
+    }"
   />
   <button
     class="btn btn-outline-secondary bi bi-calendar3"
