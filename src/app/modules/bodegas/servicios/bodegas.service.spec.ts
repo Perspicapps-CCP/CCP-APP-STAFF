@@ -10,7 +10,7 @@ import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabric
 describe('BodegasService', () => {
   let service: BodegasService;
   let httpMock: HttpTestingController;
-  const apiUrl = environment.apiUrl;
+  const apiUrl = environment.apiUrlCCP;
 
   // Datos de prueba
   const mockBodegas: Bodega[] = [
@@ -73,12 +73,7 @@ describe('BodegasService', () => {
 
   describe('obtenerBodegas', () => {
     it('debe retornar un array de bodegas', () => {
-      const mockResponse = {
-        data: {
-          warehouses: mockBodegas,
-        },
-      };
-
+      const mockResponse = mockBodegas;
       service.obtenerBodegas().subscribe(bodegas => {
         expect(bodegas).toEqual(mockBodegas);
         expect(bodegas.length).toBe(2);

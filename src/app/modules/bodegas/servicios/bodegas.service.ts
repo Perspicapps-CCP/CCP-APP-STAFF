@@ -5,21 +5,18 @@ import { environment } from '../../../../environments/environment';
 import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabricante.interface';
 import { Bodega } from '../interfaces/bodega.interface';
 import { ProductoBodega, ProductoBodegaInventario } from '../interfaces/producto-bodega';
+import { MasivoProductosResponse } from '../interfaces/masivo-productos-bodega-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BodegasService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
 
   constructor(private http: HttpClient) {}
 
   obtenerBodegas() {
-    return this.http.get<Bodega[]>(`${this.apiUrl}/inventory/warehouse`).pipe(
-      map<any, Bodega[]>((res: any) => {
-        return res.data.warehouses;
-      }),
-    );
+    return this.http.get<Bodega[]>(`${this.apiUrl}/inventory/warehouse`);
   }
 
   obtenerProductosBodega(bodega: Bodega): Observable<ProductoBodega[]> {
@@ -72,5 +69,13 @@ export class BodegasService {
     });
 
     return productosBodega;
+  }
+
+  cargaMasivaProductosFabricante(bodega: Bodega, file: File) {
+    const formData = new FormData();
+    formData.append('inventory_upload', file);
+    formData.append('warehouse_id', bodega.warehouse_id);
+
+    return this.http.post<MasivoProductosResponse>(`${this.apiUrl}/inventory/stock/csv`, formData);
   }
 }

@@ -37,8 +37,3 @@
     transform: translateY(0);
   }
 }
-
-::ng-deep .multiline-snackbar {
-  white-space: pre-wrap !important;
-  line-height: 1.5;
-}
