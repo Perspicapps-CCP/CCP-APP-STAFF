@@ -75,4 +75,58 @@ export class ProductosBodegaComponent implements OnInit {
       });
     });
   }
+
+  cargaMasivaProductos($event: Event, cargaMasiva: HTMLInputElement) {
+    const bodega = this.bodega;
+    const target = $event.target as HTMLInputElement;
+    const files = target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const fileName = file.name;
+      if (!fileName.toLowerCase().endsWith('.csv')) {
+        this.translate
+          .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_SCV_FILE')
+          .subscribe((mensaje: string) => {
+            this._snackBar.open(mensaje, '', {
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+              duration: 3000,
+            });
+          });
+        return;
+      }
+      this.bodegasService.cargaMasivaProductosFabricante(bodega, file).subscribe({
+        next: res => {
+          this.translate
+            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED', {
+              count: res.processed_records,
+              countOk: res.successful_records,
+              countError: res.failed_records,
+            })
+            .subscribe((mensaje: string) => {
+              console.log('mensaje traducido', mensaje);
+              this._snackBar.open(mensaje, '', {
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                duration: 5000,
+                panelClass: ['multiline-snackbar'],
+              });
+            });
+          this.obtenerProductosBodega();
+        },
+        error: error => {
+          this.translate
+            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE')
+            .subscribe((mensaje: string) => {
+              this._snackBar.open(mensaje, '', {
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+                duration: 3000,
+              });
+            });
+        },
+      });
+    }
+    cargaMasiva.value = '';
+  }
 }

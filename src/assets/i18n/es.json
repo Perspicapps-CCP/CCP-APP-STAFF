@@ -167,6 +167,11 @@
         "COD_PRODUCT": "Código producto",
         "QUANTITY": "Cantidad",
         "IMAGES": "Imágenes"
+      },
+      "TOAST": {
+        "MASSIVE_PRODUCTS_PROCESSED": "{{count}} productos totales \n {{countOk}} productos fueron procesados \n {{countError}} productos no fueron procesados",
+        "ERROR_SCV_FILE": "Formato de archivo no válido, debe ser .csv",
+        "ERROR_PROCESS_MASIVE": "Error uploading products"
       }
     }
   },

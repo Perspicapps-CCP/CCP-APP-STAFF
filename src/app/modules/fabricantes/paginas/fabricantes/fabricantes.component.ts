@@ -91,9 +91,8 @@ export class FabricantesComponent implements OnInit {
   cargaMasivaProductos($event: Event, cargaMasiva: HTMLInputElement, fabricante: Fabricante) {
     const target = $event.target as HTMLInputElement;
     const files = target.files;
-    cargaMasiva.value = '';
-    this.fabricanteSelected = null;
 
+    this.fabricanteSelected = null;
     if (files && files.length > 0) {
       const file = files[0];
       const fileName = file.name;
@@ -145,5 +144,6 @@ export class FabricantesComponent implements OnInit {
         },
       });
     }
+    cargaMasiva.value = '';
   }
 }
