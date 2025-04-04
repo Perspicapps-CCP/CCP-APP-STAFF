@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductosBodegaComponent } from './productos-bodega.component';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import { LocalizationService } from '../../../../shared/servicios/localization.s
 import { LOCALE_ID } from '@angular/core';
 import { ProductoBodega } from '../../interfaces/producto-bodega';
 import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
+import { MasivoProductosResponse } from '../../interfaces/masivo-productos-bodega-response';
 
 class MockLocalizationService {
   currentLocalizationSubject = new BehaviorSubject<any>({});
@@ -64,6 +65,18 @@ describe('ProductosBodegaComponent', () => {
         },
       ]),
     ),
+    cargaMasivaProductosFabricante: jasmine
+      .createSpy('cargaMasivaProductosFabricante')
+      .and.returnValue(
+        of({
+          operation_id: 'op123',
+          warehouse_id: '1',
+          processed_records: 10,
+          successful_records: 8,
+          failed_records: 2,
+          created_at: new Date(),
+        }),
+      ),
   };
 
   const dinamicSearchServiceMock = {
@@ -181,5 +194,130 @@ describe('ProductosBodegaComponent', () => {
       expect(snackBarArgs.verticalPosition).toBe('top');
       expect(snackBarArgs.duration).toBe(3000);
     }
+  });
+
+  it('debería validar que el archivo sea CSV', () => {
+    // Configurar el spy para el translate y snackBar
+    const translateSpy = spyOn(TestBed.inject(TranslateService), 'get')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_SCV_FILE')
+      .and.returnValue(of('El archivo debe ser CSV'));
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Crear un evento con un archivo que no es CSV
+    const fileList = [new File([''], 'test.txt', { type: 'text/plain' })];
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Ejecutar el método
+    component.cargaMasivaProductos(event, inputElement);
+
+    // Verificar que se muestra el mensaje de error
+    expect(translateSpy).toHaveBeenCalledWith('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_SCV_FILE');
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe('El archivo debe ser CSV');
+  });
+
+  it('debería procesar correctamente un archivo CSV válido', () => {
+    // Mock de la respuesta del servicio - Actualiza el mock existente
+    const responseData: MasivoProductosResponse = {
+      operation_id: 'op123',
+      warehouse_id: '1',
+      processed_records: 10,
+      successful_records: 8,
+      failed_records: 2,
+      created_at: new Date(),
+    };
+
+    // Actualizar el comportamiento del spy existente sin crear uno nuevo
+    bodegasServiceMock.cargaMasivaProductosFabricante.and.returnValue(of(responseData));
+
+    // Spy para translate y snackBar
+    const translateSpy = spyOn(TestBed.inject(TranslateService), 'get')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED', {
+        count: 10,
+        countOk: 8,
+        countError: 2,
+      })
+      .and.returnValue(of('10 productos procesados: 8 correctos, 2 con errores'));
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Spy para obtenerProductosBodega
+    spyOn(component, 'obtenerProductosBodega');
+
+    // Crear un evento con un archivo CSV
+    const fileList = [new File(['data'], 'test.csv', { type: 'text/csv' })];
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Ejecutar el método
+    component.cargaMasivaProductos(event, inputElement);
+
+    // Verificar que se llamó al servicio con los parámetros correctos
+    expect(bodegasServiceMock.cargaMasivaProductosFabricante).toHaveBeenCalledWith(
+      component.bodega,
+      fileList[0],
+    );
+
+    // Verificar que se mostró el mensaje de éxito
+    expect(translateSpy).toHaveBeenCalledWith(
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED',
+      { count: 10, countOk: 8, countError: 2 },
+    );
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe(
+      '10 productos procesados: 8 correctos, 2 con errores',
+    );
+
+    // Verificar que se recargan los productos
+    expect(component.obtenerProductosBodega).toHaveBeenCalled();
+
+    // Verificar que se limpia el input
+    expect(inputElement.value).toBe('');
+  });
+
+  it('debería manejar errores durante el procesamiento del archivo CSV', () => {
+    // Actualizar el comportamiento del spy existente para que devuelva un error
+    bodegasServiceMock.cargaMasivaProductosFabricante.and.returnValue(
+      throwError(() => new Error('Error de procesamiento')),
+    );
+
+    // Spy para translate y snackBar
+    const translateSpy = spyOn(TestBed.inject(TranslateService), 'get')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE')
+      .and.returnValue(of('Error al procesar el archivo'));
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Crear un evento con un archivo CSV
+    const fileList = [new File(['data'], 'test.csv', { type: 'text/csv' })];
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Ejecutar el método
+    component.cargaMasivaProductos(event, inputElement);
+
+    // Verificar que se mostró el mensaje de error
+    expect(translateSpy).toHaveBeenCalledWith(
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE',
+    );
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe('Error al procesar el archivo');
+
+    // Verificar que se limpia el input
+    expect(inputElement.value).toBe('');
+  });
+
+  it('no debería hacer nada si no se selecciona ningún archivo', () => {
+    // No necesitas un nuevo spy, simplemente restablecemos las llamadas previas
+    bodegasServiceMock.cargaMasivaProductosFabricante.calls.reset();
+
+    // Crear un evento sin archivos
+    const event = { target: { files: [] } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Ejecutar el método
+    component.cargaMasivaProductos(event, inputElement);
+
+    // Verificar que no se llamó al servicio
+    expect(bodegasServiceMock.cargaMasivaProductosFabricante).not.toHaveBeenCalled();
   });
 });

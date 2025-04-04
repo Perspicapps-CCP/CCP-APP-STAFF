@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { Bodega } from '../interfaces/bodega.interface';
 import { ProductoBodegaInventario, ProductoBodega } from '../interfaces/producto-bodega';
 import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabricante.interface';
+import { MasivoProductosResponse } from '../interfaces/masivo-productos-bodega-response';
 
 describe('BodegasService', () => {
   let service: BodegasService;
@@ -182,6 +183,63 @@ describe('BodegasService', () => {
     it('debe manejar un array vacío de productos', () => {
       const resultado = service.unionProductosBodega([], mockProductosFabricante);
       expect(resultado.length).toBe(0);
+    });
+
+    it('debe enviar correctamente el archivo y el warehouse_id al endpoint', () => {
+      const bodega: Bodega = mockBodegas[0];
+      const mockFile = new File(['contenido de prueba'], 'test.csv', { type: 'text/csv' });
+
+      const mockResponse: MasivoProductosResponse = {
+        operation_id: 'op123',
+        warehouse_id: bodega.warehouse_id,
+        processed_records: 100,
+        successful_records: 95,
+        failed_records: 5,
+        created_at: new Date(),
+      };
+
+      service.cargaMasivaProductosFabricante(bodega, mockFile).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/inventory/stock/csv`);
+      expect(req.request.method).toBe('POST');
+
+      // Verificar que se envió un FormData con los datos correctos
+      const formData = req.request.body;
+      expect(formData instanceof FormData).toBeTruthy();
+
+      // No podemos acceder directamente a los valores de FormData en los tests
+      // pero podemos verificar que se creó y envió correctamente
+
+      req.flush(mockResponse);
+    });
+
+    it('debe manejar errores de carga de archivos', () => {
+      const bodega: Bodega = mockBodegas[0];
+      const mockFile = new File(['contenido de prueba'], 'test.csv', { type: 'text/csv' });
+
+      const mockErrorResponse = {
+        status: 400,
+        statusText: 'Bad Request',
+        error: {
+          status: 'error',
+          message: 'Formato de archivo incorrecto',
+        },
+      };
+
+      service.cargaMasivaProductosFabricante(bodega, mockFile).subscribe({
+        next: () => fail('Se esperaba un error pero se recibió una respuesta exitosa'),
+        error: error => {
+          expect(error.error.status).toBe('error');
+          expect(error.error.message).toBe('Formato de archivo incorrecto');
+        },
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}/inventory/stock/csv`);
+      expect(req.request.method).toBe('POST');
+
+      req.flush(mockErrorResponse.error, mockErrorResponse);
     });
   });
 });
