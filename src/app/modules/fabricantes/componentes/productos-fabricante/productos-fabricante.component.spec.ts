@@ -7,7 +7,7 @@ import {
   TranslateFakeLoader,
   TranslateService,
 } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { LOCALE_ID, NO_ERRORS_SCHEMA } from '@angular/core';
 
@@ -21,6 +21,7 @@ import { LocalizationService } from '../../../../shared/servicios/localization.s
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { ProductoFabricante } from '../../interfaces/producto-fabricante.interface';
+import { ProductoFabricanteImageResponse } from '../../interfaces/producto-fabricante-image-response';
 
 // Mock mejorado para LocalizationService
 class MockLocalizationService {
@@ -41,6 +42,13 @@ class MockLocalizationService {
   }
 }
 
+// Helper function to convert File[] to FileList
+function createFileList(files: File[]): FileList {
+  const dataTransfer = new DataTransfer();
+  files.forEach(file => dataTransfer.items.add(file));
+  return dataTransfer.files;
+}
+
 describe('ProductosFabricanteComponent', () => {
   let component: ProductosFabricanteComponent;
   let fixture: ComponentFixture<ProductosFabricanteComponent>;
@@ -58,6 +66,16 @@ describe('ProductosFabricanteComponent', () => {
           images: ['20.75'],
         },
       ]),
+    ),
+    cargarImagenesProducto: jasmine.createSpy('cargarImagenesProducto').and.returnValue(
+      of<ProductoFabricanteImageResponse>({
+        operation_id: 'op123',
+        product_id: '1',
+        processed_records: 5,
+        successful_records: 4,
+        failed_records: 1,
+        created_at: new Date(),
+      }),
     ),
   };
 
@@ -160,5 +178,212 @@ describe('ProductosFabricanteComponent', () => {
       width: '39.4375rem',
       height: '24.3125rem',
     });
+  });
+
+  it('debería validar que los archivos sean imágenes', () => {
+    // Obtener una referencia al TranslateService
+    const translateService = TestBed.inject(TranslateService);
+
+    // Spy para el método get del TranslateService
+    spyOn(translateService, 'get')
+      .withArgs('FABRICANTES.TOAST.ERROR_IMAGE_FILE')
+      .and.returnValue(of('Los archivos deben ser imágenes'));
+
+    // Spy para el método open del MatSnackBar
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Crear un evento con un archivo que no es una imagen
+    const fileList = createFileList([new File([''], 'test.txt', { type: 'text/plain' })]);
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Preparar producto y fabricante para la prueba
+    const producto: ProductoFabricante = {
+      id: '1',
+      name: 'Producto Test',
+      product_code: 'ABC123',
+      price: 100,
+      images: [],
+    };
+
+    // Ejecutar el método
+    component.cargarImagenes(event, inputElement, producto);
+
+    // Verificar que se muestra el mensaje de error
+    expect(translateService.get).toHaveBeenCalledWith('FABRICANTES.TOAST.ERROR_IMAGE_FILE');
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe('Los archivos deben ser imágenes');
+  });
+
+  // 2. Para el test de procesamiento correcto (modificado para no usar overrideProvider)
+  it('debería procesar correctamente imágenes válidas', () => {
+    // Obtener el servicio y hacer reset de llamadas previas
+    const fabricantesService = TestBed.inject(FabricantesService);
+    (fabricantesService.cargarImagenesProducto as jasmine.Spy).calls.reset();
+
+    // Obtener una referencia al TranslateService
+    const translateService = TestBed.inject(TranslateService);
+
+    // Spy para el método get del TranslateService
+    spyOn(translateService, 'get')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED', {
+        count: 5,
+        countOk: 4,
+        countError: 1,
+      })
+      .and.returnValue(of('5 imágenes procesadas: 4 correctas, 1 con errores'));
+
+    // Spy para el método open del MatSnackBar
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Spy para el método obtenerProductosFabricantes
+    spyOn(component, 'obtenerProductosFabricantes');
+
+    // Convert File[] to FileList
+    const fileList = createFileList([
+      new File([''], 'image1.jpg', { type: 'image/jpeg' }),
+      new File([''], 'image2.png', { type: 'image/png' }),
+    ]);
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Preparar producto para la prueba
+    const producto: ProductoFabricante = {
+      id: '1',
+      name: 'Producto Test',
+      product_code: 'ABC123',
+      price: 100,
+      images: [],
+    };
+
+    // Ejecutar el método
+    component.cargarImagenes(event, inputElement, producto);
+
+    // Verificar que se llamó al servicio con los parámetros correctos
+    expect(fabricantesService.cargarImagenesProducto).toHaveBeenCalledWith(
+      component.fabricante,
+      producto,
+      fileList,
+    );
+
+    // Verificar que se mostró el mensaje de éxito
+    expect(translateService.get).toHaveBeenCalledWith(
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED',
+      { count: 5, countOk: 4, countError: 1 },
+    );
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe(
+      '5 imágenes procesadas: 4 correctas, 1 con errores',
+    );
+
+    // Verificar que se recargan los productos
+    expect(component.obtenerProductosFabricantes).toHaveBeenCalled();
+
+    // Verificar que se limpia el input
+    expect(inputElement.value).toBe('');
+  });
+
+  // 3. Para el test de manejo de errores (modificado para no usar overrideProvider)
+  it('debería manejar errores durante el procesamiento de imágenes', () => {
+    // Obtener el servicio
+    const fabricantesService = TestBed.inject(FabricantesService);
+
+    // Guardar el comportamiento original
+    const originalBehavior = (fabricantesService.cargarImagenesProducto as jasmine.Spy).and
+      .callFake;
+
+    // Modificar temporalmente para devolver error
+    (fabricantesService.cargarImagenesProducto as jasmine.Spy).and.returnValue(
+      throwError(() => new Error('Error al procesar imágenes')),
+    );
+
+    // Obtener una referencia al TranslateService
+    const translateService = TestBed.inject(TranslateService);
+
+    // Spy para el método get del TranslateService
+    spyOn(translateService, 'get')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE')
+      .and.returnValue(of('Error al procesar las imágenes'));
+
+    // Spy para el método open del MatSnackBar
+    const snackBarSpy = spyOn(component['_snackBar'], 'open');
+
+    // Convert File[] to FileList
+    const fileList = createFileList([new File([''], 'image1.jpg', { type: 'image/jpeg' })]);
+    const event = { target: { files: fileList } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Preparar producto para la prueba
+    const producto: ProductoFabricante = {
+      id: '1',
+      name: 'Producto Test',
+      product_code: 'ABC123',
+      price: 100,
+      images: [],
+    };
+
+    // Ejecutar el método
+    component.cargarImagenes(event, inputElement, producto);
+
+    // Verificar que se llamó al servicio
+    expect(fabricantesService.cargarImagenesProducto).toHaveBeenCalled();
+
+    // Verificar que se mostró el mensaje de error
+    expect(translateService.get).toHaveBeenCalledWith(
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE',
+    );
+    expect(snackBarSpy).toHaveBeenCalled();
+    expect(snackBarSpy.calls.mostRecent().args[0]).toBe('Error al procesar las imágenes');
+
+    // Verificar que se limpia el input
+    expect(inputElement.value).toBe('');
+
+    // Restaurar el comportamiento original
+    (fabricantesService.cargarImagenesProducto as jasmine.Spy).and.returnValue(
+      of({
+        operation_id: 'op123',
+        product_id: '1',
+        processed_records: 5,
+        successful_records: 4,
+        failed_records: 1,
+        created_at: new Date(),
+      }),
+    );
+  });
+
+  // 4. Para el test de ningún archivo seleccionado (corregido)
+  it('no debería hacer nada si no se selecciona ningún archivo', () => {
+    // Obtener el servicio
+    const fabricantesService = TestBed.inject(FabricantesService);
+
+    // Verificar que el spy existe y tiene calls antes de resetear
+    if (
+      fabricantesService.cargarImagenesProducto &&
+      (fabricantesService.cargarImagenesProducto as jasmine.Spy).calls
+    ) {
+      (fabricantesService.cargarImagenesProducto as jasmine.Spy).calls.reset();
+    } else {
+      // Si no tiene el método o no es un spy, asegurarnos de que existe
+      fabricantesService.cargarImagenesProducto = jasmine.createSpy('cargarImagenesProducto');
+    }
+
+    // Crear un evento sin archivos
+    const event = { target: { files: null } } as unknown as Event;
+    const inputElement = document.createElement('input');
+
+    // Preparar producto para la prueba
+    const producto: ProductoFabricante = {
+      id: '1',
+      name: 'Producto Test',
+      product_code: 'ABC123',
+      price: 100,
+      images: [],
+    };
+
+    // Ejecutar el método
+    component.cargarImagenes(event, inputElement, producto);
+
+    // Verificar que no se llamó al servicio
+    expect(fabricantesService.cargarImagenesProducto).not.toHaveBeenCalled();
   });
 });
