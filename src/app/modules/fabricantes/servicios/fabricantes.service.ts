@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Fabricante } from '../interfaces/fabricantes.interface';
 import { ProductoFabricante } from '../interfaces/producto-fabricante.interface';
 import { MasivoProductoResponse } from '../interfaces/masivo-productos-response';
+import { ProductoFabricanteImageResponse } from '../interfaces/producto-fabricante-image-response';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +55,22 @@ export class FabricantesService {
 
     return this.http.post<MasivoProductoResponse>(
       `${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/batch/`,
+      formData,
+    );
+  }
+
+  cargarImagenesProducto(
+    fabricante: Fabricante,
+    producto: ProductoFabricante,
+    files: FileList,
+  ): Observable<ProductoFabricanteImageResponse> {
+    const formData = new FormData();
+    for (const file of Array.from(files)) {
+      formData.append('product_image', file);
+    }
+
+    return this.http.post<ProductoFabricanteImageResponse>(
+      `${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/${producto.id}/image/`,
       formData,
     );
   }
