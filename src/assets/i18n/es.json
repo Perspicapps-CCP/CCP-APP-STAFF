@@ -137,7 +137,9 @@
     "TOAST": {
       "SUCCESS_FILE": "Productos cargados exitosamente",
       "ERROR_FILE": "Error al cargar productos",
-      "ERROR_SCV_FILE": "Formato de archivo no válido, debe ser .csv"
+      "ERROR_SCV_FILE": "Formato de archivo no válido, debe ser .csv",
+      "ERROR_IMAGE_FILE": "Formato de archivo no válido, debe ser .jpg, .jpeg o .png",
+      "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} imágenes totales \n {{countOk}} imágenes fueron procesadas \n {{countError}} imágenes no fueron procesadas"
     }
   },
   "BODEGAS": {
@@ -171,7 +173,9 @@
       "TOAST": {
         "MASSIVE_PRODUCTS_PROCESSED": "{{count}} productos totales \n {{countOk}} productos fueron procesados \n {{countError}} productos no fueron procesados",
         "ERROR_SCV_FILE": "Formato de archivo no válido, debe ser .csv",
-        "ERROR_PROCESS_MASIVE": "Error uploading products"
+        "ERROR_PROCESS_MASIVE": "Error al cargar productos",
+        "ERROR_IMAGE_FILE": "Formato de archivo no válido, debe ser .jpg, .jpeg o .png",
+        "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} imágenes totales \n {{countOk}} imágenes fueron procesadas \n {{countError}} imágenes no fueron procesadas"
       }
     }
   },

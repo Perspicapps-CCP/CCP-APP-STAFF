@@ -53,9 +53,19 @@
                     type="button"
                     class="btn btn-primary btn-actions-table btn-sm"
                     ngbTooltip="{{ 'FABRICANTES.TOOLTIPS.ADD_IMAGES_FILES' | translate }}"
+                    (click)="cargaMasiva.click()"
                   >
                     <mat-icon>add_photo_alternate</mat-icon>
                   </button>
+                  <input
+                    class="hidden"
+                    type="file"
+                    accept="image/*"
+                    [multiple]="true"
+                    #cargaMasiva
+                    (change)="cargarImagenes($event, cargaMasiva, producto)"
+                    hidden
+                  />
                 </div>
               </td>
             </tr>

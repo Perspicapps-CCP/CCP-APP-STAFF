@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { Fabricante } from '../interfaces/fabricantes.interface';
 import { ProductoFabricante } from '../interfaces/producto-fabricante.interface';
 import { MasivoProductoResponse } from '../interfaces/masivo-productos-response';
+import { ProductoFabricanteImageResponse } from '../interfaces/producto-fabricante-image-response';
 
 describe('FabricantesService', () => {
   let service: FabricantesService;
@@ -326,6 +327,93 @@ describe('FabricantesService', () => {
     // Verificar que se agregó el archivo al FormData
     const formData = (window as any).FormData();
     expect(formData.append).toHaveBeenCalledWith('file', file);
+
+    req.flush(mockResponse);
+  });
+
+  it('debería cargar imágenes de producto correctamente', done => {
+    // Crear un fabricante de prueba
+    const fabricante: Fabricante = {
+      id: '423b3d2c-bc23-4892-8022-0ee081803d19',
+      manufacturer_name: 'Percy Aufderhar',
+      identification_type: 'CE',
+      identification_number: '27d90e27-970a-41e7-83c1-7e6402296a51',
+      address: '7631 Lucio Lakes',
+      contact_phone: '2899994000',
+      email: 'Faye20@hotmail.com',
+    };
+
+    // Crear un producto de prueba
+    const producto: ProductoFabricante = {
+      id: '101',
+      name: 'Producto 1',
+      product_code: 'abc123',
+      price: 10.5,
+      images: [],
+    };
+
+    // Crear archivos mock para las imágenes
+    const file1 = new File(['contenido imagen 1'], 'imagen1.jpg', { type: 'image/jpeg' });
+    const file2 = new File(['contenido imagen 2'], 'imagen2.png', { type: 'image/png' });
+
+    // Crear un FileList mock
+    const fileList = {
+      0: file1,
+      1: file2,
+      length: 2,
+      item: (index: number) => (index === 0 ? file1 : file2),
+      [Symbol.iterator]: function* () {
+        yield file1;
+        yield file2;
+      },
+    } as unknown as FileList;
+
+    // Mock de la respuesta del servidor
+    const mockResponse: ProductoFabricanteImageResponse = {
+      operation_id: 'op-123456',
+      product_id: '101',
+      processed_records: 2,
+      successful_records: 2,
+      failed_records: 0,
+      created_at: new Date('2025-04-03T10:00:00Z'),
+    };
+
+    // Espiar el objeto FormData
+    spyOn(window as any, 'FormData').and.returnValue({
+      append: jasmine.createSpy('append'),
+    });
+
+    // Llamar al método del servicio
+    service.cargarImagenesProducto(fabricante, producto, fileList).subscribe({
+      next: response => {
+        // Verificar la respuesta
+        expect(response).toBeTruthy();
+        expect(response.operation_id).toBe('op-123456');
+        expect(response.product_id).toBe('101');
+        expect(response.processed_records).toBe(2);
+        expect(response.successful_records).toBe(2);
+        expect(response.failed_records).toBe(0);
+        expect(response.created_at).toEqual(new Date('2025-04-03T10:00:00Z'));
+        done();
+      },
+      error: error => {
+        done.fail(error);
+      },
+    });
+
+    // Configurar la respuesta mock para la petición HTTP
+    const req = httpMock.expectOne(
+      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/${producto.id}/image/`,
+    );
+    expect(req.request.method).toBe('POST');
+
+    // Verificar que se está usando FormData
+    expect(window.FormData).toHaveBeenCalled();
+
+    // Verificar que se agregaron los archivos al FormData
+    const formData = (window as any).FormData();
+    expect(formData.append).toHaveBeenCalledWith('product_image', file1);
+    expect(formData.append).toHaveBeenCalledWith('product_image', file2);
 
     req.flush(mockResponse);
   });
