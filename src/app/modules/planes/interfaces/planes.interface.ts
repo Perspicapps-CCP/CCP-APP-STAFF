@@ -1,3 +1,4 @@
+import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabricante.interface';
 import { Vendedor } from '../../vendedores/interfaces/vendedores.interface';
 
 export interface PlanVenta {
@@ -7,6 +8,7 @@ export interface PlanVenta {
   end_date: Date;
   goal: string;
   sellers: Vendedor[];
+  product: ProductoFabricante;
 }
 
 export interface PlanVentaPost {

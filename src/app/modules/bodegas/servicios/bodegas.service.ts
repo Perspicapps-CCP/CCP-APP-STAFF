@@ -21,11 +21,13 @@ export class BodegasService {
 
   obtenerProductosBodega(bodega: Bodega): Observable<ProductoBodega[]> {
     return this.http
-      .get<ProductoBodegaInventario[]>(`${this.apiUrl}/inventory?warehouse=${bodega.warehouse_id}`)
+      .get<
+        ProductoBodegaInventario[]
+      >(`${this.apiUrl}/inventory/stock?warehouse=${bodega.warehouse_id}`)
       .pipe(
         map<any, { productsIds: string[]; productosInventario: ProductoBodegaInventario[] }>(
           (res: any) => {
-            const productosInventario = res.data.productos;
+            const productosInventario = res;
             const productsIds = productosInventario.map((product: any) => product.product_id);
             return {
               productsIds,
@@ -35,13 +37,10 @@ export class BodegasService {
         ),
         switchMap(({ productsIds, productosInventario }) => {
           return this.http
-            .post<ProductoFabricante[]>(`${this.apiUrl}/manufacturers/listProducts`, {
+            .post<ProductoFabricante[]>(`${this.apiUrl}/suppliers/manufacturers/listProducts`, {
               idsProductos: productsIds,
             })
             .pipe(
-              map<any, ProductoFabricante[]>((res: any) => {
-                return res.data.productos;
-              }),
               map(productosFabricante =>
                 this.unionProductosBodega(productosInventario, productosFabricante),
               ),

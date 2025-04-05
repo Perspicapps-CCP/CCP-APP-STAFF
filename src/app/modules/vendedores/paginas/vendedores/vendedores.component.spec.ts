@@ -50,6 +50,9 @@ class MockDinamicSearchService {
 
 // Mock para MatDialog
 class MockMatDialog {
+  // Añadir afterAllClosed como un Observable
+  afterAllClosed = of({});
+
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
@@ -166,7 +169,10 @@ describe('VendedoresComponent', () => {
     expect(dinamicSearchService.dynamicSearch).toHaveBeenCalled();
   });
 
-  it('debería abrir el modal de crear vendedor', () => {
+  it('debería abrir el modal de crear vendedor y recargar los vendedores después de cerrar', () => {
+    // Espiar el método obtenerVendedores para verificar si se llama después de cerrar el diálogo
+    spyOn(component, 'obtenerVendedores').and.callThrough();
+
     // Llamar al método
     component.abrirModalCrearVendedor();
 
@@ -174,5 +180,8 @@ describe('VendedoresComponent', () => {
     expect(dialog.open).toHaveBeenCalledWith(CrearVendedorComponent, {
       width: '22.9375rem',
     });
+
+    // Verificar que se llamó a obtenerVendedores después de que el diálogo se cerrara
+    expect(component.obtenerVendedores).toHaveBeenCalled();
   });
 });

@@ -37,7 +37,9 @@
           @for (plan of filterPlanes$ | async; track plan.id; let i = $index) {
             <tr>
               <td
-                [innerHTML]="plan.product_id | highlightText: formBusquedaPlanes.value ?? ''"
+                [innerHTML]="
+                  plan.product.product_code | highlightText: formBusquedaPlanes.value ?? ''
+                "
               ></td>
               <td
                 [innerHTML]="plan.start_date | highlightText: formBusquedaPlanes.value ?? ''"

@@ -61,6 +61,13 @@ class MockPlanesService {
             username: 'jperez',
           },
         ],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
       },
       {
         id: '223e4567-e89b-12d3-a456-426614174001',
@@ -79,6 +86,13 @@ class MockPlanesService {
             username: 'agomez',
           },
         ],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
       },
     ]);
   }
@@ -132,6 +146,7 @@ export class MockTranslateLoader implements TranslateLoader {
 
 // Mock para MatDialog
 class MockMatDialog {
+  afterAllClosed = of({}); // Add this property
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),
@@ -255,7 +270,10 @@ describe('PlanesComponent', () => {
     expect(result).toEqual(component.planesVentas);
   });
 
-  it('debería abrir el modal de crear plan', () => {
+  it('debería abrir el modal de crear plan y obtener planes después de cerrar', () => {
+    // Espiar el método obtenerPlanes
+    spyOn(component, 'obtenerPlanes');
+
     // Llamar al método
     component.abrirModalCrearPlan();
 
@@ -263,5 +281,8 @@ describe('PlanesComponent', () => {
     expect(dialog.open).toHaveBeenCalledWith(CrearPlanVentaComponent, {
       width: '37.0625rem',
     });
+
+    // Verificar que se llamó a obtenerPlanes después de cerrar el diálogo
+    expect(component.obtenerPlanes).toHaveBeenCalled();
   });
 });

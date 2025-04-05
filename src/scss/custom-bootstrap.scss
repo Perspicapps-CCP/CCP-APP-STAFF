@@ -8,5 +8,8 @@ $font-family-sans-serif:
   Arial,
   sans-serif;
 
+// Override Bootstrap body background color
+$body-bg: #f8f9fa;
+
 // Importar Bootstrap
 @use 'bootstrap/scss/bootstrap';

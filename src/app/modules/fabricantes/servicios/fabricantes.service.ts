@@ -36,7 +36,7 @@ export class FabricantesService {
       );
   }
 
-  obtenerProductos(idsProductos: string[] = []) {
+  obtenerProductos(idsProductos?: string[]) {
     return this.http.post<ProductoFabricante[]>(
       `${this.apiUrl}/suppliers/manufacturers/listProducts/`,
       {
@@ -65,12 +65,13 @@ export class FabricantesService {
     files: FileList,
   ): Observable<ProductoFabricanteImageResponse> {
     const formData = new FormData();
+    formData.append('product_id', producto.id);
     for (const file of Array.from(files)) {
       formData.append('product_image', file);
     }
 
     return this.http.post<ProductoFabricanteImageResponse>(
-      `${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/${producto.id}/image/`,
+      `${this.apiUrl}/suppliers/manufacturers/${fabricante.id}/products/image/`,
       formData,
     );
   }

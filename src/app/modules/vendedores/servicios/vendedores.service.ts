@@ -9,23 +9,15 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root',
 })
 export class VendedoresService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
 
   constructor(private http: HttpClient) {}
 
   obtenerVendedores() {
-    return this.http.get<Vendedor[]>(`${this.apiUrl}/sales/sellers`).pipe(
-      map<any, Vendedor[]>((res: any) => {
-        return res.data.vendedores;
-      }),
-    );
+    return this.http.get<Vendedor[]>(`${this.apiUrl}/api/v1/users/sellers/`);
   }
 
   crearVendedor(vendedor: Vendedor) {
-    return this.http.post<Vendedor>(`${this.apiUrl}/sales/sellers`, vendedor).pipe(
-      map<any, Vendedor>((res: any) => {
-        return res.data.vendedor;
-      }),
-    );
+    return this.http.post<Vendedor>(`${this.apiUrl}/api/v1/users/sellers/`, vendedor);
   }
 }

@@ -175,7 +175,8 @@
         "ERROR_SCV_FILE": "File format not valid, must be .csv",
         "ERROR_PROCESS_MASIVE": "Error uploading products",
         "ERROR_IMAGE_FILE": "File format not valid, must be .jpg, .jpeg or .png",
-        "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} total images \n {{countOk}} images were processed \n {{countError}} images were not processed"
+        "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} total images \n {{countOk}} images were processed \n {{countError}} images were not processed",
+        "ERROR_PROCESS_MASIVE_IMAGE": "Error uploading images"
       }
     }
   },

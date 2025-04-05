@@ -10,7 +10,7 @@ import { LocalizationService } from '../../../shared/servicios/localization.serv
   providedIn: 'root',
 })
 export class PlanesService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
   private localDatePipe: LocalDatePipe;
 
   constructor(
@@ -23,7 +23,7 @@ export class PlanesService {
   obtenerPlanes() {
     return this.http.get<PlanVenta>(`${this.apiUrl}/api/v1/sales/plans/`).pipe(
       map<any, any>((res: any) => {
-        res.data.planes.forEach((plan: any) => {
+        res.forEach((plan: any) => {
           plan.start_date = this.localDatePipe.transform(plan.start_date, undefined, true);
           plan.end_date = this.localDatePipe.transform(plan.end_date, undefined, true);
           plan.goal = plan.goal + '';
@@ -31,7 +31,7 @@ export class PlanesService {
         return res;
       }),
       map<any, PlanVenta[]>((res: any) => {
-        return res.data.planes;
+        return res;
       }),
     );
   }

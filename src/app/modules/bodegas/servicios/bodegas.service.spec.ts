@@ -90,17 +90,11 @@ describe('BodegasService', () => {
     it('debe obtener productos de una bodega y combinarlos con información del fabricante', () => {
       const bodega: Bodega = mockBodegas[0];
 
-      const mockInventarioResponse = {
-        data: {
-          productos: mockProductosInventario,
-        },
-      };
+      // Respuesta directa sin el contenedor data.productos
+      const mockInventarioResponse = mockProductosInventario;
 
-      const mockFabricanteResponse = {
-        data: {
-          productos: mockProductosFabricante,
-        },
-      };
+      // Respuesta directa sin el contenedor data.productos
+      const mockFabricanteResponse = mockProductosFabricante;
 
       // Resultados esperados después de la combinación
       const expectedProductos: ProductoBodega[] = [
@@ -126,14 +120,16 @@ describe('BodegasService', () => {
       });
 
       // Primera solicitud para obtener productos de inventario
+      // URL modificada
       const reqInventario = httpMock.expectOne(
-        `${apiUrl}/inventory?warehouse=${bodega.warehouse_id}`,
+        `${apiUrl}/inventory/stock?warehouse=${bodega.warehouse_id}`,
       );
       expect(reqInventario.request.method).toBe('GET');
       reqInventario.flush(mockInventarioResponse);
 
       // Segunda solicitud para obtener detalles de los productos del fabricante
-      const reqFabricante = httpMock.expectOne(`${apiUrl}/manufacturers/listProducts`);
+      // URL modificada
+      const reqFabricante = httpMock.expectOne(`${apiUrl}/suppliers/manufacturers/listProducts`);
       expect(reqFabricante.request.method).toBe('POST');
       expect(reqFabricante.request.body).toEqual({
         idsProductos: ['101', '102'],
@@ -184,7 +180,9 @@ describe('BodegasService', () => {
       const resultado = service.unionProductosBodega([], mockProductosFabricante);
       expect(resultado.length).toBe(0);
     });
+  });
 
+  describe('cargaMasivaProductosFabricante', () => {
     it('debe enviar correctamente el archivo y el warehouse_id al endpoint', () => {
       const bodega: Bodega = mockBodegas[0];
       const mockFile = new File(['contenido de prueba'], 'test.csv', { type: 'text/csv' });

@@ -86,6 +86,13 @@ describe('VendedoresPlanComponent', () => {
         username: 'agomez',
       },
     ],
+    product: {
+      id: 'prod-001',
+      name: 'Producto 1',
+      product_code: 'P001',
+      price: 1000,
+      images: [],
+    },
   };
 
   beforeEach(async () => {

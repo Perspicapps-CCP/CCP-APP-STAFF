@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment';
 describe('VendedoresService', () => {
   let service: VendedoresService;
   let httpMock: HttpTestingController;
-  const apiUrl = environment.apiUrl;
+  const apiUrl = environment.apiUrlCCP;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,12 +53,6 @@ describe('VendedoresService', () => {
         },
       ];
 
-      const mockResponse = {
-        data: {
-          vendedores: mockVendedores,
-        },
-      };
-
       // Hacemos la llamada al método
       let result: Vendedor[] | undefined;
       service.obtenerVendedores().subscribe(vendedores => {
@@ -66,9 +60,9 @@ describe('VendedoresService', () => {
       });
 
       // Simulamos la respuesta HTTP
-      const req = httpMock.expectOne(`${apiUrl}/sales/sellers`);
+      const req = httpMock.expectOne(`${apiUrl}/api/v1/users/sellers/`);
       expect(req.request.method).toBe('GET');
-      req.flush(mockResponse);
+      req.flush(mockVendedores);
 
       // Verificamos el resultado
       expect(result).toEqual(mockVendedores);
@@ -85,7 +79,7 @@ describe('VendedoresService', () => {
       });
 
       // Simulamos un error HTTP
-      const req = httpMock.expectOne(`${apiUrl}/sales/sellers`);
+      const req = httpMock.expectOne(`${apiUrl}/api/v1/users/sellers/`);
       const mockError = new ProgressEvent('error', {
         lengthComputable: false,
         loaded: 0,
@@ -118,12 +112,6 @@ describe('VendedoresService', () => {
         id: '3',
       };
 
-      const mockResponse = {
-        data: {
-          vendedor: vendedorCreado,
-        },
-      };
-
       // Hacemos la llamada al método
       let result: Vendedor | undefined;
       service.crearVendedor(nuevoVendedor).subscribe(vendedor => {
@@ -131,10 +119,10 @@ describe('VendedoresService', () => {
       });
 
       // Simulamos la respuesta HTTP
-      const req = httpMock.expectOne(`${apiUrl}/sales/sellers`);
+      const req = httpMock.expectOne(`${apiUrl}/api/v1/users/sellers/`);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(nuevoVendedor);
-      req.flush(mockResponse);
+      req.flush(vendedorCreado);
 
       // Verificamos el resultado
       expect(result).toEqual(vendedorCreado);
@@ -161,7 +149,7 @@ describe('VendedoresService', () => {
       });
 
       // Simulamos un error HTTP
-      const req = httpMock.expectOne(`${apiUrl}/sales/sellers`);
+      const req = httpMock.expectOne(`${apiUrl}/api/v1/users/sellers/`);
       expect(req.request.method).toBe('POST');
       const mockError = new ProgressEvent('error', {
         lengthComputable: false,
