@@ -403,7 +403,7 @@ describe('FabricantesService', () => {
 
     // Configurar la respuesta mock para la petición HTTP
     const req = httpMock.expectOne(
-      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/${producto.id}/image/`,
+      `${environment.apiUrlCCP}/suppliers/manufacturers/${fabricante.id}/products/image/`,
     );
     expect(req.request.method).toBe('POST');
 

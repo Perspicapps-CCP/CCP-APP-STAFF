@@ -1,11 +1,9 @@
-import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { PlanesService } from './planes.service';
-import { LocalizationService } from '../../../shared/servicios/localization.service';
-import { environment } from '../../../../environments/environment';
-import { PlanVenta, PlanVentaPost } from '../interfaces/planes.interface';
 import { BehaviorSubject, of } from 'rxjs';
-import { LocalDatePipe } from '../../../shared/pipes/local-date.pipe';
+import { environment } from '../../../../environments/environment';
+import { LocalizationService } from '../../../shared/servicios/localization.service';
+import { PlanVenta, PlanVentaPost } from '../interfaces/planes.interface';
+import { PlanesService } from './planes.service';
 
 describe('PlanesService', () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
@@ -49,22 +47,7 @@ describe('PlanesService', () => {
   });
 
   it('should retrieve planes from the API', () => {
-    const mockPlanes = {
-      data: {
-        planes: [
-          {
-            id: '1',
-            product_id: 'prod-1',
-            start_date: '2025-01-01T00:00:00.000Z',
-            end_date: '2025-12-31T00:00:00.000Z',
-            goal: 1000,
-            sellers: [],
-          },
-        ],
-      },
-    };
-
-    const expectedPlanes = [
+    const mockPlanes: PlanVenta[] = [
       {
         id: '1',
         product_id: 'prod-1',
@@ -72,13 +55,39 @@ describe('PlanesService', () => {
         end_date: new Date('2025-12-31T00:00:00.000Z'),
         goal: '1000',
         sellers: [],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
       },
     ];
 
-    httpClientSpy.get.and.returnValue(of(mockPlanes));
+    // Mock the API response with string dates that will be transformed
+    const apiResponse = [
+      {
+        id: '1',
+        product_id: 'prod-1',
+        start_date: '2025-01-01T00:00:00.000Z',
+        end_date: '2025-12-31T00:00:00.000Z',
+        goal: 1000,
+        sellers: [],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
+      },
+    ];
+
+    httpClientSpy.get.and.returnValue(of(apiResponse));
 
     service.obtenerPlanes().subscribe(planes => {
-      expect(planes).toEqual(expectedPlanes);
+      expect(planes).toEqual(mockPlanes);
       expect(planes[0].goal).toBe('1000');
 
       expect(localDatePipeMock.transform).toHaveBeenCalledWith(
@@ -93,7 +102,7 @@ describe('PlanesService', () => {
       );
     });
 
-    expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrl}/api/v1/sales/plans/`);
+    expect(httpClientSpy.get).toHaveBeenCalledWith(`${environment.apiUrlCCP}/api/v1/sales/plans/`);
   });
 
   it('should call crearPlan from the API', () => {
@@ -112,7 +121,7 @@ describe('PlanesService', () => {
     });
 
     expect(httpClientSpy.post).toHaveBeenCalledWith(
-      `${environment.apiUrl}/api/v1/sales/plans/`,
+      `${environment.apiUrlCCP}/api/v1/sales/plans/`,
       mockPlan,
     );
   });

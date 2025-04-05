@@ -91,7 +91,7 @@ export class ProductosFabricanteComponent implements OnInit {
       this.fabricantesService.cargarImagenesProducto(fabricante, producto, files).subscribe({
         next: res => {
           this.translate
-            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED', {
+            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_IMAGE_PROCESSED', {
               count: res.processed_records,
               countOk: res.successful_records,
               countError: res.failed_records,
@@ -109,7 +109,7 @@ export class ProductosFabricanteComponent implements OnInit {
         },
         error: error => {
           this.translate
-            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE')
+            .get('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE_IMAGE')
             .subscribe((mensaje: string) => {
               this._snackBar.open(mensaje, '', {
                 horizontalPosition: 'end',

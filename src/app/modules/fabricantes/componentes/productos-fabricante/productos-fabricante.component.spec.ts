@@ -226,7 +226,7 @@ describe('ProductosFabricanteComponent', () => {
 
     // Spy para el método get del TranslateService
     spyOn(translateService, 'get')
-      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED', {
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_IMAGE_PROCESSED', {
         count: 5,
         countOk: 4,
         countError: 1,
@@ -268,7 +268,7 @@ describe('ProductosFabricanteComponent', () => {
 
     // Verificar que se mostró el mensaje de éxito
     expect(translateService.get).toHaveBeenCalledWith(
-      'BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_PROCESSED',
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.MASSIVE_PRODUCTS_IMAGE_PROCESSED',
       { count: 5, countOk: 4, countError: 1 },
     );
     expect(snackBarSpy).toHaveBeenCalled();
@@ -302,7 +302,7 @@ describe('ProductosFabricanteComponent', () => {
 
     // Spy para el método get del TranslateService
     spyOn(translateService, 'get')
-      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE')
+      .withArgs('BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE_IMAGE')
       .and.returnValue(of('Error al procesar las imágenes'));
 
     // Spy para el método open del MatSnackBar
@@ -330,7 +330,7 @@ describe('ProductosFabricanteComponent', () => {
 
     // Verificar que se mostró el mensaje de error
     expect(translateService.get).toHaveBeenCalledWith(
-      'BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE',
+      'BODEGAS.PRODUCTOS_BODEGA.TOAST.ERROR_PROCESS_MASIVE_IMAGE',
     );
     expect(snackBarSpy).toHaveBeenCalled();
     expect(snackBarSpy.calls.mostRecent().args[0]).toBe('Error al procesar las imágenes');

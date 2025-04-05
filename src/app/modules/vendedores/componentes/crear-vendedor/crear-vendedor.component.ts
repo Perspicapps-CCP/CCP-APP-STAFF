@@ -93,7 +93,6 @@ export class CrearVendedorComponent {
       identification: valuesForm.identification!,
       phone: valuesForm.phone!,
       username: valuesForm.username!,
-      role: 'SELLER',
     };
 
     this.vendedoresService.crearVendedor(vendedor).subscribe({

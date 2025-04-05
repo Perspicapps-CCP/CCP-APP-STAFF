@@ -61,6 +61,13 @@ class MockPlanesService {
             username: 'jperez',
           },
         ],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
       },
       {
         id: '223e4567-e89b-12d3-a456-426614174001',
@@ -79,6 +86,13 @@ class MockPlanesService {
             username: 'agomez',
           },
         ],
+        product: {
+          id: 'prod-001',
+          name: 'Producto 1',
+          product_code: 'P001',
+          price: 1000,
+          images: [],
+        },
       },
     ]);
   }

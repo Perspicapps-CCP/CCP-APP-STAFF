@@ -16,6 +16,10 @@ export class UsuarioService {
   }
 
   get token(): string {
+    const tokenSession = localStorage.getItem('token');
+    if (tokenSession) {
+      return tokenSession;
+    }
     return this._usuario?.access_token || '';
   }
 }

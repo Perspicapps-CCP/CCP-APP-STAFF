@@ -60,5 +60,9 @@ export class VendedoresComponent implements OnInit {
     this.dialog.open(CrearVendedorComponent, {
       width: '22.9375rem',
     });
+
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.obtenerVendedores();
+    });
   }
 }
