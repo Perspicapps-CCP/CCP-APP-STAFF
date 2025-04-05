@@ -36,7 +36,7 @@ export class FabricantesService {
       );
   }
 
-  obtenerProductos(idsProductos: string[] = []) {
+  obtenerProductos(idsProductos?: string[]) {
     return this.http.post<ProductoFabricante[]>(
       `${this.apiUrl}/suppliers/manufacturers/listProducts/`,
       {

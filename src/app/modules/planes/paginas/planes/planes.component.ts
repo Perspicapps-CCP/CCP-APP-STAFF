@@ -70,5 +70,9 @@ export class PlanesComponent implements OnInit {
     this.dialog.open(CrearPlanVentaComponent, {
       width: '37.0625rem',
     });
+
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.obtenerPlanes();
+    });
   }
 }
