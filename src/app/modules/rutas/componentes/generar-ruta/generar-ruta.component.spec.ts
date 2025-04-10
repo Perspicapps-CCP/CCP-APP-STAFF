@@ -173,7 +173,7 @@ describe('GenerarRutaComponent', () => {
     // Verificar que el servicio fue llamado con los datos correctos
     expect(rutasService.generarRutasEntrega).toHaveBeenCalled();
     const rutaExpected: GenerarRutaEntregaPost = {
-      warehouse_id: mockBodegas[0].warehouse_id,
+      warehouse_id: mockBodegas[0].warehouse_id!,
       date: fechaString,
     };
     expect(rutasService.generarRutasEntrega).toHaveBeenCalledWith(

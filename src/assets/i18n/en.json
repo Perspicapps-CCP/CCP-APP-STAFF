@@ -181,6 +181,28 @@
         "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} total images \n {{countOk}} images were processed \n {{countError}} images were not processed",
         "ERROR_PROCESS_MASIVE_IMAGE": "Error uploading images"
       }
+    },
+    "CREAR_BODEGA": {
+      "TITLE": "Add warehouse",
+      "FORM": {
+        "NAME": "Name",
+        "ADDRESS": "Address",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "PHONE": "Phone"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "FIELD_LENGTH": "This field must have {{min}} caracteres de longitud"
+      },
+      "TOAST": {
+        "SUCCESS": "Bodega creada exitosamente",
+        "ERROR": "Error al crear el bodega"
+      }
     }
   },
   "VENDEDORES": {
@@ -326,6 +348,21 @@
         "SUCCESS": "Route created successfully",
         "ERROR": "Error creating route"
       }
+    }
+  },
+  "PRODUCTOS": {
+    "SEARCH_PLACEHOLDER": "Filter products",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "COD_PRODUCT": "Product code",
+      "SUPPLIER_NAME": "Supplier",
+      "PRICE": "Unit cost",
+      "IMAGES": "Images",
+      "WAREHOUSE": "Warehouse",
+      "QUANTITY": "Quantity"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No products found"
     }
   }
 }

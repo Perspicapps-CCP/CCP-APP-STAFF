@@ -1,0 +1,14 @@
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 4px;
+  gap: 1.5rem;
+
+  .table-container {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--bs-border-color); /* Color del borde de Bootstrap */
+  }
+}

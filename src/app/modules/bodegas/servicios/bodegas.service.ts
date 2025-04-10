@@ -6,6 +6,7 @@ import { ProductoFabricante } from '../../fabricantes/interfaces/producto-fabric
 import { Bodega } from '../interfaces/bodega.interface';
 import { ProductoBodega, ProductoBodegaInventario } from '../interfaces/producto-bodega';
 import { MasivoProductosResponse } from '../interfaces/masivo-productos-bodega-response';
+import { Fabricante } from '../../fabricantes/interfaces/fabricantes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -73,8 +74,12 @@ export class BodegasService {
   cargaMasivaProductosFabricante(bodega: Bodega, file: File) {
     const formData = new FormData();
     formData.append('inventory_upload', file);
-    formData.append('warehouse_id', bodega.warehouse_id);
+    formData.append('warehouse_id', bodega.warehouse_id ?? '');
 
     return this.http.post<MasivoProductosResponse>(`${this.apiUrl}/inventory/stock/csv`, formData);
+  }
+
+  crearBodega(bodega: Bodega) {
+    return this.http.post<Bodega>(`${this.apiUrl}/inventory/warehouse`, bodega);
   }
 }
