@@ -72,11 +72,11 @@ export class FabricantesComponent implements OnInit {
   }
 
   abrirModalCrearFabricante() {
-    this.dialog.open(CrearFabricanteComponent, {
+    const dialogRef = this.dialog.open(CrearFabricanteComponent, {
       width: '29.125rem',
     });
 
-    this.dialog.afterAllClosed.subscribe(() => {
+    dialogRef.afterClosed().subscribe(() => {
       this.obtenerFabricantes();
     });
   }

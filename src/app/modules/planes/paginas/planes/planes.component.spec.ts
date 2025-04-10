@@ -146,7 +146,7 @@ export class MockTranslateLoader implements TranslateLoader {
 
 // Mock para MatDialog
 class MockMatDialog {
-  afterAllClosed = of({}); // Add this property
+  dialogRef = of({}); // Add this property
   open(component: any, config?: any): MatDialogRef<any> {
     return {
       afterClosed: () => of({}),

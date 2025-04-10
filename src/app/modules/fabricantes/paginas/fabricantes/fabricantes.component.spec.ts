@@ -123,8 +123,8 @@ export class MockTranslateLoader implements TranslateLoader {
 
 // Mock para MatDialog
 class MockMatDialog {
-  // Agregar afterAllClosed como BehaviorSubject
-  afterAllClosed = new BehaviorSubject<any>({});
+  // Agregar afterClosed como BehaviorSubject
+  afterClosed = new BehaviorSubject<any>({});
 
   open(component: any, config?: any): MatDialogRef<any> {
     return {
@@ -284,7 +284,7 @@ describe('FabricantesComponent', () => {
     });
 
     // Simular que todos los diálogos se han cerrado
-    (dialog as any).afterAllClosed.next({});
+    (dialog as any).afterClosed.next({});
 
     // Verificar que se llamó a obtenerFabricantes después de cerrar el diálogo
     expect(component.obtenerFabricantes).toHaveBeenCalled();

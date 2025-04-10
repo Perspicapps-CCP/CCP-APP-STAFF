@@ -1,0 +1,29 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span
+      ><strong>{{ 'VISOR_MAPA.TITLE' | translate }}</strong></span
+    >
+    <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+  </div>
+  <div>
+    <div class="map-container">
+      <google-map
+        *ngIf="apiLoaded"
+        [center]="center"
+        [zoom]="zoom"
+        [options]="mapOptions"
+        height="600px"
+        width="100%"
+        (mapInitialized)="onMapInitialized($event)"
+      >
+        <!-- Renderizador de direcciones para mostrar ruta real -->
+        <map-directions-renderer
+          *ngIf="directionsResults"
+          [directions]="directionsResults"
+          [options]="directionsOptions"
+        >
+        </map-directions-renderer>
+      </google-map>
+    </div>
+  </div>
+</div>
