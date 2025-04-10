@@ -303,7 +303,14 @@ describe('RutasComponent', () => {
 
     // Verificar que se abrió el diálogo con los parámetros correctos
     expect(dialog.open).toHaveBeenCalledWith(VisorMapaComponent, {
-      data: [{ latitude: '4.6097', longitude: '-74.0817' }],
+      data: [
+        {
+          latitude: '4.6097',
+          longitude: '-74.0817',
+          title: 'Calle Principal 123',
+          description: '1234567890',
+        },
+      ],
       width: '70vw',
       height: '70vh',
       maxWidth: '70vw',

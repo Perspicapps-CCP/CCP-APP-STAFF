@@ -91,6 +91,8 @@ export class RutasComponent implements OnInit {
       return {
         latitude: ruta.latitude,
         longitude: ruta.longitude,
+        title: ruta.order_address,
+        description: `${ruta.customer_phone_number}`,
       };
     });
 
