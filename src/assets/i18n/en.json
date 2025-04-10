@@ -275,5 +275,20 @@
         "NAME": "Name Seller"
       }
     }
+  },
+  "PRODUCTOS": {
+    "SEARCH_PLACEHOLDER": "Filter products",
+    "TABLE_HEADERS": {
+      "NAME": "Name",
+      "COD_PRODUCT": "Product code",
+      "SUPPLIER_NAME": "Supplier",
+      "PRICE": "Unit cost",
+      "IMAGES": "Images",
+      "WAREHOUSE": "Warehouse",
+      "QUANTITY": "Quantity"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No products found"
+    }
   }
 }

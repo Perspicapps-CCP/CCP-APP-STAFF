@@ -275,5 +275,20 @@
         "NAME": "Nombre del Vendedor"
       }
     }
+  },
+  "PRODUCTOS": {
+    "SEARCH_PLACEHOLDER": "Filtrar productos",
+    "TABLE_HEADERS": {
+      "NAME": "Nombre",
+      "COD_PRODUCT": "Código producto",
+      "SUPPLIER_NAME": "Proveedor",
+      "PRICE": "Costo unidad",
+      "IMAGES": "Imagenes",
+      "WAREHOUSE": "Bodega",
+      "QUANTITY": "Cantidad"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron productos"
+    }
   }
 }
