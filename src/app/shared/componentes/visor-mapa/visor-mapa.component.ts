@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
 
@@ -14,62 +14,10 @@ import { environment } from '../../../../environments/environment';
 })
 export class VisorMapaComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<VisorMapaComponent>);
-  coordinates = [
-    {
-      latitude: 4.74930910765156,
-      longitude: -74.0582970143239,
-      title: 'Punto de inicio',
-      description: 'Inicio del recorrido',
-    },
-    {
-      latitude: 4.7230972958661175,
-      longitude: -74.06218528747559,
-      title: 'Parada 1',
-      description: 'Primera parada del recorrido',
-    },
-    {
-      latitude: 4.685886914787581,
-      longitude: -74.05663870062597,
-      title: 'Parada 2',
-      description: 'Segunda parada del recorrido',
-    },
-    {
-      latitude: 4.663475884510695,
-      longitude: -74.07607819642413,
-      title: 'Parada 3',
-      description: 'Tercera parada del recorrido',
-    },
-    {
-      latitude: 4.645707804636481,
-      longitude: -74.10965904880698,
-      title: 'Parada 4',
-      description: 'Cuarta parada del recorrido',
-    },
-    {
-      latitude: 4.661203248163977,
-      longitude: -74.11774332808432,
-      title: 'Parada 5',
-      description: 'Quinta parada del recorrido',
-    },
-    {
-      latitude: 4.679797329289391,
-      longitude: -74.13722851403492,
-      title: 'Parada 6',
-      description: 'Sexta parada del recorrido',
-    },
-    {
-      latitude: 4.699630471327888,
-      longitude: -74.14013056300627,
-      title: 'Parada 7',
-      description: 'Séptima parada del recorrido',
-    },
-    {
-      latitude: 4.683170713690966,
-      longitude: -74.11655902862549,
-      title: 'Destino final',
-      description: 'Fin del recorrido',
-    },
-  ];
+  readonly coordinates =
+    inject<{ latitude: number; longitude: number; title: string; description: string }[]>(
+      MAT_DIALOG_DATA,
+    );
 
   apiLoaded = false;
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
@@ -172,10 +120,40 @@ export class VisorMapaComponent implements OnInit {
     // Usamos las coordenadas ajustadas a la ruta en lugar de las originales
     const coordsToUse = this.routeCoordinates.length > 0 ? this.routeCoordinates : this.coordinates;
 
+    // Definir el SVG como una cadena de texto (escapando caracteres especiales)
+    const svgMarker = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85.062538 94.353144" width="42" height="48">
+        <path style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#0597ff;stroke-width:2.519;stroke-dasharray:none;stroke-opacity:1"
+          d="m 1.259502,43.042272 c 0.02285,-57.107716 82.560802,-54.039968 82.543532,-0.78365 -0.003,8.97048 -5.63611,20.80492 -13.44036,29.74151 -10.97383,12.56604 -27.57019,20.93396 -27.57019,20.93396 0,0 -14.717138,-7.86519 -27.348422,-20.61487 -8.447157,-8.52633 -14.188115,-20.39228 -14.18456,-29.27695 z" />
+        <ellipse style="fill:#0597ff;fill-opacity:1;fill-rule:evenodd;stroke:#0597ff;stroke-width:1.33583;stroke-opacity:1"
+          cx="43.053704" cy="42.258632" rx="34.944225" ry="34.944218" />
+        <g style="fill:#efefef" transform="matrix(0.00661458,0,0,0.00661458,40.183444,63.989902)">
+          <path d="m -1623.0993,-204.03731 q -451.0763,0 -766.8298,-315.75347 -315.7535,-315.75343 -315.7535,-766.82992 h -721.7222 V -5256.093 q 0,-297.7103 212.0058,-509.7162 212.0059,-212.0059 509.7164,-212.0059 H 2346.373 v 1443.4445 h 1082.5831 l 1082.5835,1443.4444 v 1804.3055 h -721.7223 q 0,451.07649 -315.7535,766.82992 -315.7534,315.75347 -766.8297,315.75347 -451.0765,0 -766.8298,-315.75347 -315.7536,-315.75343 -315.7536,-766.82992 H -540.51593 q 0,451.07649 -315.7535,766.82992 -315.75357,315.75347 -766.82987,315.75347 z m 0,-721.7222 q 153.366,0 257.1135,-103.74749 103.7477,-103.7476 103.7477,-257.1137 0,-153.3659 -103.7477,-257.1135 -103.7475,-103.7475 -257.1135,-103.7475 -153.3661,0 -257.1134,103.7475 -103.7477,103.7476 -103.7477,257.1135 0,153.3661 103.7477,257.1137 103.7473,103.74749 257.1134,103.74749 z M -2705.6826,-2008.3428 h 288.6889 q 153.3659,-162.3877 351.8395,-261.6243 198.4736,-99.2368 442.0549,-99.2368 243.5813,0 442.0549,99.2368 198.47357,99.2366 351.83937,261.6243 H 1624.6507 V -5256.093 h -4330.3333 z m 5412.9167,1082.58329 q 153.3659,0 257.1135,-103.74749 103.7476,-103.7476 103.7476,-257.1137 0,-153.3659 -103.7476,-257.1135 -103.7476,-103.7475 -257.1135,-103.7475 -153.3661,0 -257.1137,103.7475 -103.7474,103.7476 -103.7474,257.1135 0,153.3661 103.7474,257.1137 103.7476,103.74749 257.1137,103.74749 z M 2346.373,-2730.0652 H 3880.0326 L 3068.0952,-3812.6484 H 2346.373 Z m -2886.88893,-902.1527 z" style="stroke-width:9.02152" />
+        </g>
+      </svg>
+    `;
+
+    // Función para cambiar el color del SVG
+    const getSvgWithColor = (color: string) => {
+      // Reemplazar el color de relleno de la elipse con el color proporcionado
+      return svgMarker
+        .replace('fill:#0597ff', `fill:${color}`)
+        .replace('stroke:#0597ff', `stroke:${color}`);
+    };
+
     // Crear nuevos marcadores
     coordsToUse.forEach((coord, index) => {
       const isFirst = index === 0;
       const isLast = index === coordsToUse.length - 1;
+
+      // Determinar el color basado en la posición del marcador
+      const markerColor = isFirst ? '#4CAF50' : isLast ? '#FF5722' : '#4285F4';
+
+      // Obtener el SVG con el color apropiado
+      const coloredSvg = getSvgWithColor(markerColor);
+
+      // Convertir SVG a URL Data para usarlo como icono
+      const svgUrl = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(coloredSvg);
 
       // Crear marcador usando el nuevo método recomendado
       const marker = new this.markerLibrary.Marker({
@@ -183,12 +161,9 @@ export class VisorMapaComponent implements OnInit {
         map: this.map,
         title: coord.title || `Parada ${index + 1}`,
         icon: {
-          path: 'M480-360q56 0 101-27.5t71-72.5q-35-29-79-44.5T480-520q-49 0-93 15.5T308-460q26 45 71 72.5T480-360Zm0-200q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0 374q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z',
-          fillColor: isFirst ? '#4CAF50' : isLast ? '#FF5722' : '#4285F4', // Color diferente según el tipo de punto
-          fillOpacity: 1,
-          strokeWeight: 0,
-          scale: 0.05,
-          anchor: new google.maps.Point(500, 20),
+          url: svgUrl,
+          scaledSize: new google.maps.Size(32, 34), // Ajusta el tamaño según sea necesario
+          anchor: new google.maps.Point(10, 30), // El punto de anclaje (la punta inferior del pin)
         },
       });
 
