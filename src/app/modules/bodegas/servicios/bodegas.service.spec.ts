@@ -189,7 +189,7 @@ describe('BodegasService', () => {
 
       const mockResponse: MasivoProductosResponse = {
         operation_id: 'op123',
-        warehouse_id: bodega.warehouse_id,
+        warehouse_id: bodega.warehouse_id!,
         processed_records: 100,
         successful_records: 95,
         failed_records: 5,

@@ -7,9 +7,7 @@ import { sharedImports } from '../../../../shared/otros/shared-imports';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { Producto } from '../../interfaces/productos.interface';
 import { ProductosService } from '../../servicios/productos.service';
-import {
-  VisorImagenesDialogComponent
-} from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
+import { VisorImagenesDialogComponent } from '../../../../shared/componentes/visor-imagenes-dialog/visor-imagenes-dialog.component';
 import { LocalCurrencyPipe } from '../../../../shared/pipes/local-currency.pipe';
 
 @Component({
