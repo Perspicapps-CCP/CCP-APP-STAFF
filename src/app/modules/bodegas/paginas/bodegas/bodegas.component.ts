@@ -60,9 +60,7 @@ export class BodegasComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.obtenerBodegas();
-      }
+      this.obtenerBodegas();
     });
   }
 
