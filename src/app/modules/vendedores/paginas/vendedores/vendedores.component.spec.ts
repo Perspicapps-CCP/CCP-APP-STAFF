@@ -50,8 +50,8 @@ class MockDinamicSearchService {
 
 // Mock para MatDialog
 class MockMatDialog {
-  // Añadir afterAllClosed como un Observable
-  afterAllClosed = of({});
+  // Añadir afterClosed como un Observable
+  afterClosed = of({});
 
   open(component: any, config?: any): MatDialogRef<any> {
     return {

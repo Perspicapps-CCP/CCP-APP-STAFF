@@ -67,11 +67,11 @@ export class PlanesComponent implements OnInit {
   }
 
   abrirModalCrearPlan() {
-    this.dialog.open(CrearPlanVentaComponent, {
+    const dialogRef = this.dialog.open(CrearPlanVentaComponent, {
       width: '37.0625rem',
     });
 
-    this.dialog.afterAllClosed.subscribe(() => {
+    dialogRef.afterClosed().subscribe(() => {
       this.obtenerPlanes();
     });
   }

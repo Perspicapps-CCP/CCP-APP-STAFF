@@ -1,0 +1,63 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span>{{ 'PLAN_VENTA.CREAR_PLAN.TITLE' | translate }}</span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+  </div>
+  <div>
+    <form
+      [formGroup]="generarRutaForm"
+      (ngSubmit)="crearRuta()"
+      class="flex flex-col w-full gap-[0.25rem]"
+    >
+      <div class="w-full min-h-[3.9375rem]">
+        <input
+          id="typeahead-basic"
+          type="text"
+          class="form-control"
+          id="bodega selector"
+          formControlName="bodega"
+          placeholder="{{ 'RUTAS.CREAR_RUTA.FORM.BODEGA' | translate }}"
+          [ngbTypeahead]="searchBodegas"
+          [inputFormatter]="formatter"
+          [resultFormatter]="formatter"
+          [selectOnExact]="true"
+          [ngClass]="{ 'is-invalid': isInvalid('bodega') }"
+        />
+        <div class="invalid-feedback">
+          {{ getErrorMessage('bodega').key | translate }}
+        </div>
+      </div>
+
+      <div class="w-full min-h-[3.9375rem]">
+        <app-calendar
+          formControlName="fechaRuta"
+          [ngClass]="{
+            'is-invalid':
+              generarRutaForm.get('fechaRuta')?.invalid &&
+              generarRutaForm.get('fechaRuta')?.touched,
+          }"
+          [errorClass]="
+            generarRutaForm.get('fechaRuta')?.invalid && generarRutaForm.get('fechaRuta')?.touched
+          "
+        ></app-calendar>
+        <div class="invalid-feedback">
+          {{ getErrorMessage('fechaRuta').key | translate }}
+        </div>
+      </div>
+
+      <div class="w-full flex gap-[0.50rem] justify-end">
+        <button type="button" class="btn btn btn-outline-secondary" (click)="dialogRef.close()">
+          {{ 'RUTAS.CREAR_RUTA.BUTTON.CANCEL' | translate }}
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn btn-outline-primary"
+          [disabled]="generarRutaForm.invalid"
+        >
+          {{ 'RUTAS.CREAR_RUTA.BUTTON.SAVE' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

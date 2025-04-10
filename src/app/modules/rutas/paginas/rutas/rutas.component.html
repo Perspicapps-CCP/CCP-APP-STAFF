@@ -1,1 +1,94 @@
-<p>rutas works!</p>
+<div class="contenedor">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">manage_search</mat-icon>
+      </span>
+      <input
+        class="form-control border-l-0!"
+        placeholder="{{ 'RUTAS.SEARCH_PLACEHOLDER' | translate }}"
+        [formControl]="formBusquedaRutas"
+      />
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-primary btn-actions btn-md"
+        ngbTooltip="{{ 'RUTAS.TOOLTIPS.ADD_ROUTE' | translate }}"
+        (click)="abrirModalCrearRutas()"
+      >
+        <i class="bi bi-plus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'RUTAS.TABLE_HEADERS.NO_GUIA' | translate }}</th>
+            <th>{{ 'RUTAS.TABLE_HEADERS.PLACAS_CAMION' | translate }}</th>
+            <th>{{ 'RUTAS.TABLE_HEADERS.NOMBRE_CONDUCTOR' | translate }}</th>
+            <th>{{ 'RUTAS.TABLE_HEADERS.BODEGA_INICIAL' | translate }}</th>
+            <th>{{ 'RUTAS.TABLE_HEADERS.ESTADO' | translate }}</th>
+            <th>{{ 'RUTAS.TABLE_HEADERS.PRODUCTS' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ruta of filterRutas$ | async; track ruta.shipping_number; let i = $index) {
+            <tr>
+              <td>
+                <a
+                  [innerHTML]="ruta.shipping_number | highlightText: formBusquedaRutas.value ?? ''"
+                  class="link-offset-1"
+                  (click)="abrirVisorRuta(ruta); $event.preventDefault()"
+                  href="javascript:void(0);"
+                ></a>
+              </td>
+              <td
+                [innerHTML]="ruta.licence_plate | highlightText: formBusquedaRutas.value ?? ''"
+              ></td>
+              <td
+                [innerHTML]="ruta.driver_name | highlightText: formBusquedaRutas.value ?? ''"
+              ></td>
+              <td
+                [innerHTML]="ruta.warehouse_name | highlightText: formBusquedaRutas.value ?? ''"
+              ></td>
+              <td
+                [innerHTML]="ruta.delivery_status | highlightText: formBusquedaRutas.value ?? ''"
+              ></td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-actions-table btn-sm"
+                  ngbTooltip="{{ 'RUTAS.TOOLTIPS.VIEW_PRODUCTS' | translate }}"
+                  (click)="toggleExpansion(ruta)"
+                >
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                </button>
+              </td>
+            </tr>
+            <!-- Fila expandible -->
+            @if (rutaSelected && rutaSelected.shipping_number === ruta.shipping_number) {
+              <tr>
+                <td colspan="7">
+                  <div class="expanded-row">
+                    <app-ruta-detalle [rutaEntrega]="rutaSelected"></app-ruta-detalle>
+                  </div>
+                </td>
+              </tr>
+            }
+          } @empty {
+            <tr>
+              <td colspan="7">
+                <div class="text-center">
+                  <p>{{ 'RUTAS.TABLE_EMPTY.TITLE' | translate }}</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

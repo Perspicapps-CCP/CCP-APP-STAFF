@@ -1,0 +1,40 @@
+<div class="contenedor-detalle">
+  <div class="flex w-full gap-2"></div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.COD_PRODUCT' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.NAME_PRODUCT' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.QUANTITY' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.DIRECCION' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.NO_PEDIDO' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.PHONE' | translate }}</th>
+            <th>{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.IMAGES' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of rutaEntrega.orders; track order.order_number_product; let i = $index) {
+            <tr>
+              <td [innerHTML]="order.product_code"></td>
+              <td [innerHTML]="order.product_name"></td>
+              <td [innerHTML]="order.quantity"></td>
+              <td [innerHTML]="order.order_address"></td>
+              <td [innerHTML]="order.order_number"></td>
+              <td [innerHTML]="order.customer_phone_number"></td>
+              <td>
+                <a
+                  class="link-offset-1"
+                  (click)="abrirVisorImagenes(order); $event.preventDefault()"
+                  href="#"
+                  >{{ 'RUTAS.RUTA_DETALLE.TABLE_HEADERS.IMAGES' | translate }}</a
+                >
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

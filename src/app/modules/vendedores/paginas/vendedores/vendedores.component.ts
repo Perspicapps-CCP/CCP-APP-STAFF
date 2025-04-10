@@ -57,11 +57,11 @@ export class VendedoresComponent implements OnInit {
   }
 
   abrirModalCrearVendedor() {
-    this.dialog.open(CrearVendedorComponent, {
+    const dialogRef = this.dialog.open(CrearVendedorComponent, {
       width: '22.9375rem',
     });
 
-    this.dialog.afterAllClosed.subscribe(() => {
+    dialogRef.afterClosed().subscribe(() => {
       this.obtenerVendedores();
     });
   }

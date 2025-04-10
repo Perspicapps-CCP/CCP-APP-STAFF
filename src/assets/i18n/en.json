@@ -275,5 +275,54 @@
         "NAME": "Name Seller"
       }
     }
+  },
+  "RUTAS": {
+    "SEARCH_PLACEHOLDER": "Filter routes",
+    "TABLE_HEADERS": {
+      "NO_GUIA": "No. Guide",
+      "PLACAS_CAMION": "Truck Plate",
+      "NOMBRE_CONDUCTOR": "Driver Name",
+      "BODEGA_INICIAL": "Initial Warehouse",
+      "ESTADO": "State",
+      "PRODUCTS": "Products"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No routes found",
+      "DESCRIPTION": "You can add a new route by clicking the button below"
+    },
+    "TOOLTIPS": {
+      "ADD_ROUTE": "Generate route",
+      "VIEW_PRODUCTS": "View products"
+    },
+    "RUTA_DETALLE": {
+      "TABLE_HEADERS": {
+        "COD_PRODUCT": "Product code",
+        "NAME_PRODUCT": "Name",
+        "QUANTITY": "Quantity",
+        "DIRECCION": "Address",
+        "NO_PEDIDO": "No. Order",
+        "PHONE": "Phone",
+        "IMAGES": "Images"
+      }
+    },
+    "CREAR_RUTA": {
+      "TITLE": "Generate route",
+      "FORM": {
+        "BODEGA": "Select warehouse",
+        "FECHA_RUTA": "Route date"
+      },
+      "BUTTON": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "DATE_PAST": "The date must be in the future"
+      },
+      "TOAST": {
+        "SUCCESS": "Route created successfully",
+        "ERROR": "Error creating route"
+      }
+    }
   }
 }
