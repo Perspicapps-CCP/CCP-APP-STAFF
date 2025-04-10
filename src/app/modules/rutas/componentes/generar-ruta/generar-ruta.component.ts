@@ -106,7 +106,7 @@ export class GenerarRutaComponent implements OnInit {
 
   crearRuta() {
     const formValue = this.generarRutaForm.value;
-
+    console.log('formValue', formValue);
     const rutaPost: GenerarRutaEntregaPost = {
       warehouse_id: formValue.bodega?.warehouse_id,
       date: formValue.fechaRuta,

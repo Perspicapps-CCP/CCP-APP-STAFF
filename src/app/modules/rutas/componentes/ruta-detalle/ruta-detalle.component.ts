@@ -16,11 +16,7 @@ export class RutaDetalleComponent {
   constructor(
     private dialog: MatDialog,
     private translate: TranslateService,
-  ) {
-    setTimeout(() => {
-      console.log('ruta entrega', this.rutaEntrega);
-    }, 0);
-  }
+  ) {}
 
   abrirVisorImagenes(order: Order) {
     this.dialog.open(VisorImagenesDialogComponent, {
