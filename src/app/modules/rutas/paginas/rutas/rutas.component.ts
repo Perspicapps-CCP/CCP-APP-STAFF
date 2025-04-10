@@ -4,7 +4,7 @@ import { RutaEntrega } from '../../interfaces/rutas-entrega';
 import { sharedImports } from '../../../../shared/otros/shared-imports';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
-import { map, Observable, startWith, tap } from 'rxjs';
+import { firstValueFrom, map, Observable, startWith, tap } from 'rxjs';
 import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -83,12 +83,23 @@ export class RutasComponent implements OnInit {
     });
   }
 
-  abrirVisorRuta(ruta: RutaEntrega) {
-    console.log(ruta);
+  async abrirVisorRuta(ruta: RutaEntrega) {
+    console.log('ruta', ruta);
+    const rutas = await firstValueFrom(this.rutasService.obtenerRutaMapa(ruta.shipping_number));
+    console.log('rutas', rutas);
+    const coordenadas = rutas.map(ruta => {
+      return {
+        latitude: ruta.latitude,
+        longitude: ruta.longitude,
+      };
+    });
+
+    console.log('coordenadas', coordenadas);
     this.dialog.open(VisorMapaComponent, {
-      data: ruta,
-      width: '39.4375rem',
-      height: '24.3125rem',
+      data: coordenadas,
+      width: '70vw',
+      height: '70vh',
+      maxWidth: '70vw',
     });
   }
 }

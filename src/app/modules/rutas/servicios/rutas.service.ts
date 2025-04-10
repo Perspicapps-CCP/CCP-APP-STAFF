@@ -7,7 +7,7 @@ import {
 } from '../interfaces/generar-ruta-entrega-post';
 import { RutaEntrega } from '../interfaces/rutas-entrega';
 import { RutaEntregaMapa } from '../interfaces/ruta-entrega-mapa';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -39,8 +39,14 @@ export class RutasService {
     );
   }
 
-  obtenerRutaMapa(shipping_number: string) {
-    return this.http.get<RutaEntregaMapa>(`${this.apiUrl}/logistic/route/${shipping_number}/`);
+  obtenerRutaMapa(shipping_number: string): Observable<RutaEntregaMapa[]> {
+    return this.http
+      .get<RutaEntregaMapa[]>(`${this.apiUrl}/logistic/route/${shipping_number}`)
+      .pipe(
+        map((rutas: any) => {
+          return rutas.coordenadas;
+        }),
+      );
   }
 
   generarRutasEntrega(rutaEntregaPost: GenerarRutaEntregaPost) {

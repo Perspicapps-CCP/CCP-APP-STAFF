@@ -1,1 +1,32 @@
-<p>visor-mapa works!</p>
+<div class="modal-container">
+  <div class="modal-header">
+    <span
+      ><strong>{{ 'VISOR_MAPA.TITLE' | translate }} </strong>
+    </span>
+    <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
+  </div>
+  <div>
+    <div class="map-container">
+      <google-map
+        *ngIf="apiLoaded"
+        [center]="center"
+        [zoom]="zoom"
+        [options]="mapOptions"
+        height="100%"
+        width="100%"
+      >
+        <!-- Marcadores para cada parada -->
+        <map-marker
+          *ngFor="let marker of markers"
+          [position]="marker.position"
+          [label]="marker.label"
+          [title]="marker.title"
+        >
+        </map-marker>
+
+        <!-- Línea de ruta -->
+        <map-polyline [path]="routePath" [options]="polylineOptions"> </map-polyline>
+      </google-map>
+    </div>
+  </div>
+</div>
