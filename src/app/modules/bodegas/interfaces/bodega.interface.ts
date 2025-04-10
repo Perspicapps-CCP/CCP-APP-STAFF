@@ -1,5 +1,5 @@
 export interface Bodega {
-  warehouse_id: string;
+  warehouse_id?: string;
   warehouse_name: string;
   country: string;
   city: string;

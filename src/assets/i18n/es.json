@@ -178,6 +178,28 @@
         "MASSIVE_PRODUCTS_IMAGE_PROCESSED": "{{count}} imágenes totales \n {{countOk}} imágenes fueron procesadas \n {{countError}} imágenes no fueron procesadas",
         "ERROR_PROCESS_MASIVE_IMAGE": "Error al cargar imágenes"
       }
+    },
+    "CREAR_BODEGA": {
+      "TITLE": "Crear Bodega",
+      "FORM": {
+        "NAME": "Nombre",
+        "ADDRESS": "Dirección",
+        "COUNTRY": "País",
+        "CITY": "Ciudad",
+        "PHONE": "Teléfono"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "FIELD_LENGTH": "Este campo debe tener {{min}} caracteres de longitud"
+      },
+      "TOAST": {
+        "SUCCESS": "Bodega creada exitosamente",
+        "ERROR": "Error al crear el bodega"
+      }
     }
   },
   "VENDEDORES": {
