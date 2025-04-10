@@ -1,19 +1,40 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BehaviorSubject, of } from 'rxjs';
 import { ProductosComponent } from './productos.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocalizationService } from '../../../../shared/servicios/localization.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ProductosService } from '../../servicios/productos.service';
+import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
+import { Producto } from '../../interfaces/productos.interface';
 import {
   TranslateLoader,
   TranslateModule,
   TranslateService,
   TranslateStore,
 } from '@ngx-translate/core';
-import { DinamicSearchService } from '../../../../shared/servicios/dinamic-search.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { Producto } from '../../interfaces/productos.interface';
-import { ProductosService } from '../../servicios/productos.service';
+
+class MockLocalizationService {
+  currentLocalizationSubject = new BehaviorSubject<any>({});
+  currentLocalization$ = this.currentLocalizationSubject.asObservable();
+  currentLang$ = new BehaviorSubject<string>('es').asObservable();
+  localeId = 'es-ES';
+  currentLocale$ = new BehaviorSubject<string>('es-ES');
+
+  getLocale() {
+    return 'es-ES';
+  }
+  getCurrentLanguage() {
+    return 'es';
+  }
+  getCurrentLocale() {
+    return 'es-ES';
+  }
+  getCurrencyCode() {
+    return 'EUR';
+  }
+}
 
 class MockProductosService {
   obtenerProductos() {
@@ -109,6 +130,7 @@ describe('ProductosComponent', () => {
         }),
       ],
       providers: [
+        { provide: LocalizationService, useClass: MockLocalizationService },
         { provide: ProductosService, useClass: MockProductosService },
         { provide: DinamicSearchService, useClass: MockDinamicSearchService },
         { provide: TranslateService, useClass: MockTranslateService },
