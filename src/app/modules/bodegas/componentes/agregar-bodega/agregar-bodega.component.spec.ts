@@ -169,7 +169,7 @@ describe('AgregarBodegaComponent', () => {
   }));
 
   it('isValidCountry should normalize the country name when matched', () => {
-    component.countries = [{ name: 'Colombia', iso2: 'CO' }];
+    component.countries = [{ id: 1, name: 'Colombia', iso2: 'CO' }];
     component.bodegaForm.get('country')?.setValue('colombia');
 
     component.isValidCountry();
@@ -178,7 +178,7 @@ describe('AgregarBodegaComponent', () => {
   });
 
   it('isValidCountry should reset city and country when country not found', () => {
-    component.countries = [{ name: 'Argentina', iso2: 'AR' }];
+    component.countries = [{ id: 1, name: 'Argentina', iso2: 'AR' }];
     component.bodegaForm.get('country')?.setValue('Colombia');
 
     component.isValidCountry();
@@ -190,9 +190,9 @@ describe('AgregarBodegaComponent', () => {
 
   it('should return filtered countries using searchCountries', done => {
     component.countries = [
-      { name: 'Colombia', iso2: 'CO' },
-      { name: 'Chile', iso2: 'CL' },
-      { name: 'Costa Rica', iso2: 'CR' },
+      { id: 1, name: 'Colombia', iso2: 'CO' },
+      { id: 2, name: 'Chile', iso2: 'CL' },
+      { id: 3, name: 'Costa Rica', iso2: 'CR' },
     ];
 
     const searchFn = component.searchCountries(of('co'));
