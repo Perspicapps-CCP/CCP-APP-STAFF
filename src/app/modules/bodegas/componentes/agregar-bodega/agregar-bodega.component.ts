@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,14 +7,24 @@ import { BodegasService } from '../../servicios/bodegas.service';
 import { CommonModule } from '@angular/common';
 import { OnlyNumbersDirective } from '../../../../shared/directivas/only-numbers.directive';
 import { Bodega } from '../../interfaces/bodega.interface';
+import { debounceTime, distinctUntilChanged, map, Observable, OperatorFunction } from 'rxjs';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ciudad } from '../../interfaces/ciudades.interface';
+import { Pais } from '../../interfaces/paises.interface';
 
 @Component({
   selector: 'app-agregar-bodega',
-  imports: [ReactiveFormsModule, TranslateModule, CommonModule, OnlyNumbersDirective],
+  imports: [
+    ReactiveFormsModule,
+    TranslateModule,
+    CommonModule,
+    OnlyNumbersDirective,
+    NgbTypeaheadModule,
+  ],
   templateUrl: './agregar-bodega.component.html',
   styleUrl: './agregar-bodega.component.scss',
 })
-export class AgregarBodegaComponent {
+export class AgregarBodegaComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<AgregarBodegaComponent>);
 
   bodegaForm = new FormGroup({
@@ -38,12 +48,25 @@ export class AgregarBodegaComponent {
     }),
   });
 
+  countries: Pais[] = [];
+  cities: Ciudad[] = [];
   constructor(
     private wareHouseService: BodegasService,
     private _snackBar: MatSnackBar,
     private translate: TranslateService,
   ) {}
 
+  ngOnInit(): void {
+    this.obtenerPaises();
+  }
+
+  obtenerPaises() {
+    this.wareHouseService.obtenerPaises().subscribe(res => {
+      this.countries = res;
+    });
+  }
+
+  formatter = (x: { name: string }) => x.name;
   getErrorMessage(controlName: string): { key: string; params?: any } {
     if (this.bodegaForm.get(controlName)?.hasError('required')) {
       return {
@@ -87,10 +110,13 @@ export class AgregarBodegaComponent {
 
   crearBodega() {
     const valuesForm = this.bodegaForm.value;
+    const country = this.bodegaForm.value.country as any;
+    const city = this.bodegaForm.value.city as any;
+    const cityName = this.cities.find(c => c.id == city)?.name;
     const bodega: Bodega = {
       warehouse_name: valuesForm.warehouse_name!,
-      country: valuesForm.country!,
-      city: valuesForm.city!,
+      country: country.name,
+      city: cityName!,
       address: valuesForm.address!,
       phone: valuesForm.contact_phone!,
     };
@@ -108,7 +134,11 @@ export class AgregarBodegaComponent {
         this.dialogRef.close();
       },
       error: err => {
-        this.translate.get('BODEGAS.CREAR_BODEGA.TOAST.ERROR').subscribe((mensaje: string) => {
+        let keyMessage = 'BODEGAS.CREAR_BODEGA.TOAST.ERROR';
+        if (err.status === 409) {
+          keyMessage = 'BODEGAS.CREAR_BODEGA.TOAST.ERROR_DUPLICATE_ENTRIES';
+        }
+        this.translate.get(keyMessage).subscribe((mensaje: string) => {
           this._snackBar.open(mensaje, '', {
             horizontalPosition: 'end',
             verticalPosition: 'top',
@@ -118,5 +148,46 @@ export class AgregarBodegaComponent {
         this.dialogRef.close();
       },
     });
+  }
+
+  searchCountries: OperatorFunction<string, readonly { name: string }[]> = (
+    text$: Observable<string>,
+  ) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term =>
+        term.length < 2
+          ? []
+          : this.countries.filter(country => new RegExp(term, 'mi').test(country.name)).slice(0, 3),
+      ),
+    );
+
+  onCountrySelected(event: any) {
+    const selectedCountry = event.item;
+    this.cities = [];
+    this.bodegaForm.get('city')?.reset();
+    this.wareHouseService.obtenerCuidadesPais(selectedCountry.iso2).subscribe(res => {
+      this.cities = res;
+    });
+  }
+
+  isValidCountry() {
+    const inputValue = this.bodegaForm.get('country')?.value?.trim();
+
+    if (typeof inputValue === 'string') {
+      const foundCountry = this.countries.find(
+        c => c.name.toLowerCase() === inputValue.toLowerCase(),
+      );
+      if (!foundCountry) {
+        this.bodegaForm.get('country')?.reset();
+        this.bodegaForm.get('city')?.reset();
+        this.cities = [];
+      } else {
+        this.bodegaForm.get('country')?.setValue(foundCountry.name);
+      }
+      this.bodegaForm.get('country')?.markAsTouched();
+      this.bodegaForm.get('country')?.updateValueAndValidity();
+    }
   }
 }

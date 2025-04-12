@@ -201,7 +201,8 @@
       },
       "TOAST": {
         "SUCCESS": "Warehouse created successfully",
-        "ERROR": "Error creating warehouse"
+        "ERROR": "Error creating warehouse",
+        "ERROR_DUPLICATE_ENTRIES": "The warehouse already exists"
       }
     }
   },
