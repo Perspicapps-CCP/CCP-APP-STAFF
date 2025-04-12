@@ -34,7 +34,6 @@ export class VentasService {
           order_number: venta.order_number + '',
           seller_name: venta.seller.full_name,
           created_at: this.localDatePipe.transform(venta.created_at, undefined, true),
-          currency: venta.currency,
           total_value: venta.total_value,
         }));
         return ventas;
