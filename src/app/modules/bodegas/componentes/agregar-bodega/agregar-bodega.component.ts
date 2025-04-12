@@ -14,7 +14,13 @@ import { Ciudad } from '../../interfaces/ciudades.interface';
 
 @Component({
   selector: 'app-agregar-bodega',
-  imports: [ReactiveFormsModule, TranslateModule, CommonModule, OnlyNumbersDirective, NgbTypeaheadModule],
+  imports: [
+    ReactiveFormsModule,
+    TranslateModule,
+    CommonModule,
+    OnlyNumbersDirective,
+    NgbTypeaheadModule,
+  ],
   templateUrl: './agregar-bodega.component.html',
   styleUrl: './agregar-bodega.component.scss',
 })
