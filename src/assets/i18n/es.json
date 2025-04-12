@@ -198,7 +198,8 @@
       },
       "TOAST": {
         "SUCCESS": "Bodega creada exitosamente",
-        "ERROR": "Error al crear el bodega"
+        "ERROR": "Error al crear el bodega",
+        "ERROR_DUPLICATE_ENTRIES": "The Warehouse already exists"
       }
     }
   },

@@ -134,7 +134,11 @@ export class AgregarBodegaComponent implements OnInit {
         this.dialogRef.close();
       },
       error: err => {
-        this.translate.get('BODEGAS.CREAR_BODEGA.TOAST.ERROR').subscribe((mensaje: string) => {
+        let keyMessage = 'BODEGAS.CREAR_BODEGA.TOAST.ERROR';
+        if (err.status === 409) {
+          keyMessage = 'BODEGAS.CREAR_BODEGA.TOAST.ERROR_DUPLICATE_ENTRIES';
+        }
+        this.translate.get(keyMessage).subscribe((mensaje: string) => {
           this._snackBar.open(mensaje, '', {
             horizontalPosition: 'end',
             verticalPosition: 'top',
