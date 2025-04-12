@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
 import { OnlyNumbersDirective } from '../../../../shared/directivas/only-numbers.directive';
 import { Bodega } from '../../interfaces/bodega.interface';
 import { debounceTime, distinctUntilChanged, map, Observable, OperatorFunction } from 'rxjs';
-import { Pais } from '../../interfaces/paises.interface';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ciudad } from '../../interfaces/ciudades.interface';
+import { Pais } from '../../interfaces/paises.interface';
 
 @Component({
   selector: 'app-agregar-bodega',
@@ -48,7 +48,7 @@ export class AgregarBodegaComponent implements OnInit {
     }),
   });
 
-  countries: { name: string; iso2: string }[] = [];
+  countries: Pais[] = [];
   cities: Ciudad[] = [];
   constructor(
     private wareHouseService: BodegasService,
@@ -110,10 +110,13 @@ export class AgregarBodegaComponent implements OnInit {
 
   crearBodega() {
     const valuesForm = this.bodegaForm.value;
+    const country = this.bodegaForm.value.country as any;
+    const city = this.bodegaForm.value.city as any;
+    const cityName = this.cities.find(c => c.id == city)?.name;
     const bodega: Bodega = {
       warehouse_name: valuesForm.warehouse_name!,
-      country: valuesForm.country!,
-      city: valuesForm.city!,
+      country: country.name,
+      city: cityName!,
       address: valuesForm.address!,
       phone: valuesForm.contact_phone!,
     };
