@@ -5,6 +5,9 @@
   "VISOR_IMAGES": {
     "TITLE": "Producto"
   },
+  "VISOR_MAPA": {
+    "TITLE": "Delivery route"
+  },
   "CALENDAR": {
     "TITLE": "Calendario",
     "SELECT_DATE": "Seleccionar fecha",
@@ -298,6 +301,55 @@
       }
     }
   },
+  "RUTAS": {
+    "SEARCH_PLACEHOLDER": "Filtrar rutas",
+    "TABLE_HEADERS": {
+      "NO_GUIA": "No. Guía",
+      "PLACAS_CAMION": "Placas del camión",
+      "NOMBRE_CONDUCTOR": "Nombre del conductor",
+      "BODEGA_INICIAL": "Bodega inicial",
+      "ESTADO": "Estado",
+      "PRODUCTS": "Productos"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron rutas",
+      "DESCRIPTION": "Puede añadir una nueva ruta haciendo clic en el botón de abajo"
+    },
+    "TOOLTIPS": {
+      "ADD_ROUTE": "Generar ruta",
+      "VIEW_PRODUCTS": "Ver productos"
+    },
+    "RUTA_DETALLE": {
+      "TABLE_HEADERS": {
+        "COD_PRODUCT": "Código producto",
+        "NAME_PRODUCT": "Nombre",
+        "QUANTITY": "Cantidad",
+        "DIRECCION": "Dirección",
+        "NO_PEDIDO": "No. Pedido",
+        "PHONE": "Teléfono",
+        "IMAGES": "Imágenes"
+      }
+    },
+    "CREAR_RUTA": {
+      "TITLE": "Generar ruta",
+      "FORM": {
+        "BODEGA": "Seleccionar bodega",
+        "FECHA_RUTA": "Fecha de ruta"
+      },
+      "BUTTON": {
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "DATE_PAST": "La fecha debe ser en el futuro"
+      },
+      "TOAST": {
+        "SUCCESS": "Ruta creada exitosamente",
+        "ERROR": "Error al crear la ruta"
+      }
+    }
+  },
   "PRODUCTOS": {
     "SEARCH_PLACEHOLDER": "Filtrar productos",
     "TABLE_HEADERS": {
@@ -311,6 +363,39 @@
     },
     "TABLE_EMPTY": {
       "TITLE": "No se encontraron productos"
+    }
+  },
+  "VENTAS": {
+    "SEARCH_PLACEHOLDER": "Filtrar ventas",
+    "TABLE_HEADERS": {
+      "NO_PEDIDO": "No. Pedido",
+      "FECHA": "Fecha",
+      "VENDEDOR": "Vendedor",
+      "VALOR": "Valor"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No se encontraron ventas"
+    },
+    "TOOLTIPS": {
+      "FILTER_SALES": "Filtrar ventas",
+      "EXPORT_SALES": "Exportar ventas"
+    },
+    "FILTER_FORM": {
+      "TITLE": "Filtrar ventas",
+      "FORM": {
+        "START_DATE": "Fecha de inicio",
+        "END_DATE": "Fecha de fin",
+        "SELLER": "Seleccionar vendedor"
+      },
+      "BUTTON": {
+        "FILTER": "Filtrar",
+        "CANCEL": "Cancelar"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "Este campo es obligatorio",
+        "DATE_PAST": "La fecha debe ser en el futuro",
+        "END_DATE_BEFORE_START_DATE": "La fecha de fin debe ser posterior a la fecha de inicio"
+      }
     }
   }
 }

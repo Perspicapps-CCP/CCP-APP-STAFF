@@ -200,8 +200,8 @@
         "FIELD_LENGTH": "This field must have {{min}} caracteres de longitud"
       },
       "TOAST": {
-        "SUCCESS": "Bodega creada exitosamente",
-        "ERROR": "Error al crear el bodega"
+        "SUCCESS": "Warehouse created successfully",
+        "ERROR": "Error creating warehouse"
       }
     }
   },
