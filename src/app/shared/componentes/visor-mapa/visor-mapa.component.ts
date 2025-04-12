@@ -42,7 +42,7 @@ export class VisorMapaComponent implements OnInit {
     suppressMarkers: true, // Suprimimos los marcadores predeterminados para usar los nuestros
     polylineOptions: {
       strokeColor: '#0f53ff',
-      strokeOpacity: 1.0,
+      strokeOpacity: 0.5,
       strokeWeight: 7,
     },
   };

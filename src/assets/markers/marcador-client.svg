@@ -11,6 +11,7 @@
    inkscape:export-filename="marcador.svg"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
+   sodipodi:docname="marcador-client.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -45,11 +46,11 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-60.386936,-85.213668)"><path
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#0597ff;stroke-width:2.519;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#f74a55;stroke-width:2.519;stroke-dasharray:none;stroke-opacity:1"
        d="m 61.646438,128.25594 c 0.02285,-57.107716 82.560802,-54.039968 82.543532,-0.78365 -0.003,8.97048 -5.63611,20.80492 -13.44036,29.74151 -10.97383,12.56604 -27.57019,20.93396 -27.57019,20.93396 0,0 -14.717138,-7.86519 -27.348422,-20.61487 -8.447157,-8.52633 -14.188115,-20.39228 -14.18456,-29.27695 z"
        id="path6"
        sodipodi:nodetypes="ssscss" /><ellipse
-       style="fill:#0597ff;fill-opacity:1;fill-rule:evenodd;stroke:#0597ff;stroke-width:1.33583;stroke-opacity:1"
+       style="fill:#f74a55;fill-opacity:1;fill-rule:evenodd;stroke:#f74a55;stroke-width:1.33583;stroke-opacity:1"
        id="path7"
        cx="103.44064"
        cy="127.4723"
