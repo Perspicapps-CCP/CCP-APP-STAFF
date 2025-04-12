@@ -1,1 +1,59 @@
-<p>ventas works!</p>
+<div class="contenedor">
+  <div class="flex w-full gap-2">
+    <div class="flex input-group w-full"></div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-primary btn-actions btn-md"
+        ngbTooltip="{{ 'VENTAS.TOOLTIPS.FILTER_SALES' | translate }}"
+        (click)="abrirModalFiltros()"
+      >
+        <i class="bi bi-filter"></i>
+      </button>
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-success btn-actions btn-md"
+        ngbTooltip="{{ 'VENTAS.TOOLTIPS.DOWNLOAD_SELLS' | translate }}"
+        (click)="descargarVentas()"
+      >
+        <i class="bi bi-file-earmark-excel-fill"></i>
+      </button>
+    </div>
+  </div>
+  <div class="h-full w-full pr-2 overflow-auto">
+    <div class="table-container table-ccp">
+      <div class="table-container table-ccp">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{{ 'VENTAS.TABLE_HEADERS.NO_PEDIDO' | translate }}</th>
+              <th>{{ 'VENTAS.TABLE_HEADERS.FECHA' | translate }}</th>
+              <th>{{ 'VENTAS.TABLE_HEADERS.VENDEDOR' | translate }}</th>
+              <th>{{ 'VENTAS.TABLE_HEADERS.VALOR' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (venta of ventas; track venta.id; let i = $index) {
+              <tr>
+                <td>{{ venta.order_number }}</td>
+                <td>{{ venta.created_at | localDate }}</td>
+                <td>{{ venta.seller.full_name }}</td>
+                <td>{{ venta.total_value | localCurrency }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7">
+                  <div class="text-center">
+                    <p>{{ 'VENTAS.TABLE_EMPTY.TITLE' | translate }}</p>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
