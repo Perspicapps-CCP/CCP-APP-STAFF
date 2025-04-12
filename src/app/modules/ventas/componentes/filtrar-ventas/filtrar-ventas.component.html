@@ -1,12 +1,12 @@
 <div class="modal-container">
   <div class="modal-header">
-    <span>{{ 'VENTAS.FILTRAR_VENTAS.TITLE' | translate }}</span>
+    <span>{{ 'VENTAS.FILTER_FORM.TITLE' | translate }}</span>
     <button type="button" class="btn-close" aria-label="Close" (click)="dialogRef.close()"></button>
   </div>
   <div>
     <form
-      [formGroup]="planForm"
-      (ngSubmit)="crearPlan()"
+      [formGroup]="filterForm"
+      (ngSubmit)="enviarFiltros()"
       class="flex flex-col w-full gap-[0.25rem]"
     >
       <div class="w-full min-h-[3.9375rem]">
@@ -14,34 +14,17 @@
           id="typeahead-basic"
           type="text"
           class="form-control"
-          id="producto selector"
-          formControlName="product"
-          placeholder="{{ 'PLAN_VENTA.CREAR_PLAN.FORM.PRODUCT' | translate }}"
-          [ngbTypeahead]="searchProduct"
+          id="vendor selector"
+          formControlName="seller"
+          placeholder="{{ 'VENTAS.FILTER_FORM.FORM.SELLER' | translate }}"
+          [ngbTypeahead]="searchSellers"
           [inputFormatter]="formatter"
           [resultFormatter]="formatter"
           [selectOnExact]="true"
-          [ngClass]="{ 'is-invalid': isInvalid('product') }"
+          [ngClass]="{ 'is-invalid': isInvalid('seller') }"
         />
         <div class="invalid-feedback">
           {{ getErrorMessage('product').key | translate }}
-        </div>
-      </div>
-
-      <div>
-        <div class="w-full min-h-[3.9375rem]">
-          <input
-            type="number"
-            class="form-control"
-            id="goal"
-            appNumbersOnly
-            formControlName="goal"
-            placeholder="{{ 'PLAN_VENTA.CREAR_PLAN.FORM.GOAL' | translate }}"
-            [ngClass]="{ 'is-invalid': isInvalid('goal') }"
-          />
-          <div class="invalid-feedback">
-            {{ getErrorMessage('goal').key | translate: getErrorMessage('goal').params }}
-          </div>
         </div>
       </div>
 
@@ -50,9 +33,11 @@
           formControlName="start_date"
           [ngClass]="{
             'is-invalid':
-              planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched,
+              filterForm.get('start_date')?.invalid && filterForm.get('start_date')?.touched,
           }"
-          [errorClass]="planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched"
+          [errorClass]="
+            filterForm.get('start_date')?.invalid && filterForm.get('start_date')?.touched
+          "
         ></app-calendar>
         <div class="invalid-feedback">
           {{ getErrorMessage('start_date').key | translate }}
@@ -63,67 +48,22 @@
         <app-calendar
           formControlName="end_date"
           [ngClass]="{
-            'is-invalid': planForm.get('end_date')?.invalid && planForm.get('end_date')?.touched,
+            'is-invalid':
+              filterForm.get('end_date')?.invalid && filterForm.get('end_date')?.touched,
           }"
-          [errorClass]="planForm.get('end_date')?.invalid && planForm.get('end_date')?.touched"
+          [errorClass]="filterForm.get('end_date')?.invalid && filterForm.get('end_date')?.touched"
         ></app-calendar>
         <div class="invalid-feedback">
           {{ getErrorMessage('end_date').key | translate }}
         </div>
       </div>
 
-      <div class="w-full pr-2 overflow-auto h-[6.75rem]">
-        <div class="table-container table-ccp">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="th-checkbox">
-                  <!-- Checkbox para seleccionar/deseleccionar todos -->
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [checked]="isAllSelected()"
-                      (change)="toggleAllRows()"
-                      [indeterminate]="selectionSellers.hasValue() && !isAllSelected()"
-                      id="selectAllCheckbox"
-                    />
-                    <label class="form-check-label" for="selectAllCheckbox"></label>
-                  </div>
-                </th>
-                <th>{{ 'PLAN_VENTA.CREAR_PLAN.TABLA_HEADER_SELLERS.NAME' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (seller of sellers; track seller.id; let i = $index) {
-                <tr>
-                  <td class="td-checkbox">
-                    <!-- Checkbox para seleccionar/deseleccionar cada vendedor -->
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        [checked]="selectionSellers.isSelected(seller)"
-                        (change)="selectionSellers.toggle(seller)"
-                        [attr.aria-label]="checkboxLabel(seller)"
-                        id="seller-{{ seller.id }}"
-                      />
-                      <label class="form-check-label" for="seller-{{ seller.id }}"></label>
-                    </div>
-                  </td>
-                  <td>{{ seller.full_name }}</td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
       <div class="w-full flex gap-[0.50rem] justify-end">
         <button type="button" class="btn btn btn-outline-secondary" (click)="dialogRef.close()">
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.CANCEL' | translate }}
         </button>
 
-        <button type="submit" class="btn btn btn-outline-primary" [disabled]="planForm.invalid">
+        <button type="submit" class="btn btn btn-outline-primary" [disabled]="filterForm.invalid">
           {{ 'PLAN_VENTA.CREAR_PLAN.BUTTON.SAVE' | translate }}
         </button>
       </div>

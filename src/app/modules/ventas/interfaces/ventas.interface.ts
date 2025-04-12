@@ -29,3 +29,19 @@ export interface Venta {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface VentaTabla {
+  id: string;
+  order_number: string;
+  seller_name: string;
+  created_at: Date;
+  total_value: string;
+}
+
+export interface VentaQuery {
+  seller_id?: string;
+  start_date?: string;
+  end_date?: string;
+  seller_name?: string;
+  order_number?: number;
+}

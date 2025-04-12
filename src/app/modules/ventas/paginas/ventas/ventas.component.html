@@ -1,6 +1,15 @@
 <div class="contenedor">
   <div class="flex w-full gap-2">
-    <div class="flex input-group w-full"></div>
+    <div class="flex input-group w-full">
+      <span class="input-group-text pr-2!">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">manage_search</mat-icon>
+      </span>
+      <input
+        class="form-control border-l-0!"
+        placeholder="{{ 'PLAN_VENTA.SEARCH_PLACEHOLDER' | translate }}"
+        [formControl]="formBusquedaVentas"
+      />
+    </div>
     <div>
       <button
         type="button"
@@ -15,7 +24,7 @@
       <button
         type="button"
         class="btn btn-success btn-actions btn-md"
-        ngbTooltip="{{ 'VENTAS.TOOLTIPS.DOWNLOAD_SELLS' | translate }}"
+        ngbTooltip="{{ 'VENTAS.TOOLTIPS.EXPORT_SALES' | translate }}"
         (click)="descargarVentas()"
       >
         <i class="bi bi-file-earmark-excel-fill"></i>
@@ -35,12 +44,24 @@
             </tr>
           </thead>
           <tbody>
-            @for (venta of ventas; track venta.id; let i = $index) {
+            @for (venta of filterVentas$ | async; track venta.id; let i = $index) {
               <tr>
-                <td>{{ venta.order_number }}</td>
-                <td>{{ venta.created_at | localDate }}</td>
-                <td>{{ venta.seller.full_name }}</td>
-                <td>{{ venta.total_value | localCurrency }}</td>
+                <td
+                  [innerHTML]="venta.order_number | highlightText: formBusquedaVentas.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="venta.created_at | highlightText: formBusquedaVentas.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="venta.seller_name | highlightText: formBusquedaVentas.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="
+                    venta.total_value
+                      | localCurrency
+                      | highlightText: formBusquedaVentas.value ?? ''
+                  "
+                ></td>
               </tr>
             } @empty {
               <tr>
@@ -54,6 +75,14 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+  <div>
+    <div class="flex justify-evenly font-bold">
+      <div></div>
+      <div></div>
+      <div>Total Ventas</div>
+      <div>{{ totalVentas | localCurrency }}</div>
     </div>
   </div>
 </div>
