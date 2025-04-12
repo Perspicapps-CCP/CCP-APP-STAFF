@@ -50,6 +50,12 @@
             placeholder="{{ 'BODEGAS.CREAR_BODEGA.FORM.COUNTRY' | translate }}"
             autocomplete="country"
             formControlName="country"
+            [ngbTypeahead]="searchCountries"
+            [inputFormatter]="formatter"
+            [resultFormatter]="formatter"
+            [selectOnExact]="true"
+            (selectItem)="onCountrySelected($event)"
+            (blur)="isValidCountry()"
             [ngClass]="{ 'is-invalid': isInvalid('country') }"
           />
           <div class="invalid-feedback">
@@ -58,16 +64,21 @@
         </div>
 
         <div class="w-full min-h-[3.9375rem]">
-          <input
-            type="text"
+          <select
             class="form-control"
             id="city"
             name="city"
-            placeholder="{{ 'BODEGAS.CREAR_BODEGA.FORM.CITY' | translate }}"
-            autocomplete="city"
             formControlName="city"
             [ngClass]="{ 'is-invalid': isInvalid('city') }"
-          />
+          >
+            <option value="" disabled selected>
+              {{ 'BODEGAS.CREAR_BODEGA.FORM.CITY' | translate }}
+            </option>
+
+            <option *ngFor="let type of cities" [value]="type.id">
+              {{ type.name }}
+            </option>
+          </select>
           <div class="invalid-feedback">
             {{ getErrorMessage('city').key | translate }}
           </div>
