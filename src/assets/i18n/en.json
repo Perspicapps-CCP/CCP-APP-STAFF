@@ -200,9 +200,9 @@
         "FIELD_LENGTH": "This field must have {{min}} caracteres de longitud"
       },
       "TOAST": {
-        "SUCCESS": "Bodega creada exitosamente",
-        "ERROR": "Error al crear el bodega",
-        "ERROR_DUPLICATE_ENTRIES": "La bodega ya existe"
+        "SUCCESS": "Warehouse created successfully",
+        "ERROR": "Error creating warehouse",
+        "ERROR_DUPLICATE_ENTRIES": "The warehouse already exists"
       }
     }
   },
@@ -364,6 +364,39 @@
     },
     "TABLE_EMPTY": {
       "TITLE": "No products found"
+    }
+  },
+  "VENTAS": {
+    "SEARCH_PLACEHOLDER": "Filter sales",
+    "TABLE_HEADERS": {
+      "NO_PEDIDO": "No. Order",
+      "FECHA": "Date",
+      "VENDEDOR": "Seller",
+      "VALOR": "Value"
+    },
+    "TABLE_EMPTY": {
+      "TITLE": "No sales found"
+    },
+    "TOOLTIPS": {
+      "FILTER_SALES": "Filter sales",
+      "EXPORT_SALES": "Export sales"
+    },
+    "FILTER_FORM": {
+      "TITLE": "Filter sales",
+      "FORM": {
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "SELLER": "Select seller"
+      },
+      "BUTTON": {
+        "FILTER": "Filter",
+        "CANCEL": "Cancel"
+      },
+      "FORM_ERRORS": {
+        "FIELD_REQUIRED": "This field is required",
+        "DATE_PAST": "The date must be in the future",
+        "END_DATE_BEFORE_START_DATE": "The end date must be after the start date"
+      }
     }
   }
 }
