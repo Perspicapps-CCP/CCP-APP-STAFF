@@ -13,7 +13,7 @@ import { RutasService } from './rutas.service';
 describe('RutasService', () => {
   let service: RutasService;
   let httpTestingController: HttpTestingController;
-  const apiUrl = environment.apiUrl;
+  const apiUrl = environment.apiUrlCCP;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,39 +35,39 @@ describe('RutasService', () => {
 
   it('debería obtener rutas de entrega y transformar los datos correctamente', () => {
     // Mock de la respuesta del servidor
-    const mockResponse = {
-      rutas: [
-        {
-          shipping_number: '001',
-          licence_plate: 'ABC123',
-          driver_name: 'Juan Pérez',
-          warehouse: {
-            warehouse_id: 'w001',
-            warehouse_name: 'Bodega Central',
-          },
-          delivery_status: 'En ruta',
-          orders: [
-            {
-              order_number: 'O001',
-              order_address: 'Calle Principal 123',
-              customer_phone_number: '1234567890',
-              product_id: 'P001',
-              product_code: 'PROD001',
-              product_name: 'Producto A',
-              quantity: 2,
-              images: ['img1.jpg'],
-            },
-          ],
+    const mockResponse = [
+      {
+        shipping_number: '001',
+        license_plate: 'ABC123',
+        diver_name: 'Juan Pérez',
+        warehouse: {
+          warehouse_id: 'w001',
+          warehouse_name: 'Bodega Central',
         },
-      ],
-    };
+        warehouse_name: 'Bodega Central',
+        delivery_status: 'En ruta',
+        orders: [
+          {
+            order_number: 'O001',
+            order_address: 'Calle Principal 123',
+            customer_phone_number: '1234567890',
+            product_id: 'P001',
+            product_code: 'PROD001',
+            product_name: 'Producto A',
+            quantity: 2,
+            images: ['img1.jpg'],
+            order_number_product: 'O001-PROD001',
+          },
+        ],
+      },
+    ];
 
     // Resultados esperados después de la transformación
     const expectedResults: RutaEntrega[] = [
       {
         shipping_number: '001',
-        licence_plate: 'ABC123',
-        driver_name: 'Juan Pérez',
+        license_plate: 'ABC123',
+        diver_name: 'Juan Pérez',
         warehouse: {
           warehouse_id: 'w001',
           warehouse_name: 'Bodega Central',
@@ -109,26 +109,24 @@ describe('RutasService', () => {
     const shippingNumber = '001';
 
     // Mock de la respuesta del servidor
-    const mockResponse = {
-      coordenadas: [
-        {
-          shipping_number: '001',
-          order_number: 'O001',
-          order_address: 'Calle Principal 123',
-          customer_phone_number: '1234567890',
-          latitude: '4.6097',
-          longitude: '-74.0817',
-        },
-        {
-          shipping_number: '001',
-          order_number: 'O002',
-          order_address: 'Avenida Central 456',
-          customer_phone_number: '9876543210',
-          latitude: '4.6482',
-          longitude: '-74.1059',
-        },
-      ],
-    };
+    const mockResponse = [
+      {
+        shipping_number: '001',
+        order_number: 'O001',
+        order_address: 'Calle Principal 123',
+        customer_phone_number: '1234567890',
+        latitude: '4.6097',
+        longitude: '-74.0817',
+      },
+      {
+        shipping_number: '001',
+        order_number: 'O002',
+        order_address: 'Avenida Central 456',
+        customer_phone_number: '9876543210',
+        latitude: '4.6482',
+        longitude: '-74.1059',
+      },
+    ];
 
     // Resultados esperados después de la transformación
     const expectedResults: RutaEntregaMapa[] = [

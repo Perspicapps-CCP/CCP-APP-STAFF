@@ -15,8 +15,8 @@ import {
 // Mock de la ruta de entrega para usar en las pruebas
 const mockRutaEntrega: RutaEntrega = {
   shipping_number: '001',
-  licence_plate: 'ABC123',
-  driver_name: 'Juan Pérez',
+  license_plate: 'ABC123',
+  diver_name: 'Juan Pérez',
   warehouse: {
     warehouse_id: 'w001',
     warehouse_name: 'Bodega Central',

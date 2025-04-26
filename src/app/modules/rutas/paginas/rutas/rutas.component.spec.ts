@@ -53,8 +53,8 @@ class MockRutasService {
     return of<RutaEntrega[]>([
       {
         shipping_number: '001',
-        licence_plate: 'ABC123',
-        driver_name: 'Juan Pérez',
+        license_plate: 'ABC123',
+        diver_name: 'Juan Pérez',
         warehouse: {
           warehouse_id: 'w001',
           warehouse_name: 'Bodega Central',
@@ -64,8 +64,8 @@ class MockRutasService {
       },
       {
         shipping_number: '002',
-        licence_plate: 'XYZ789',
-        driver_name: 'María López',
+        license_plate: 'XYZ789',
+        diver_name: 'María López',
         warehouse: {
           warehouse_id: 'w002',
           warehouse_name: 'Bodega Norte',
@@ -96,7 +96,7 @@ class MockDinamicSearchService {
     return items.filter(
       item =>
         item.shipping_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.driver_name.toLowerCase().includes(searchTerm.toLowerCase()),
+        item.diver_name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 }
@@ -183,7 +183,7 @@ describe('RutasComponent', () => {
     // Verificar que se establecieron las rutas
     expect(component.rutas.length).toBe(2);
     expect(component.rutas[0].shipping_number).toBe('001');
-    expect(component.rutas[0].driver_name).toBe('Juan Pérez');
+    expect(component.rutas[0].diver_name).toBe('Juan Pérez');
   });
 
   it('debería inicializar filterRutas$ correctamente', () => {
@@ -201,8 +201,8 @@ describe('RutasComponent', () => {
     // Seleccionar una ruta
     const ruta: RutaEntrega = {
       shipping_number: '001',
-      licence_plate: 'ABC123',
-      driver_name: 'Juan Pérez',
+      license_plate: 'ABC123',
+      diver_name: 'Juan Pérez',
       warehouse: {
         warehouse_id: 'w001',
         warehouse_name: 'Bodega Central',
@@ -221,8 +221,8 @@ describe('RutasComponent', () => {
     // Seleccionar otra ruta después de tener una seleccionada
     const otraRuta: RutaEntrega = {
       shipping_number: '002',
-      licence_plate: 'XYZ789',
-      driver_name: 'María López',
+      license_plate: 'XYZ789',
+      diver_name: 'María López',
       warehouse: {
         warehouse_id: 'w002',
         warehouse_name: 'Bodega Norte',
@@ -284,8 +284,8 @@ describe('RutasComponent', () => {
     // Crear una ruta de prueba
     const ruta: RutaEntrega = {
       shipping_number: '001',
-      licence_plate: 'ABC123',
-      driver_name: 'Juan Pérez',
+      license_plate: 'ABC123',
+      diver_name: 'Juan Pérez',
       warehouse: {
         warehouse_id: 'w001',
         warehouse_name: 'Bodega Central',
