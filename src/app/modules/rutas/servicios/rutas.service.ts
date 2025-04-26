@@ -13,15 +13,12 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class RutasService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrlCCP;
 
   constructor(private http: HttpClient) {}
 
   obtenerRutasEntrega() {
     return this.http.get<RutaEntrega[]>(`${this.apiUrl}/logistic/delivery`).pipe(
-      map((rutas: any) => {
-        return rutas.rutas;
-      }),
       map((rutas: RutaEntrega[]) => {
         return rutas.map((ruta: RutaEntrega) => {
           return {
@@ -40,13 +37,7 @@ export class RutasService {
   }
 
   obtenerRutaMapa(shipping_number: string): Observable<RutaEntregaMapa[]> {
-    return this.http
-      .get<RutaEntregaMapa[]>(`${this.apiUrl}/logistic/route/${shipping_number}`)
-      .pipe(
-        map((rutas: any) => {
-          return rutas.coordenadas;
-        }),
-      );
+    return this.http.get<RutaEntregaMapa[]>(`${this.apiUrl}/logistic/route/${shipping_number}`);
   }
 
   generarRutasEntrega(rutaEntregaPost: GenerarRutaEntregaPost) {

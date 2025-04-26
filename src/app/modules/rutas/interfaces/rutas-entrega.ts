@@ -1,7 +1,7 @@
 export interface RutaEntrega {
   shipping_number: string;
-  licence_plate: string;
-  driver_name: string;
+  license_plate: string;
+  diver_name: string;
   warehouse: Warehouse;
   delivery_status: string;
   warehouse_name?: string;

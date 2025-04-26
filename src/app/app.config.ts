@@ -48,7 +48,6 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([httpHeadersInterceptor, httpSpinnerInterceptor]),
     ),
     provideAnimations(),
-    provideHttpClient(),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

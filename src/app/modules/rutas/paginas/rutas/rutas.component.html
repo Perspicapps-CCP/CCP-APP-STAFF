@@ -46,11 +46,9 @@
                 ></a>
               </td>
               <td
-                [innerHTML]="ruta.licence_plate | highlightText: formBusquedaRutas.value ?? ''"
+                [innerHTML]="ruta.license_plate | highlightText: formBusquedaRutas.value ?? ''"
               ></td>
-              <td
-                [innerHTML]="ruta.driver_name | highlightText: formBusquedaRutas.value ?? ''"
-              ></td>
+              <td [innerHTML]="ruta.diver_name | highlightText: formBusquedaRutas.value ?? ''"></td>
               <td
                 [innerHTML]="ruta.warehouse_name | highlightText: formBusquedaRutas.value ?? ''"
               ></td>
