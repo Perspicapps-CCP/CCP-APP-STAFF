@@ -1,7 +1,7 @@
 import { ProductoBodega } from '../../bodegas/interfaces/producto-bodega';
 
 export interface GenerarRutaEntregaPost {
-  date: string;
+  delivery_date: string;
   warehouse_id: string;
 }
 

@@ -166,7 +166,7 @@ describe('RutasService', () => {
   it('debería generar rutas de entrega', () => {
     // Datos para la solicitud
     const rutaEntregaPost: GenerarRutaEntregaPost = {
-      date: '2023-04-10',
+      delivery_date: '2023-04-10',
       warehouse_id: 'w001',
     };
 

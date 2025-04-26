@@ -174,7 +174,7 @@ describe('GenerarRutaComponent', () => {
     expect(rutasService.generarRutasEntrega).toHaveBeenCalled();
     const rutaExpected: GenerarRutaEntregaPost = {
       warehouse_id: mockBodegas[0].warehouse_id!,
-      date: fechaString,
+      delivery_date: fechaString,
     };
     expect(rutasService.generarRutasEntrega).toHaveBeenCalledWith(
       jasmine.objectContaining(rutaExpected),
