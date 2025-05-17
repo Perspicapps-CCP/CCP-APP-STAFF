@@ -34,6 +34,7 @@ export interface VentaTabla {
   id: string;
   order_number: string;
   seller_name: string;
+  client_name: string;
   created_at: Date;
   total_value: string;
 }
