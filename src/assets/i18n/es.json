@@ -372,6 +372,7 @@
       "NO_PEDIDO": "No. Pedido",
       "FECHA": "Fecha",
       "VENDEDOR": "Vendedor",
+      "CLIENTE": "Cliente",
       "VALOR": "Valor"
     },
     "TABLE_EMPTY": {

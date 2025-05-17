@@ -32,7 +32,8 @@ export class VentasService {
         const ventas: VentaTabla[] = res.map((venta: any) => ({
           id: venta.id,
           order_number: venta.order_number + '',
-          seller_name: venta.seller.full_name,
+          seller_name: venta.seller ? venta.seller.full_name : '',
+          client_name: venta.client.full_name,
           created_at: this.localDatePipe.transform(venta.created_at, undefined, true),
           total_value: venta.total_value,
         }));
