@@ -21,6 +21,7 @@ export interface VentaProducto {
 export interface Venta {
   id: string;
   seller: Vendedor;
+  client: Vendedor;
   order_number: number;
   address: Address;
   total_value: number;
