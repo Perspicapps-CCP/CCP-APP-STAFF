@@ -40,6 +40,7 @@
               <th>{{ 'VENTAS.TABLE_HEADERS.NO_PEDIDO' | translate }}</th>
               <th>{{ 'VENTAS.TABLE_HEADERS.FECHA' | translate }}</th>
               <th>{{ 'VENTAS.TABLE_HEADERS.VENDEDOR' | translate }}</th>
+              <th>{{ 'VENTAS.TABLE_HEADERS.CLIENTE' | translate }}</th>
               <th>{{ 'VENTAS.TABLE_HEADERS.VALOR' | translate }}</th>
             </tr>
           </thead>
@@ -54,6 +55,9 @@
                 ></td>
                 <td
                   [innerHTML]="venta.seller_name | highlightText: formBusquedaVentas.value ?? ''"
+                ></td>
+                <td
+                  [innerHTML]="venta.client_name | highlightText: formBusquedaVentas.value ?? ''"
                 ></td>
                 <td
                   [innerHTML]="
@@ -79,6 +83,7 @@
   </div>
   <div>
     <div class="flex justify-evenly font-bold">
+      <div></div>
       <div></div>
       <div></div>
       <div>Total Ventas</div>

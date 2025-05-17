@@ -21,6 +21,7 @@ export interface VentaProducto {
 export interface Venta {
   id: string;
   seller: Vendedor;
+  client: Vendedor;
   order_number: number;
   address: Address;
   total_value: number;
@@ -34,6 +35,7 @@ export interface VentaTabla {
   id: string;
   order_number: string;
   seller_name: string;
+  client_name: string;
   created_at: Date;
   total_value: string;
 }
